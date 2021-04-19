@@ -65,7 +65,7 @@ case "${1}" in
     secure)
         [ -n "$DEBUG" ] && set -x 
         source hardening/intro.sh
-        for f in ./hardening/HARDE-RHEL-*/secure.sh; do
+        for f in hardening/HARDE-RHEL-*/secure.sh; do
             source "$f"
         done
         source hardening/outro.sh

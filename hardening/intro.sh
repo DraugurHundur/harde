@@ -7,13 +7,12 @@
 pushd . >/dev/null
 #WORKDIR="$(mktemp -d --tmpdir)"
 WORKDIR=$(mktemp -t .hardening-run.XXXXXXXXXX -p "$HOME" -d)
-cd "$WORKDIR"
+# cd "$WORKDIR"
 SCRIPTNAME="$(basename "$0")"
 OUTFILE="/$HOME/$SCRIPTNAME-$$.txt"
 # Exit on error
 set -e
-exec > >(tee "${OUTFILE}")
-exec 2>&1
+exec > >(tee "${OUTFILE}") 2>&1
 
 function copy_se_labels() {
     # copy SElinux labels from $1 to $2
