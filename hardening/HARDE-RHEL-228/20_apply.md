@@ -1,0 +1,12 @@
+### Méthode d'implémentation
+Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-228:
+```bash
+cat >/etc/audit/rules.d/75time-change.rules <<EOF
+-a always,exit -F arch=b64 -S adjtimex -S settimeofday -k time-change
+-a always,exit -F arch=b32 -S adjtimex -S settimeofday -S stime -k time-change
+-a always,exit -F arch=b64 -S clock_settime -k time-change
+-a always,exit -F arch=b32 -S clock_settime -k time-change
+-w /etc/localtime -p wa -k time-change
+EOF
+# Fin: HARDE-RHEL-228
+```
