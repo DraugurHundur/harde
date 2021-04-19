@@ -7,7 +7,11 @@ harde introduces the concept of a «maintenance» mode and a «normal» mode i.e
 sudo can only be run by a limited group of admins.
 
 ## Limitations
+HARDE speaks French most of the time and often English. *You shouldn't use it if you don't speak both.*
 
+HARDE disables IPv6 in all cases.
+
+HARDE is not really documented (no documentation in English and minimal doc in French.)
 ## Known Issues
 harde has only be tested on virtual machines right after the initial installation. *Use at your own risk*. You may lose data !
 

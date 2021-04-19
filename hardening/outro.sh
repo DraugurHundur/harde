@@ -1,8 +1,3 @@
-
-# Fin: HARDE-RHEL-247
-
-
-
 if [ ! "${YORN}" = "n" ]; then
     umount /mnt/disc 
     rmdir /mnt/disc

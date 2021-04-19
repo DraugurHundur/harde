@@ -1,19 +1,18 @@
 #! /usr/bin/env bash
 # -*- mode: shell; coding: utf-8-unix -*-
 
-[ -d /boot/grub ] || ( echo "La partition /boot doit être accessible." ; exit 127 )
+[ -d /boot/grub2 ] || ( echo "La partition /boot doit être accessible." ; exit 127 )
 
 # source cdir.sh
 pushd . >/dev/null
 #WORKDIR="$(mktemp -d --tmpdir)"
 WORKDIR=$(mktemp -t .hardening-run.XXXXXXXXXX -p "$HOME" -d)
-cd "$WORKDIR"
+# cd "$WORKDIR"
 SCRIPTNAME="$(basename "$0")"
 OUTFILE="/$HOME/$SCRIPTNAME-$$.txt"
 # Exit on error
 set -e
-exec > >(tee "${OUTFILE}")
-exec 2>&1
+exec > >(tee "${OUTFILE}") 2>&1
 
 function copy_se_labels() {
     # copy SElinux labels from $1 to $2
@@ -118,10 +117,10 @@ EOF
 done
 # Fin: HARDE-RHEL-16
 echo "HARDE-RHEL-17 : S'assurer de la configuration de /var"
-mount |grep -q -E '/var\s' || exit 5
+mount | grep -q -E '/var\s' || exit 5
 # Fin: HARDE-RHEL-17
 echo "HARDE-RHEL-18 : S'assurer de la configuration de /var/tmp"
-mount |grep -q -E '/var/tmp\s' || exit 6
+mount | grep -q -E '/var/tmp\s' || exit 6
 # Fin: HARDE-RHEL-18
 echo "HARDE-RHEL-19 : Partitionnement type"
 
@@ -517,7 +516,9 @@ dnf install sudo
 # Fin: HARDE-RHEL-107
 echo "HARDE-RHEL-108 : S'assurer que les commandes sudo utilisent un pseudo-TTY et autres directives"
 cat >/etc/sudoers.d/10secure <<EOF
-Defaults noexec,requiretty,use_pty,umask=0027
+#Defaults noexec
+#Defaults use_pty
+Defaults requiretty,umask=0027
 Defaults ignore_dot,env_reset,passwd_timeout=1
 Defaults timestamp_timeout=5
 EOF
@@ -622,14 +623,15 @@ echo "HARDE-RHEL-131 : S'assurer que l'alerte pour expiration de mot de passe so
 if  ! grep -q -E '^PASS_WARN_AGE\s+14' /etc/login.defs ; then sed -e 's/\(PASS_WARN_AGE.*\)/# \1/' -i /etc/login.defs; echo "PASS_WARN_AGE 14" >> /etc/login.defs; fi
 # Fin: HARDE-RHEL-131
 echo "HARDE-RHEL-132 : S'assurer que le verrouillage des comptes inutilisés soit de 30 jours ou moins"
- useradd -D -f 30
+useradd -D -f 30
 # Fin: HARDE-RHEL-132
 echo "HARDE-RHEL-133 : S'assurer que toutes les dates de changement de mot de passe soient dans le passé"
 PATH=/sbin:$PATH awk -F: '($1!="root" && $1!="sync" && $1!="shutdown" && $1!="halt" && $1!~/^\+/ && $3<'"$(awk '/^\s*UID_MIN/{print $2}' /etc/login.defs)"' && $7!="'"$(which nologin)"'" && $7!="/bin/false") {print $1}' /etc/passwd | while read -r user ; do usermod -s "$(which nologin)" "${user}"; done
 awk -F: '($1!="root" && $1!~/^\+/ && $3<'"$(awk '/^\s*UID_MIN/{print $2}' /etc/login.defs)"') {print $1}' /etc/passwd | xargs -I '{}' passwd -S '{}' | awk '($2!="L" && $2!="LK") {print $1}' | while read -r user; do usermod -L "${user}" ; done
 # Fin: HARDE-RHEL-133
 echo "HARDE-RHEL-134 : S'assurer que les comptes système soient sécurisés"
-
+chage -d 0 root
+chage -d 0 ${ADMINUSER}
 # Fin: HARDE-RHEL-134
 echo "HARDE-RHEL-135 : S'assurer que la temporisation par défaut des shell utilisateurs soit de 900 secondes ou moins"
 cat >/etc/profile.d/tmout.sh <<EOF
