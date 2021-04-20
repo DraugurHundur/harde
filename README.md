@@ -1,8 +1,12 @@
-# harde
-Hardening RHEL 8.x
+# HARDE
+Hardening RHEL 8.x. Using the guidelines from the [CIS RHEL 8 benchmark](https://www.cisecurity.org/benchmark/red_hat_linux/) and [ANSSI](https://www.ssi.gouv.fr/guide/recommandations-de-securite-relatives-a-un-systeme-gnulinux/)  
+
+Run `./harde.sh secure` to secure the system. Some questions are asked along the way when needed.
+
+Run `./harde.sh audit` to audit the system.
 
 ## Basic principles
-harde introduces the concept of a «maintenance» mode and a «normal» mode i.e. it is impossible to load a kernel module in «normal» mode and USB/ISO cannot be used.
+HARDE introduces the concept of a «maintenance» mode and a «normal» mode i.e. it is impossible to load a kernel module in «normal» mode and USB/ISO cannot be used. The /boot (and /boot/efi) partition is not mounted.
 
 sudo can only be run by a limited group of admins.
 
@@ -13,7 +17,7 @@ HARDE disables IPv6 in all cases.
 
 HARDE is not really documented (no documentation in English and minimal doc in French.)
 ## Known Issues
-harde has only be tested on virtual machines right after the initial installation. *Use at your own risk*. You may lose data !
+HARDE has only be tested on virtual machines right after the initial installation so far. *Use at your own risk*. You may lose data !
 
 ## Disk encryption
-harde does not encrypt your disks and doesn't really care either. Use whatever suits you to encrypt your disks.
+HARDE does not encrypt your disks and doesn't really care either. Use whatever suits you to encrypt your disks.
