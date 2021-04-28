@@ -505,7 +505,7 @@ echo "HARDE-RHEL-104 : S'assurer que le client ldap n'est pas installé"
 # Fin: HARDE-RHEL-104
 echo "HARDE-RHEL-105 : S'assurer que le paramètre SSH AllowTcpForwarding est désactivé"
 sed -i -e 's/\(^AllowTcpForwarding yes\)/\#HARDE-RHEL-105: \1/' /etc/ssh/sshd_config
-if  ! grep -q -E '^AllowTcpForwarding' /etc/ssh/sshd_config ; then echo "AllowTcpForwarding no">> /etc/ssh/sshd_config; fi
+if ! grep -q -E '^AllowTcpForwarding' /etc/ssh/sshd_config ; then echo "AllowTcpForwarding no">> /etc/ssh/sshd_config; fi
 # Fin: HARDE-RHEL-105
 echo "HARDE-RHEL-106 : S'assurer que le transfert X11 SSH est désactivé"
 sed -i -e 's/\(^X11Forwarding yes\)/\#HARDE-RHEL-106: \1/' /etc/ssh/sshd_config
@@ -631,7 +631,7 @@ awk -F: '($1!="root" && $1!~/^\+/ && $3<'"$(awk '/^\s*UID_MIN/{print $2}' /etc/l
 # Fin: HARDE-RHEL-133
 echo "HARDE-RHEL-134 : S'assurer que les comptes système soient sécurisés"
 chage -d 0 root
-chage -d 0 ${ADMINUSER}
+chage -d 0 "${ADMINUSER}"
 # Fin: HARDE-RHEL-134
 echo "HARDE-RHEL-135 : S'assurer que la temporisation par défaut des shell utilisateurs soit de 900 secondes ou moins"
 cat >/etc/profile.d/tmout.sh <<EOF
@@ -1013,6 +1013,8 @@ else
     done
     setsebool secure_mode_insmod off
     echo "Secure insmod is DISABLED."
+    mount /boot
+    mount /boot/efi
     rm -f /SECURE_INSMOD_DISABLED
 fi
 exit 1 
@@ -1281,7 +1283,7 @@ echo "HARDE-RHEL-241 : S'assurer de la permission des fichiers journaux"
 # this is a one time solution since systemd resets permissions on reboot
 #   find /var/log -type f -exec chmod g-wx,o-rwx "{}" + -o -type d -exec chmod g-w,o-rwx "{}" ";"
 # systemd way:
-sed -e 's,d /var/log 0755,d /var/log 0750,' -i /usr/lib/tmpfiles.d/var.conf 
+sed -e 's,d /var/log 0755,d /var/log 0751,' -i /usr/lib/tmpfiles.d/var.conf 
 sed -e 's,f /var/log/wtmp 0664,f /var/log/wtmp 0640,' -i /usr/lib/tmpfiles.d/var.conf 
 sed -e 's,f /var/log/lastlog 0664,f /var/log/lastlog 0640,' -i /usr/lib/tmpfiles.d/var.conf 
 sed -e 's,f /var/log/btmp 0660,f /var/log/btmp 0640,' -i /usr/lib/tmpfiles.d/var.conf 

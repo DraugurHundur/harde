@@ -8,6 +8,8 @@ Run `./harde.sh audit` to audit the system.
 ## Basic principles
 HARDE introduces the concept of a «maintenance» mode and a «normal» mode i.e. it is impossible to load a kernel module in «normal» mode and USB/ISO cannot be used. The /boot (and /boot/efi) partition is not mounted.
 
+Run `/etc/maintenance_mode.sh` and reboot to load modules and/or update /boot(/efi)
+
 sudo can only be run by a limited group of admins.
 
 ## Limitations

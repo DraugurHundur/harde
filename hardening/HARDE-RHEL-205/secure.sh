@@ -1,3 +1,4 @@
+#! /usr/bin/env bash
 echo "HARDE-RHEL-205 : Désactivation du chargement des modules noyau"
 cat >/etc/maintenance_mode.sh <<EOF
 #! /bin/bash
@@ -37,6 +38,8 @@ else
         rm "/etc/modprobe.d/\$module.conf"
     done
     setsebool secure_mode_insmod off
+    mount /boot
+    mount /boot/efi
     echo "Secure insmod is DISABLED."
     rm -f /SECURE_INSMOD_DISABLED
 fi
