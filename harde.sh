@@ -106,7 +106,7 @@ case "${1}" in
         ;;
     gendoc)
         # use pandoc to generate the final documentation.
-        pandoc hardening/intro.md hardening/HARDE-RHEL-*/*.md hardening/outro.md -f markdown -t html -o harde-doc.html
+        pandoc hardening/intro.md hardening/HARDE-RHEL-*/*.md hardening/outro.md -f markdown -t html -o docs/harde-doc.html
         ;;
     *)
         usage
