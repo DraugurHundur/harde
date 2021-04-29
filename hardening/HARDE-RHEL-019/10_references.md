@@ -5,6 +5,6 @@ Références:
 Contrôles:
 
 #### ANSSI
-Référence ANSSI:
+Référence ANSSI: R12
 
-#### Niveau de Durcissement:
+#### Niveau de Durcissement: 2

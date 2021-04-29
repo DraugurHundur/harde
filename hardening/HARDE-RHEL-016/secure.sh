@@ -9,4 +9,5 @@ install $i /bin/true
 EOF
     rmmod "$i" || true
 done
+usbguard generate-policy > /etc/usbguard/rules.conf
 # Fin: HARDE-RHEL-16

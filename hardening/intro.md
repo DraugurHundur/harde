@@ -6,17 +6,23 @@ Si ce guide n’a pas été suivi dès l’installation du système, il sera com
 L’installation du système est décrite au chapitre 3, page 6.
 La documentation Red Hat est disponible sur le site : https://access.redhat.com/documentation/fr-fr/red_hat_enterprise_linux/8/html-single/performing_a_standard_rhel_installation/index
 Pour rappel, pendant l’installation et avant l’installation des correctifs de sécurité, l’ordinateur est potentiellement vulnérable et doit donc être déconnecté ou au pire connecté à un réseau maitrisé.
+
 ###	Application automatique
 Quand cela est possible, les règles de sécurisation ont été traduites dans un script qui permet d’appliquer les paramètres demandés sans interaction de l’utilisateur.
+
 ###	Opérations manuelles
 Un certain nombre d’opérations (trop complexes ou dépendantes du réseau d’installation) sont à réaliser manuellement, et sont décrites dans le chapitre 4.2.
+
 ##	Audit
 L’audit permet de s’assurer que le système est correctement configuré. Il est à réaliser à intervalles réguliers pour s’assurer qu’il n’y a pas de déviations ou de dérive du système. En particulier, les mises à jour du système peuvent modifier des permissions sur le système de fichiers.
 L’audit est décrit au chapitre 5, page 12.
+
 #	INSTALLATION DU SYSTEME
+
 ##	Sur une machine virtuelle
 Il est conseillé de s’assurer que le matériel virtualisé soit réduit au minimum : par exemple pas de carte son, pas de port série … pour limiter la surface d’attaque.
 Le disque dur alloué doit être au minimum de 48 Go
+
 ##	Depuis une image ISO
  
 Démarrer le système depuis l’image ISO, puis dès que l’installateur graphique est démarré, sélectionner France, Français(France) comme paramètres linguistiques. S’assurer que le clavier est positionné à fr(oss) après avoir cliqué sur Continuer.

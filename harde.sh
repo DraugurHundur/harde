@@ -108,6 +108,10 @@ case "${1}" in
         # use pandoc to generate the final documentation.
         pandoc hardening/intro.md hardening/HARDE-RHEL-*/*.md hardening/outro.md -f markdown -t html -o docs/harde-doc.html
         ;;
+    search)
+        # lookup words in scripts or description
+        shift
+        echo $@ 
     *)
         usage
         ;;

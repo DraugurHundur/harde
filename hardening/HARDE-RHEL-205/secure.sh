@@ -2,10 +2,15 @@
 echo "HARDE-RHEL-205 : Désactivation du chargement des modules noyau"
 cat >/etc/maintenance_mode.sh <<EOF
 #! /bin/bash
+[ $(getsebool secure_mode_insmod | awk '{print $3}') = "off" ]  && echo "Currently in maintenance mode"
 if [ ! -f /SECURE_INSMOD_DISABLED ] ; then
     touch /SECURE_INSMOD_DISABLED
+    echo "Maintenance mode will be enabled on next boot."
+    echo "Run again to disable."
+else
+    rm /SECURE_INSMOD_DISABLED
+    echo "Maintenance mode will *NOT* be enabled on next boot."
 fi
-echo Reboot is required to allow module loading.
 EOF
 chmod 0700 /etc/maintenance_mode.sh
 cat >/etc/secure_insmod.sh <<EOF
@@ -35,7 +40,7 @@ if [ ! -f /SECURE_INSMOD_DISABLED ] ; then
 else
     # Re-instate disabled modules
     for module in "\${blacklist[@]}"; do
-        rm "/etc/modprobe.d/\$module.conf"
+        rm -f "/etc/modprobe.d/\$module.conf"
     done
     setsebool secure_mode_insmod off
     mount /boot
@@ -43,7 +48,7 @@ else
     echo "Secure insmod is DISABLED."
     rm -f /SECURE_INSMOD_DISABLED
 fi
-exit 1 
+exit 0
 EOF
 chmod 0700 /etc/secure_insmod.sh
 cat >/etc/systemd/system/secure_insmod.service <<EOF

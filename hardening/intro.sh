@@ -5,6 +5,7 @@
 
 # source cdir.sh
 pushd . >/dev/null
+umask 027
 #WORKDIR="$(mktemp -d --tmpdir)"
 WORKDIR=$(mktemp -t .hardening-run.XXXXXXXXXX -p "$HOME" -d)
 # cd "$WORKDIR"

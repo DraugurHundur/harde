@@ -70,11 +70,13 @@ type=AVC msg=audit(1599887891.625:4768): avc:  denied  { search } for  pid=6489 
                 You can use audit2allow to generate a loadable module to allow this access.
 ```
 Une solution peut être de rajouter une permission à la politique SELinux via une nouvelle règle. La commande audit2allow permet de la générer :
+```
 grep '625:4768' /var/log/audit/audit.log | audit2allow _M ausearch
 
 
 #============= staff_t ==============
 allow staff_t auditd_log_t:dir search;
+```
 Il faut alors lancer les commandes suivantes pour les charger :
 semodule -i ausearch.pp
 checkmodule -m -M sudolog.te -o ausearch.mod
@@ -96,7 +98,7 @@ Il faut modifier le fichier /etc/rsyslog.d/loghost.conf
 Il faut modifier le fichier /etc/chrony.conf et remplacer la directive par défaut pool x.rhel.pool.ntp.org … par server <adresse IP ou nom>, puis relancer chrony.
 ##	Joindre un domaine Windows
 Lancer la commande suivante pour joindre un domaine, remplacer domain.com par le domaine cible, user1 par le nom d’administrateur et SERVERS pour l’OU destination :
-`sudo realm join domain.com -U 'user1' --computer-ou=OU=SERVERS --os-name="`uname -o`" --os-version="`uname -rsv`" --install='/' --verbose`
+`sudo realm join domain.com -U 'user1' --computer-ou=OU=SERVERS --os-name="$(uname -o)" --os-version="$(uname -rsv)" --install='/' --verbose`
 
 Pour restreindre la connexion à un certain groupe seulement (ici SUDOERS), lancer :
 `sudo realm deny -R domain.com -a`
