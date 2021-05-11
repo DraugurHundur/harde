@@ -294,7 +294,7 @@ echo "HARDE-RHEL-58 : S'assurer que le serveur DNS est désactivé"
 systemctl --now disable named || true
 # Fin: HARDE-RHEL-58
 echo "HARDE-RHEL-59 : S'assurer que NFS est désactivé"
-systemctl --now disable nfs || true
+systemctl --now disable nfs-server || true
 # Fin: HARDE-RHEL-59
 echo "HARDE-RHEL-60 : S'assurer que RPC est désactivé"
 systemctl --now disable rpcbind || true
