@@ -650,7 +650,7 @@ cat >/etc/pam.d/system-auth <<EOF
 # User changes will be destroyed the next time authselect is run.
 auth        required      pam_env.so
 auth        required      pam_securetty.so noconsole
-auth        sufficient    pam_unix.so try_first_pass nullok
+auth        sufficient    pam_unix.so try_first_pass
 auth        required      pam_faillock.so preauth silent deny=5 unlock_time=900
 auth        required      pam_faillock.so authfail deny=5 unlock_time=900
 auth        required      pam_deny.so
@@ -658,6 +658,7 @@ auth        required      pam_deny.so
 account     required      pam_unix.so
 
 password    requisite     pam_pwquality.so try_first_pass local_users_only retry=3 authtok_type=
+password    requisite     pam_pwhistory.so use_authtok remember=99
 password    sufficient    pam_unix.so try_first_pass use_authtok shadow obscure sha512 rounds=65536
 password    required      pam_deny.so
 
