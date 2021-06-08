@@ -223,6 +223,7 @@ load audit-helpers.sh
 @test "HARDE-RHEL-47 : Activer l'option gpgcheck" {
     grep ^gpgcheck /etc/yum.conf
     grep ^gpgcheck /etc/yum.repos.d/*
+    grep -P '^\h*gpgcheck=[^1\n\r]+\b(\h+.*)?$' /etc/yum.conf /etc/yum.repos.d/*.repo | fail_if_output
 }
 @test "HARDE-RHEL-48 : S'assurer que les dépôts soient configurés" {
     dnf repolist
@@ -509,7 +510,7 @@ run grep -E '^HostbasedAuthentication\s+no' /etc/ssh/sshd_config
     grep -E '^\s*auth\s+required\s+pam_faillock.so\s+' /etc/pam.d/password-auth /etc/pam.d/system-auth
 }
 @test "HARDE-RHEL-127 : S'assurer que la réutilisation d'anciens mots de passe soit limitée" {
-run grep -E '^\s*password\s+(requisite|sufficient)\s+(pam_pwquality\.so|pam_unix\.so)\s+.*remember=([5-9]|[1-4][0-9])[0-9]*\s*.*$' /etc/pam.d/system-auth
+run grep -E '^\s*password\s+(requisite|sufficient)\s+(pam_pwhistory\.so|pam_unix\.so)\s+.*remember=([5-9]|[1-4][0-9])[0-9]*\s*.*$' /etc/pam.d/system-auth
 }
 @test "HARDE-RHEL-128 : Protection des mots de passe stockés" {
     declare -a pw_files
@@ -913,6 +914,7 @@ grep "^\s*[^#]" /etc/audit/rules.d/*.rules | tail -1
     auditctl -l | grep system-locale
 }
 @test "HARDE-RHEL-231 : Tracer les changements de permission" {
+    grep perm_mod /etc/audit/rules.d/*.rules
     auditctl -l | grep perm_mod
 }
 @test "HARDE-RHEL-232 : Installer le service rsyslog" {
