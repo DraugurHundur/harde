@@ -710,6 +710,7 @@ awk -F: '($1!="root" && $1!~/^\+/ && $3<'"$(awk '/^\s*UID_MIN/{print $2}' /etc/l
 }
 @test "HARDE-RHEL-178 : S'assurer que les permissions sur /etc/shadow soient correctes" {
     check_owner root /etc/shadow
+    # In RHEL 8.2 or older the group may be shadow
     check_group root /etc/shadow
     check_perm 0640 /etc/shadow
 }
