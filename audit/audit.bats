@@ -551,7 +551,7 @@ awk -F: '($1!="root" && $1!~/^\+/ && $3<'"$(awk '/^\s*UID_MIN/{print $2}' /etc/l
     skip "Pas d'audit automatique pour HARDE-RHEL-134"
 }
 @test "HARDE-RHEL-135 : S'assurer que la temporisation par défaut des shell utilisateurs soit de 900 secondes ou moins" {
-    skip "Pas d'audit automatique pour HARDE-RHEL-135"
+    grep "^readonly TMOUT" /etc/profile /etc/profile.d/*.sh 
 }
 @test "HARDE-RHEL-136 : S'assurer que le groupe par défaut du compte root est 0" {
     skip "Pas d'audit automatique pour HARDE-RHEL-136"
@@ -636,11 +636,10 @@ awk -F: '($1!="root" && $1!~/^\+/ && $3<'"$(awk '/^\s*UID_MIN/{print $2}' /etc/l
     df --local -P | awk '{if (NR!=1) print $6}' | xargs -I '{}' find '{}' -xdev -type d -perm -0002 -a \! -uid 0 -ls | fail_if_output 
 }
 @test "HARDE-RHEL-159 : Installer AIDE" {
-    skip "Pas d'audit automatique pour HARDE-RHEL-159"
+    rpm -q aide
 }
 @test "HARDE-RHEL-160 : Vérification régulière de l'intégrité de système de fichiers" {
-    # systemctl is-enabled aidecheck.service
-    # systemctl status aidecheck.service
+    grep 'ExecStart=/usr/sbin/aide --check' /etc/systemd/system/aidecheck.service
     systemctl is-enabled aidecheck.timer
     systemctl status aidecheck.timer
 }
@@ -726,22 +725,22 @@ awk -F: '($1!="root" && $1!~/^\+/ && $3<'"$(awk '/^\s*UID_MIN/{print $2}' /etc/l
 @test "HARDE-RHEL-181 : S'assurer que les permissions sur /etc/passwd- soient correctes" {
     check_owner root /etc/passwd-
     check_group root /etc/passwd-
-    check_perm 0600 /etc/passwd-
+    check_perm_from_file /etc/passwd /etc/passwd-
 }
 @test "HARDE-RHEL-182 : S'assurer que les permissions sur /etc/shadow- soient correctes" {
     check_owner root /etc/shadow-
     check_group root /etc/shadow-
-    check_perm 0600 /etc/shadow-
+    check_perm_from_file /etc/shadow /etc/shadow-
 }
 @test "HARDE-RHEL-183 : S'assurer que les permissions sur /etc/group- soient correctes" {
     check_owner root /etc/group-
     check_group root /etc/group-
-    check_perm 0644 /etc/group-
+    check_perm_from_file /etc/group /etc/group-
 }
 @test "HARDE-RHEL-184 : S'assurer que les permissions sur /etc/gshadow- soient correctes" {
     check_owner root /etc/gshadow-
     check_group root /etc/gshadow-
-    check_perm 0640 /etc/gshadow-
+    check_perm_from_file /etc/gshadow /etc/gshadow-
 }
 @test "HARDE-RHEL-185 : S'assurer que les utilisateurs n'ont pas de fichier .forward" {
 PATH=/sbin:$PATH grep -E -v '^(root|halt|sync|shutdown)' /etc/passwd | awk -F: '($7 !="'"$(which nologin)"'" && $7 != "/bin/false") { print $1 " " $6 }' | while read user dir; do if [ ! -d "$dir" ]; then echo "The home directory ($dir) of user $user does not exist."; else if [ ! -h "$dir/.forward" -a -f "$dir/.forward" ]; then echo ".forward file $dir/.forward exists"; fi; fi; done

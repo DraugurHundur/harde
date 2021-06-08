@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 # -*- mode: shell; coding: utf-8-unix -*-
 
-# This function should be smarter and ensure access is minimal
+# This function ensures access is minimal
 # i.e no grant for group or other rather than checking for an exact match
 function check_perm(){
     # $1 is required mode REQ
@@ -19,7 +19,7 @@ function check_perm(){
 	    local PERM
       PERM="$(stat --printf %04a "${f}")"
       # ignore non-existent files
-       [ $? -eq 1 ] && return 0
+      [ $? -eq 1 ] && return 0
       local r
       local p
       for i in 1 2 3 4; do
@@ -34,6 +34,15 @@ function check_perm(){
     done
   [ $FAILED -eq 1 ] && echo -e "$FF" | batslib_decorate "Wrong permissions" | fail
   return 0
+}
+
+function check_perm_from_file(){
+  local PERM
+  [ $# -ge 2 ] || return 2
+  PERM="$(stat --printf %04a $1)"
+  # exit on non-existent file
+  [ $? -eq 1 ] && return 2
+  check_perm "${PERM}" "$2"
 }
 
 function check_owner(){
