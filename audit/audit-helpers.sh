@@ -39,7 +39,7 @@ function check_perm(){
 function check_perm_from_file(){
   local PERM
   [ $# -ge 2 ] || return 2
-  PERM="$(stat --printf %04a $1)"
+  PERM="$(stat --printf %04a "${1}")"
   # exit on non-existent file
   [ $? -eq 1 ] && return 2
   check_perm "${PERM}" "$2"
