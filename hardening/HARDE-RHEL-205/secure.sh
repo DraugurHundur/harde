@@ -45,6 +45,7 @@ else
     setsebool secure_mode_insmod off
     mount /boot
     mount /boot/efi
+    modprobe iso9660
     echo "Secure insmod is DISABLED."
     rm -f /SECURE_INSMOD_DISABLED
 fi

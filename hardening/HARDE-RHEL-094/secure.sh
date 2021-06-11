@@ -3,6 +3,12 @@ setsebool -P polyinstantiation_enabled=on
 cat >/etc/secure_namespace.sh <<EOF
 #! /bin/bash
 
+function copy_se_labels() {
+    # copy SElinux labels from $1 to $2
+    # use copy_se_labels /var/www /srv/www(/.*)?
+    semanage fcontext --modify --equal "$1" "$2" || true
+    restorecon -R "$2"
+}
 # As /tmp is cleaned at each reboot, recreate them as needed
 if ! [ -d /tmp/namespace ] ; then
     mkdir /tmp/namespace 
