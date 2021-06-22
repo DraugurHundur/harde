@@ -1,4 +1,7 @@
+#! /usr/bin/env bash
 echo "HARDE-RHEL-216 : Journalisation de l'activité par auditd"
+# Remove any pre-existing rules
+rm -f /etc/audit/rules.d/audit.rules || true
 cat >/etc/audit/rules.d/00audit.rules<<EOF
 ## First rule - delete all
 -D

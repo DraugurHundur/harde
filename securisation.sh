@@ -1096,6 +1096,8 @@ cat >/etc/audit/rules.d/40identity.rules <<EOF
 EOF
 # Fin: HARDE-RHEL-215
 echo "HARDE-RHEL-216 : Journalisation de l'activité par auditd"
+# Remove any pre-existing rules
+rm -f /etc/audit/rules.d/audit.rules || true
 cat >/etc/audit/rules.d/00audit.rules<<EOF
 ## First rule - delete all
 -D
@@ -1261,6 +1263,7 @@ cat > /etc/rsyslog.d/loghost.conf <<EOF
 # TCP version *.*     @@$SYSLOGSERVER:514
 *.*     @$SYSLOGSERVER:514
 EOF
+cat > /etc/
 # Fin: HARDE-RHEL-236
 echo "HARDE-RHEL-237 : S'assurer que seuls les puits de logs peuvent recevoir des logs"
 

@@ -54,7 +54,7 @@ while getopts ${optstring} arg; do
     v)
       DEBUG=1
       ;;
-    ?)
+    *)
       echo "Invalid option: -${OPTARG}."
       exit 2
       ;;
@@ -111,7 +111,8 @@ case "${1}" in
     search)
         # lookup words in scripts or description
         shift
-        echo $@ 
+        echo "$@" 
+        ;;
     *)
         usage
         ;;
