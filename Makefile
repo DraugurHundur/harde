@@ -1,8 +1,12 @@
 all: doc index
 
-doc: docs/harde-doc.md
+docs/harde-doc.md: docs/harde-doc.mdpp
 	markdown-pp docs/harde-doc.mdpp -o docs/harde-doc.md
+
+doc: docs/harde-doc.md
 	pandoc docs/harde-doc.md -f markdown -t html  --metadata title="HARDEning RHEL" -s -o docs/harde-doc.html
 
-index: docs/harde-items.txt hardening/HARDE-RHEL-*/00_intro.md
+index:  hardening/HARDE-RHEL-*/00_intro.md docs/harde-items.txt
+
+docs/harde-items.txt:
 	grep -h '^## ' hardening/HARDE-RHEL-???/00_intro.md >docs/harde-items.txt
