@@ -173,9 +173,9 @@ Référence ANSSI: R1
 ##### Niveau de Durcissement: 1
 #### Méthode d'implémentation
 
-!IFEXISTS "..\hardening\HARDE-RHEL-001\secure.sh"
+!IFEXISTS "./hardening/HARDE-RHEL-001/secure.sh"
 Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-001:
-!INCLUDECODE "..\hardening\HARDE-RHEL-001\secure.sh" (bash)
+!INCLUDECODE "./hardening/HARDE-RHEL-001/secure.sh" (bash)
 !ENDIFEXISTS
 
 ```bash
@@ -986,9 +986,9 @@ Référence ANSSI:
 ##### Niveau de Durcissement: 4
 
 #### Méthode d'implémentation
-!IFEXISTS "..\hardening\HARDE-RHEL-037\secure.sh"
+!IFEXISTS "./hardening/HARDE-RHEL-037/secure.sh"
 Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-037:
-!INCLUDECODE "..\hardening\HARDE-RHEL-037\secure.sh" (bash)
+!INCLUDECODE "./hardening/HARDE-RHEL-037/secure.sh" (bash)
 !ENDIFEXISTS
 
 #### Méthode d'audit
