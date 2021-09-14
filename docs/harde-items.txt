@@ -233,7 +233,7 @@
 ## HARDE-RHEL-233 : 
 ## HARDE-RHEL-234 : 
 ## HARDE-RHEL-235 : 
-## HARDE-RHEL-236 : 
+## HARDE-RHEL-236 : Renvoyer les journaux vers un hôte distant
 ## HARDE-RHEL-237 : 
 ## HARDE-RHEL-238 : 
 ## HARDE-RHEL-239 : 
