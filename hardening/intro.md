@@ -1,4 +1,7 @@
-#	MISE EN ŒUVRE
+#	HARDE : SÉCURISATION D'UN SYSTÈME RED HAT 8.x 
+
+!TOC 2
+
 ##	Sécurisation
 ###	Installation
 Certains des paramètres de sécurisation sont uniquement ou plus facilement sélectionnables lors de l’installation. Ce sont, en particulier, la répartition des partitions et la sélection initiale de logiciels à installer. Ce guide décrit la procédure d’installation à suivre pour un Red Hat Linux Entreprise 8.1, 8.2 ou 8.3. 
@@ -13,22 +16,27 @@ Quand cela est possible, les règles de sécurisation ont été traduites dans u
 ###	Opérations manuelles
 Un certain nombre d’opérations (trop complexes ou dépendantes du réseau d’installation) sont à réaliser manuellement, et sont décrites dans le chapitre 4.2.
 
-##	Audit
+###	Audit
 L’audit permet de s’assurer que le système est correctement configuré. Il est à réaliser à intervalles réguliers pour s’assurer qu’il n’y a pas de déviations ou de dérive du système. En particulier, les mises à jour du système peuvent modifier des permissions sur le système de fichiers.
 L’audit est décrit au chapitre 5, page 12.
 
-#	INSTALLATION DU SYSTEME
+##	INSTALLATION DU SYSTEME
 
-##	Sur une machine virtuelle
+###	Sur une machine virtuelle
 Il est conseillé de s’assurer que le matériel virtualisé soit réduit au minimum : par exemple pas de carte son, pas de port série … pour limiter la surface d’attaque.
 Le disque dur alloué doit être au minimum de 48 Go
 
-##	Depuis une image ISO
+###	Depuis une image ISO
  
 Démarrer le système depuis l’image ISO, puis dès que l’installateur graphique est démarré, sélectionner France, Français(France) comme paramètres linguistiques. S’assurer que le clavier est positionné à fr(oss) après avoir cliqué sur Continuer.
  
 Depuis l’écran Résumé de l’installation, positionner la Sélection Logiciel à « Installation minimale » :
 
+![Copie d'écran : Sélection Logiciel1](file:///./images/2020-09-11%2010_46_32-Window.png "Installation Mininale")
+
+![Copie d'écran : Sélection Logiciel2](./images/2020-09-11 10_46_32-Window.png)
+
+![Copie d'écran : Sélection Logiciel3](.\images\2020-09-11 10_46_32-Window.png)
 
 Depuis l’écran Résumé de l’installation, positionner le paramètre KDUMP à désactivé :
  
@@ -60,20 +68,22 @@ Définir un mot de passe administrateur (root) et créer un compte utilisateur. 
 Redémarrer une fois l’installation terminée :
  
 Passer ensuite à la sécurisation dans le chapitre ci-dessous.
-#	SECURISATION
+
+##	SECURISATION
 Une fois l’installation terminée selon le chapitre précédent, la sécurisation proprement dite se passe en deux étapes :
 1.	Appliquer les correctifs et mises à jour de sécurité.
 2.	Effectuer les opérations manuelles détaillés ci-dessous.
 3.	Lancer le script fourni en attachement.
 
-##	Correctifs
-Red Hat Enterprise 8.1 nécessite d’avoir les correctifs/erratas suivants installés pour un fonctionnement correct du système (liste non exhaustive) :
-https://access.redhat.com/errata/RHBA-2020:0334
-https://access.redhat.com/errata/RHBA-2020:1773
-
+###	Correctifs
 Pour rappel, il est évidemment nécessaire d’installer au plus tôt les dernières mises à jour de sécurité.
 
-##	Opérations Manuelles
+En plus des mises à jour de sécurité, des correctifs fonctionnels peuvent être nécessaires. Par exemple, Red Hat Enterprise 8.1 nécessite d’avoir les correctifs/erratas suivants installés pour un fonctionnement correct du système (liste non exhaustive) :
+- https://access.redhat.com/errata/RHBA-2020:0334
+- https://access.redhat.com/errata/RHBA-2020:1773
+
+
+###	Opérations Manuelles
 Editer le fichier /etc/fstab pour rajouter les options sur les points de montage suivant le tableau suivant :
 
 Point de Montage | Options | Description
@@ -123,18 +133,18 @@ UUID=16FD-1FB3          			/boot/efi    		vfat  	nosuid,nodev,noexec,noauto,umas
 proc    			   		/proc    		proc  	rw,nosuid,nodev,noexec,relatime,hidepid=2,gid=sudogrp	0 0
 none      			   		/dev/shm        	tmpfs 	nosuid,nodev,noexec,defaults				0 0
 ```
-## 	Lancer le script de sécurisation
+### 	Lancer le script de sécurisation
 Copier le script fourni en attachement dans le répertoire /root, puis le lancer dans une session root (ou dans une session sudo). Il est obligatoire d’avoir inséré un DVD d’installation dans le lecteur (ou à défaut d’avoir monté l’image ISO sur le répertoire /mnt/disc). Une fois lancé, le script pose quelques questions pour affiner le paramétrage.
 Une fois la sécurisation effectuée (et le système redémarré), il n’est plus possible de relancer le script : le montage des images ISO n’étant plus possible. Voir le chapitre 7.7 pour les procédures à appliquer pour utiliser des supports externes.
-
 ##	Documents à établir
 La directive HARDE-RHEL-51 demande à ce qu’une liste blanche des démons (services résidents) soit établie.
 La directive HARDE-RHEL-143 demande à ce qu’une liste blanche et une liste noire des utilisateurs soient établies.
-#	AUDIT	
+##	AUDIT	
 Le catalogue des règles de sécurisation donne le détail des étapes à réaliser pour auditer le système. Comme pour la sécurisation, lorsque cela a été possible, ces étapes ont été automatisées à l’aide d’un script audit.sh fourni en attachement. Ce script a été écrit en utilisant le framework bats-core (également fourni en attachement).
 
-# CATALOGUE DES REGLES DE SECURISATION
+## CATALOGUE DES REGLES DE SECURISATION
 Ce catalogue contient des règles définies à partir des recommandations ANSSI ([REF2]) et du benchmark CIS ([REF 3]).
 Certaines de ces règles sont positionnées à « Ne pas implémenter » car elles ont été jugées non pertinentes ou non applicables dans le cadre de ce projet. Elles sont néanmoins présentes pour offrir une vision globale des recommandations.
 La majorité de ces règles sont mis en place par un paramétrage du système mais certaines demandent la mise en place de procédures organisationnelles
+
 
