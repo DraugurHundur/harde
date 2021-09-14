@@ -1,3 +1,4 @@
+#!/bin/bash
 if [ ! "${YORN}" = "n" ]; then
     umount /mnt/disc 
     rmdir /mnt/disc
@@ -6,10 +7,12 @@ fi
 
 # restart SSHd 
 systemctl restart sshd
+# rebuild initramfs
+dracut -f -v
 aide --init
 mv /var/lib/aide/aide.db.new.gz /var/lib/aide/aide.db.gz
 
-popd >/dev/null
+popd || true >/dev/null
 rm -rf "${WORKDIR}"
 
 echo "Fin de la sécurisation"

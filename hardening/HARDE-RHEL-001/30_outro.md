@@ -3,4 +3,5 @@
 ```
 ps aux
 netstat -tulpen
+ss -xp
 ```
