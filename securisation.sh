@@ -1263,7 +1263,7 @@ cat > /etc/rsyslog.d/loghost.conf <<EOF
 # TCP version *.*     @@$SYSLOGSERVER:514
 *.*     @$SYSLOGSERVER:514
 EOF
-cat > /etc/
+
 # Fin: HARDE-RHEL-236
 echo "HARDE-RHEL-237 : S'assurer que seuls les puits de logs peuvent recevoir des logs"
 
