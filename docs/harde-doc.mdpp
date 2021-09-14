@@ -1,32 +1,31 @@
-#	HARDE : SÉCURISATION D'UN SYSTÈME RED HAT 8.x 
 
 !TOC 2
 
-##	Sécurisation
-###	Installation
+#	Sécurisation
+##	Installation
 Certains des paramètres de sécurisation sont uniquement ou plus facilement sélectionnables lors de l’installation. Ce sont, en particulier, la répartition des partitions et la sélection initiale de logiciels à installer. Ce guide décrit la procédure d’installation à suivre pour un Red Hat Linux Entreprise 8.1, 8.2 ou 8.3. 
 Si ce guide n’a pas été suivi dès l’installation du système, il sera compliqué voire très fastidieux de mettre en place l’ensemble des règles définies dans ce guide.
 L’installation du système est décrite au chapitre 3, page 6.
 La documentation Red Hat est disponible sur le site : https://access.redhat.com/documentation/fr-fr/red_hat_enterprise_linux/8/html-single/performing_a_standard_rhel_installation/index
 Pour rappel, pendant l’installation et avant l’installation des correctifs de sécurité, l’ordinateur est potentiellement vulnérable et doit donc être déconnecté ou au pire connecté à un réseau maitrisé.
 
-###	Application automatique
+##	Application automatique
 Quand cela est possible, les règles de sécurisation ont été traduites dans un script qui permet d’appliquer les paramètres demandés sans interaction de l’utilisateur.
 
-###	Opérations manuelles
+##	Opérations manuelles
 Un certain nombre d’opérations (trop complexes ou dépendantes du réseau d’installation) sont à réaliser manuellement, et sont décrites dans le chapitre 4.2.
 
-###	Audit
+##	Audit
 L’audit permet de s’assurer que le système est correctement configuré. Il est à réaliser à intervalles réguliers pour s’assurer qu’il n’y a pas de déviations ou de dérive du système. En particulier, les mises à jour du système peuvent modifier des permissions sur le système de fichiers.
 L’audit est décrit au chapitre 5, page 12.
 
-##	INSTALLATION DU SYSTEME
+#	Installation du système
 
-###	Sur une machine virtuelle
+##	Sur une machine virtuelle
 Il est conseillé de s’assurer que le matériel virtualisé soit réduit au minimum : par exemple pas de carte son, pas de port série … pour limiter la surface d’attaque.
 Le disque dur alloué doit être au minimum de 48 Go
 
-###	Depuis une image ISO
+##	Depuis une image ISO
  
 Démarrer le système depuis l’image ISO, puis dès que l’installateur graphique est démarré, sélectionner France, Français(France) comme paramètres linguistiques. S’assurer que le clavier est positionné à fr(oss) après avoir cliqué sur Continuer.
  
@@ -69,13 +68,13 @@ Redémarrer une fois l’installation terminée :
  
 Passer ensuite à la sécurisation dans le chapitre ci-dessous.
 
-##	SECURISATION
+#	Sécurisation
 Une fois l’installation terminée selon le chapitre précédent, la sécurisation proprement dite se passe en deux étapes :
 1.	Appliquer les correctifs et mises à jour de sécurité.
 2.	Effectuer les opérations manuelles détaillés ci-dessous.
 3.	Lancer le script fourni en attachement.
 
-###	Correctifs
+##	Correctifs
 Pour rappel, il est évidemment nécessaire d’installer au plus tôt les dernières mises à jour de sécurité.
 
 En plus des mises à jour de sécurité, des correctifs fonctionnels peuvent être nécessaires. Par exemple, Red Hat Enterprise 8.1 nécessite d’avoir les correctifs/erratas suivants installés pour un fonctionnement correct du système (liste non exhaustive) :
@@ -83,7 +82,7 @@ En plus des mises à jour de sécurité, des correctifs fonctionnels peuvent êt
 - https://access.redhat.com/errata/RHBA-2020:1773
 
 
-###	Opérations Manuelles
+##	Opérations Manuelles
 Editer le fichier /etc/fstab pour rajouter les options sur les points de montage suivant le tableau suivant :
 
 Point de Montage | Options | Description
@@ -133,37 +132,37 @@ UUID=16FD-1FB3          			/boot/efi    		vfat  	nosuid,nodev,noexec,noauto,umas
 proc    			   		/proc    		proc  	rw,nosuid,nodev,noexec,relatime,hidepid=2,gid=sudogrp	0 0
 none      			   		/dev/shm        	tmpfs 	nosuid,nodev,noexec,defaults				0 0
 ```
-### 	Lancer le script de sécurisation
+## 	Lancer le script de sécurisation
 Copier le script fourni en attachement dans le répertoire /root, puis le lancer dans une session root (ou dans une session sudo). Il est obligatoire d’avoir inséré un DVD d’installation dans le lecteur (ou à défaut d’avoir monté l’image ISO sur le répertoire /mnt/disc). Une fois lancé, le script pose quelques questions pour affiner le paramétrage.
 Une fois la sécurisation effectuée (et le système redémarré), il n’est plus possible de relancer le script : le montage des images ISO n’étant plus possible. Voir le chapitre 7.7 pour les procédures à appliquer pour utiliser des supports externes.
-##	Documents à établir
+#	Documents à établir
 La directive HARDE-RHEL-51 demande à ce qu’une liste blanche des démons (services résidents) soit établie.
 La directive HARDE-RHEL-143 demande à ce qu’une liste blanche et une liste noire des utilisateurs soient établies.
-##	AUDIT	
+#	Audit	
 Le catalogue des règles de sécurisation donne le détail des étapes à réaliser pour auditer le système. Comme pour la sécurisation, lorsque cela a été possible, ces étapes ont été automatisées à l’aide d’un script audit.sh fourni en attachement. Ce script a été écrit en utilisant le framework bats-core (également fourni en attachement).
 
-## CATALOGUE DES REGLES DE SECURISATION
+# CATALOGUE DES REGLES DE SECURISATION
 Ce catalogue contient des règles définies à partir des recommandations ANSSI ([REF2]) et du benchmark CIS ([REF 3]).
 Certaines de ces règles sont positionnées à « Ne pas implémenter » car elles ont été jugées non pertinentes ou non applicables dans le cadre de ce projet. Elles sont néanmoins présentes pour offrir une vision globale des recommandations.
 La majorité de ces règles sont mis en place par un paramétrage du système mais certaines demandent la mise en place de procédures organisationnelles
 
 
-### HARDE-RHEL-001 : Minimisation des services installés
+## HARDE-RHEL-001 : Minimisation des services installés
 
-#### Description
+### Description
 
 Supprimer les services non nécessaires. Une liste de paquets le plus souvent inutiles et désinstallée par le script de sécurisation. 
 
 #### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI: R1
 
-##### Niveau de Durcissement: 1
+#### Niveau de Durcissement: 1
 
 #### Méthode à suivre
 
@@ -178,21 +177,21 @@ ps aux
 netstat -tulpen
 ss -xp
 ```
-### HARDE-RHEL-002 : 
+## HARDE-RHEL-002 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -202,21 +201,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-003 : 
+## HARDE-RHEL-003 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -226,21 +225,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-004 : 
+## HARDE-RHEL-004 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -250,21 +249,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-005 : 
+## HARDE-RHEL-005 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -274,21 +273,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-006 : 
+## HARDE-RHEL-006 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -298,21 +297,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-007 : 
+## HARDE-RHEL-007 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -322,21 +321,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-008 : 
+## HARDE-RHEL-008 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -346,21 +345,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-009 : 
+## HARDE-RHEL-009 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -370,21 +369,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-010 : 
+## HARDE-RHEL-010 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -394,21 +393,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-011 : 
+## HARDE-RHEL-011 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -418,21 +417,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-012 : 
+## HARDE-RHEL-012 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -442,21 +441,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-013 : 
+## HARDE-RHEL-013 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -466,21 +465,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-014 : 
+## HARDE-RHEL-014 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -490,21 +489,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-015 : 
+## HARDE-RHEL-015 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -514,16 +513,16 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-016 : Désactiver le stockage USB
+## HARDE-RHEL-016 : Désactiver le stockage USB
 
-#### Description
+### Description
 Pour désactiver le stockage USB, lancer les commandes du chapitre suivant.
 Une alternative est d'autoriser le module usb-storage mais de contôler et limiter les périphériques USB pouvant être connectés en configurant usb-guard. La configuration d'USB n'est pas décrite dans ce guide.
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références: 
 RHEL 8 1.1.23
 
@@ -531,10 +530,10 @@ Contrôles:
 08.4 Configure Anti-Malware Scanning of Removable Devices
 08.5 Configure Devices Not To Auto-run Content
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement: 1
+#### Niveau de Durcissement: 1
 
 #### Méthode à suivre
 
@@ -544,9 +543,9 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-017 : S'assurer de la configuration de /var
+## HARDE-RHEL-017 : S'assurer de la configuration de /var
 
-#### Description
+### Description
 `/var` doit être installé dans une partition séparée d'au moins 4GB avec les options nodev,noexec et nosuid.
 
 Beaucoup de logiciels nécessitent néanmoins des droits d'exécution dans des sous-répertoires (par exemple /var/lib/raas/unpack pour VMWare SaltStack Config). Dans ces cas-là, il est recommandé de créer une partition dédiée à cette application (ici avec lvm): 
@@ -563,18 +562,18 @@ mount /var/lib/raas/unpack
 
 ### Références
 
-##### CIS
+#### CIS
 Références: 
 RHEL 8 1.1.6
 
 Contrôles: 
 05.1 Establish Secure Configurations
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI: 
 R12
 
-##### Niveau de Durcissement: 4
+#### Niveau de Durcissement: 4
 
 #### Méthode à suivre
 
@@ -584,15 +583,15 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-018 : S'assurer de la configuration de /var/tmp
+## HARDE-RHEL-018 : S'assurer de la configuration de /var/tmp
 
-#### Description
+### Description
 `/var/tmp` doit être installé dans une partition séparée d'au moins 1GB avec les options nodev,nosuid,noexec
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 RHEL 8 1.1.7
 RHEL 8 1.1.8
@@ -606,10 +605,10 @@ Contrôles:
 02.6 Address unapproved software
 
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement: 4
+#### Niveau de Durcissement: 4
 
 #### Méthode à suivre
 
@@ -619,9 +618,9 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-019 : Partitionnement type
+## HARDE-RHEL-019 : Partitionnement type
 
-#### Description
+### Description
 Les partitions permettent de segmenter l'espace de stockage et d'appliquer des directives de haut-niveau comme `noexec` pour empêcher l'exécution de logiciels.
 
 Les partitions /tmp et /var/tmp sont traitées de manière légérement différente car elles sont gérées via pam_namespace.
@@ -631,14 +630,14 @@ Certains logiciels peuvent demander des permissions spéciales : par exemple doc
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI: R12
 
-##### Niveau de Durcissement: 2
+#### Niveau de Durcissement: 2
 
 #### Méthode à suivre
 
@@ -648,21 +647,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-020 : 
+## HARDE-RHEL-020 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -672,21 +671,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-021 : 
+## HARDE-RHEL-021 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -696,21 +695,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-022 : 
+## HARDE-RHEL-022 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -720,21 +719,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-023 : 
+## HARDE-RHEL-023 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -744,21 +743,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-024 : 
+## HARDE-RHEL-024 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -768,21 +767,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-025 : 
+## HARDE-RHEL-025 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -792,21 +791,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-026 : 
+## HARDE-RHEL-026 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -816,21 +815,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-027 : 
+## HARDE-RHEL-027 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -840,21 +839,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-028 : 
+## HARDE-RHEL-028 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -864,21 +863,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-029 : 
+## HARDE-RHEL-029 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -888,21 +887,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-030 : 
+## HARDE-RHEL-030 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -912,21 +911,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-031 : 
+## HARDE-RHEL-031 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -936,21 +935,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-032 : 
+## HARDE-RHEL-032 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -960,21 +959,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-033 : 
+## HARDE-RHEL-033 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -984,21 +983,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-034 : 
+## HARDE-RHEL-034 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1008,21 +1007,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-035 : 
+## HARDE-RHEL-035 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1032,21 +1031,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-036 : 
+## HARDE-RHEL-036 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1056,21 +1055,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-037 : 
+## HARDE-RHEL-037 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1080,21 +1079,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-038 : 
+## HARDE-RHEL-038 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1104,21 +1103,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-039 : 
+## HARDE-RHEL-039 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1128,21 +1127,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-040 : 
+## HARDE-RHEL-040 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1152,21 +1151,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-041 : 
+## HARDE-RHEL-041 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1176,21 +1175,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-042 : 
+## HARDE-RHEL-042 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1200,21 +1199,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-043 : 
+## HARDE-RHEL-043 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1224,21 +1223,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-044 : 
+## HARDE-RHEL-044 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1248,21 +1247,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-045 : 
+## HARDE-RHEL-045 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1272,21 +1271,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-046 : 
+## HARDE-RHEL-046 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1296,21 +1295,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-047 : 
+## HARDE-RHEL-047 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1320,21 +1319,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-048 : 
+## HARDE-RHEL-048 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1344,21 +1343,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-049 : 
+## HARDE-RHEL-049 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1368,21 +1367,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-050 : 
+## HARDE-RHEL-050 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1392,21 +1391,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-051 : 
+## HARDE-RHEL-051 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1416,21 +1415,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-052 : 
+## HARDE-RHEL-052 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1440,21 +1439,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-053 : 
+## HARDE-RHEL-053 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1464,21 +1463,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-054 : 
+## HARDE-RHEL-054 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1488,21 +1487,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-055 : 
+## HARDE-RHEL-055 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1512,21 +1511,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-056 : 
+## HARDE-RHEL-056 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1536,21 +1535,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-057 : 
+## HARDE-RHEL-057 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1560,21 +1559,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-058 : 
+## HARDE-RHEL-058 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1584,21 +1583,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-059 : 
+## HARDE-RHEL-059 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1608,21 +1607,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-060 : 
+## HARDE-RHEL-060 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1632,21 +1631,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-061 : 
+## HARDE-RHEL-061 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1656,21 +1655,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-062 : 
+## HARDE-RHEL-062 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1680,21 +1679,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-063 : 
+## HARDE-RHEL-063 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1704,21 +1703,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-064 : 
+## HARDE-RHEL-064 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1728,21 +1727,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-065 : 
+## HARDE-RHEL-065 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1752,21 +1751,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-066 : 
+## HARDE-RHEL-066 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1776,21 +1775,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-067 : 
+## HARDE-RHEL-067 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1800,21 +1799,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-068 : 
+## HARDE-RHEL-068 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1824,21 +1823,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-069 : 
+## HARDE-RHEL-069 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1848,21 +1847,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-070 : 
+## HARDE-RHEL-070 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1872,21 +1871,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-071 : 
+## HARDE-RHEL-071 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1896,21 +1895,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-072 : 
+## HARDE-RHEL-072 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1920,21 +1919,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-073 : 
+## HARDE-RHEL-073 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1944,21 +1943,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-074 : 
+## HARDE-RHEL-074 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1968,21 +1967,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-075 : 
+## HARDE-RHEL-075 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -1992,21 +1991,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-076 : 
+## HARDE-RHEL-076 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2016,21 +2015,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-077 : 
+## HARDE-RHEL-077 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2040,21 +2039,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-078 : 
+## HARDE-RHEL-078 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2064,21 +2063,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-079 : 
+## HARDE-RHEL-079 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2088,21 +2087,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-080 : 
+## HARDE-RHEL-080 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2112,21 +2111,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-081 : 
+## HARDE-RHEL-081 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2136,21 +2135,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-082 : 
+## HARDE-RHEL-082 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2160,21 +2159,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-083 : 
+## HARDE-RHEL-083 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2184,21 +2183,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-084 : 
+## HARDE-RHEL-084 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2208,21 +2207,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-085 : 
+## HARDE-RHEL-085 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2232,21 +2231,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-086 : 
+## HARDE-RHEL-086 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2256,21 +2255,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-087 : 
+## HARDE-RHEL-087 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2280,21 +2279,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-088 : 
+## HARDE-RHEL-088 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2304,21 +2303,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-089 : 
+## HARDE-RHEL-089 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2328,21 +2327,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-090 : 
+## HARDE-RHEL-090 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2352,21 +2351,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-091 : 
+## HARDE-RHEL-091 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2376,21 +2375,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-092 : 
+## HARDE-RHEL-092 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2400,21 +2399,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-093 : 
+## HARDE-RHEL-093 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2424,21 +2423,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-094 : 
+## HARDE-RHEL-094 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2448,21 +2447,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-095 : 
+## HARDE-RHEL-095 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2472,21 +2471,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-096 : 
+## HARDE-RHEL-096 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2496,21 +2495,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-097 : 
+## HARDE-RHEL-097 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2520,21 +2519,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-098 : 
+## HARDE-RHEL-098 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2544,21 +2543,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-099 : 
+## HARDE-RHEL-099 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2568,21 +2567,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-100 : 
+## HARDE-RHEL-100 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2592,21 +2591,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-101 : 
+## HARDE-RHEL-101 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2616,21 +2615,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-102 : 
+## HARDE-RHEL-102 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2640,21 +2639,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-103 : 
+## HARDE-RHEL-103 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2664,21 +2663,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-104 : 
+## HARDE-RHEL-104 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2688,21 +2687,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-105 : 
+## HARDE-RHEL-105 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2712,21 +2711,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-106 : 
+## HARDE-RHEL-106 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2736,21 +2735,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-107 : 
+## HARDE-RHEL-107 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2760,21 +2759,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-108 : 
+## HARDE-RHEL-108 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2784,21 +2783,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-109 : 
+## HARDE-RHEL-109 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2808,21 +2807,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-110 : 
+## HARDE-RHEL-110 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2832,21 +2831,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-111 : 
+## HARDE-RHEL-111 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2856,21 +2855,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-112 : 
+## HARDE-RHEL-112 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2880,21 +2879,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-113 : 
+## HARDE-RHEL-113 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2904,21 +2903,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-114 : 
+## HARDE-RHEL-114 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2928,21 +2927,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-115 : 
+## HARDE-RHEL-115 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2952,21 +2951,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-116 : 
+## HARDE-RHEL-116 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -2976,21 +2975,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-117 : 
+## HARDE-RHEL-117 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3000,21 +2999,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-118 : 
+## HARDE-RHEL-118 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3024,21 +3023,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-119 : 
+## HARDE-RHEL-119 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3048,21 +3047,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-120 : 
+## HARDE-RHEL-120 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3072,21 +3071,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-121 : 
+## HARDE-RHEL-121 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3096,21 +3095,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-122 : 
+## HARDE-RHEL-122 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3120,21 +3119,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-123 : 
+## HARDE-RHEL-123 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3144,21 +3143,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-124 : 
+## HARDE-RHEL-124 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3168,21 +3167,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-125 : 
+## HARDE-RHEL-125 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3192,21 +3191,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-126 : 
+## HARDE-RHEL-126 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3216,23 +3215,23 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-127 : S'assurer que la réutilisation d'anciens mots de passe soit limitée
+## HARDE-RHEL-127 : S'assurer que la réutilisation d'anciens mots de passe soit limitée
 
-#### Description
+### Description
 Cette règle vise à limiter la réutilisation des anciens mots de passe. Elle s'appuie sur le module PAM pam_pwhistory et est implémenté sur le système par la règle HARDE-RHEL-137.
 
 UTiliser pam_unix pour cette option n'est pas recommandé car il stocke des agrégats MD5 (alors que pam_pwhistory stocke en sha512)
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3242,21 +3241,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-128 : 
+## HARDE-RHEL-128 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3266,21 +3265,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-129 : 
+## HARDE-RHEL-129 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3290,21 +3289,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-130 : 
+## HARDE-RHEL-130 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3314,21 +3313,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-131 : 
+## HARDE-RHEL-131 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3338,21 +3337,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-132 : 
+## HARDE-RHEL-132 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3362,21 +3361,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-133 : 
+## HARDE-RHEL-133 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3386,21 +3385,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-134 : 
+## HARDE-RHEL-134 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3410,21 +3409,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-135 : 
+## HARDE-RHEL-135 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3434,21 +3433,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-136 : 
+## HARDE-RHEL-136 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3458,21 +3457,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-137 : 
+## HARDE-RHEL-137 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3482,21 +3481,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-138 : 
+## HARDE-RHEL-138 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3506,21 +3505,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-139 : 
+## HARDE-RHEL-139 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3530,21 +3529,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-140 : 
+## HARDE-RHEL-140 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3554,21 +3553,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-141 : 
+## HARDE-RHEL-141 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3578,21 +3577,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-142 : 
+## HARDE-RHEL-142 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3602,21 +3601,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-143 : 
+## HARDE-RHEL-143 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3626,21 +3625,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-144 : 
+## HARDE-RHEL-144 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3650,21 +3649,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-145 : 
+## HARDE-RHEL-145 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3674,21 +3673,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-146 : 
+## HARDE-RHEL-146 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3698,21 +3697,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-147 : 
+## HARDE-RHEL-147 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3722,21 +3721,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-148 : 
+## HARDE-RHEL-148 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3746,21 +3745,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-149 : 
+## HARDE-RHEL-149 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3770,21 +3769,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-150 : 
+## HARDE-RHEL-150 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3794,21 +3793,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-151 : 
+## HARDE-RHEL-151 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3818,21 +3817,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-152 : 
+## HARDE-RHEL-152 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3842,21 +3841,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-153 : 
+## HARDE-RHEL-153 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3866,21 +3865,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-154 : 
+## HARDE-RHEL-154 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3890,21 +3889,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-155 : 
+## HARDE-RHEL-155 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3914,21 +3913,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-156 : 
+## HARDE-RHEL-156 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3938,21 +3937,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-157 : 
+## HARDE-RHEL-157 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3962,21 +3961,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-158 : 
+## HARDE-RHEL-158 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -3986,21 +3985,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-159 : 
+## HARDE-RHEL-159 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4010,21 +4009,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-160 : 
+## HARDE-RHEL-160 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4034,21 +4033,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-161 : 
+## HARDE-RHEL-161 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4058,21 +4057,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-162 : 
+## HARDE-RHEL-162 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4082,21 +4081,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-163 : 
+## HARDE-RHEL-163 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4106,21 +4105,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-164 : 
+## HARDE-RHEL-164 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4130,21 +4129,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-165 : 
+## HARDE-RHEL-165 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4154,21 +4153,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-166 : 
+## HARDE-RHEL-166 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4178,21 +4177,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-167 : 
+## HARDE-RHEL-167 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4202,21 +4201,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-168 : 
+## HARDE-RHEL-168 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4226,21 +4225,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-169 : 
+## HARDE-RHEL-169 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4250,21 +4249,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-170 : 
+## HARDE-RHEL-170 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4274,21 +4273,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-171 : 
+## HARDE-RHEL-171 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4298,21 +4297,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-172 : 
+## HARDE-RHEL-172 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4322,21 +4321,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-173 : 
+## HARDE-RHEL-173 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4346,21 +4345,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-174 : 
+## HARDE-RHEL-174 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4370,21 +4369,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-175 : 
+## HARDE-RHEL-175 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4394,21 +4393,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-176 : 
+## HARDE-RHEL-176 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4418,21 +4417,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-177 : 
+## HARDE-RHEL-177 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4442,21 +4441,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-178 : 
+## HARDE-RHEL-178 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4466,21 +4465,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-179 : 
+## HARDE-RHEL-179 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4490,21 +4489,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-180 : 
+## HARDE-RHEL-180 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4514,21 +4513,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-181 : 
+## HARDE-RHEL-181 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4538,21 +4537,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-182 : 
+## HARDE-RHEL-182 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4562,21 +4561,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-183 : 
+## HARDE-RHEL-183 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4586,21 +4585,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-184 : 
+## HARDE-RHEL-184 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4610,21 +4609,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-185 : 
+## HARDE-RHEL-185 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4634,21 +4633,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-186 : 
+## HARDE-RHEL-186 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4658,21 +4657,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-187 : 
+## HARDE-RHEL-187 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4682,21 +4681,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-188 : 
+## HARDE-RHEL-188 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4706,21 +4705,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-189 : 
+## HARDE-RHEL-189 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4730,21 +4729,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-190 : 
+## HARDE-RHEL-190 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4754,21 +4753,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-191 : 
+## HARDE-RHEL-191 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4778,21 +4777,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-192 : 
+## HARDE-RHEL-192 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4802,21 +4801,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-193 : 
+## HARDE-RHEL-193 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4826,21 +4825,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-194 : 
+## HARDE-RHEL-194 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4850,21 +4849,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-195 : 
+## HARDE-RHEL-195 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4874,21 +4873,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-196 : 
+## HARDE-RHEL-196 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4898,21 +4897,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-197 : 
+## HARDE-RHEL-197 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4922,21 +4921,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-198 : 
+## HARDE-RHEL-198 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4946,21 +4945,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-199 : 
+## HARDE-RHEL-199 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4970,21 +4969,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-200 : 
+## HARDE-RHEL-200 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -4994,21 +4993,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-201 : 
+## HARDE-RHEL-201 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5018,21 +5017,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-202 : 
+## HARDE-RHEL-202 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5042,21 +5041,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-203 : 
+## HARDE-RHEL-203 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5066,21 +5065,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-204 : 
+## HARDE-RHEL-204 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5090,9 +5089,9 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-205 : Désactivation du chargement des modules noyau
+## HARDE-RHEL-205 : Désactivation du chargement des modules noyau
 
-#### Description
+### Description
 Le chargement des modules est interdit par un service lancé à la fin du processus de démarrage (via un booléen SELinux et la désactivation de certains modules). En particulier, le stockage USB, les CD-ROM et les systèmes de fichiers sont inaccessibles en appliquant cette règle.
 
 Un commande `/etc/maintenance_mode.sh` permet de basculer dans un mode où le chargement est autorisé par exemple, lors d'une mise à jour. Une fois lancée, le système doit être redémarré.
@@ -5100,14 +5099,14 @@ Un commande `/etc/maintenance_mode.sh` permet de basculer dans un mode où le ch
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI: R24
 
-##### Niveau de Durcissement: 3
+#### Niveau de Durcissement: 3
  
 #### Méthode à suivre
 
@@ -5117,21 +5116,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-206 : 
+## HARDE-RHEL-206 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5141,21 +5140,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-207 : 
+## HARDE-RHEL-207 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5165,21 +5164,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-208 : 
+## HARDE-RHEL-208 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5189,21 +5188,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-209 : 
+## HARDE-RHEL-209 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5213,21 +5212,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-210 : 
+## HARDE-RHEL-210 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5237,21 +5236,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-211 : 
+## HARDE-RHEL-211 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5261,21 +5260,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-212 : 
+## HARDE-RHEL-212 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5285,21 +5284,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-213 : 
+## HARDE-RHEL-213 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5309,21 +5308,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-214 : 
+## HARDE-RHEL-214 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5333,21 +5332,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-215 : 
+## HARDE-RHEL-215 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5357,21 +5356,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-216 : 
+## HARDE-RHEL-216 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5381,21 +5380,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-217 : 
+## HARDE-RHEL-217 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5405,21 +5404,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-218 : 
+## HARDE-RHEL-218 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5429,21 +5428,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-219 : 
+## HARDE-RHEL-219 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5453,21 +5452,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-220 : 
+## HARDE-RHEL-220 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5477,21 +5476,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-221 : 
+## HARDE-RHEL-221 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5501,21 +5500,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-222 : S'assurer que la taille de stockage est spécifiée
+## HARDE-RHEL-222 : S'assurer que la taille de stockage est spécifiée
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références: RHEL 8 4.1.2.1
 Contrôles: 06.4 Ensure adequate storage for logs
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement: 4
+#### Niveau de Durcissement: 4
 
 #### Méthode à suivre
 
@@ -5525,23 +5524,23 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-223 : S'assurer que les logs d'audit ne soient pas purgés
+## HARDE-RHEL-223 : S'assurer que les logs d'audit ne soient pas purgés
 
-#### Description
+### Description
 dans /etc/audit/auditd.conf, s'assurer que le paramètre max_log_file_action soit positionné à keep_logs
 
 Dans la pratique, il faut de manière régulière purger les journaux les plus anciens pour ne pas saturer la partition d'audit. Les paramètres d'auditd ne permettent pas de rotation basé sur les dates, un script lancé par cron est donc utilisé pour assurer une rotation basé sur l'âge. Ici, les journaux sont conservés un mois (variable NUM_LOGS du script positionnée à 30).
 
 ### Références
 
-##### CIS
+#### CIS
 Références: RHEL 8 4.1.2.2
 Contrôles: 06.4 Ensure adequate storage for logs
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement: 4
+#### Niveau de Durcissement: 4
 
 #### Méthode à suivre
 
@@ -5551,9 +5550,9 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-224 : S'assurer que le système s'arrête si le système d'audit est plein
+## HARDE-RHEL-224 : S'assurer que le système s'arrête si le système d'audit est plein
 
-#### Description
+### Description
 Dans /etc/audit/auditd.conf, s'assurer que le paramètre admin_space_left_action soit positionné à halt. 
 
 Cela suppose que l'espace disque soit supervisé, une partition d'audit remplie entrainant un arrêt du système.
@@ -5561,14 +5560,14 @@ Cela suppose que l'espace disque soit supervisé, une partition d'audit remplie 
 Dans la pratique, il faut de manière régulière purger les logs les plus anciens pour ne pas saturer la partition d'audit. Les paramètres d'auditd ne permettent pas de rotation basé sur les dates, il faut donc configurer logrotate (et que SELinux permette la rotation)
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5578,21 +5577,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-225 : 
+## HARDE-RHEL-225 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5602,21 +5601,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-226 : 
+## HARDE-RHEL-226 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5626,21 +5625,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-227 : 
+## HARDE-RHEL-227 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5650,21 +5649,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-228 : 
+## HARDE-RHEL-228 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5674,21 +5673,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-229 : 
+## HARDE-RHEL-229 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5698,21 +5697,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-230 : 
+## HARDE-RHEL-230 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5722,21 +5721,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-231 : 
+## HARDE-RHEL-231 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5746,21 +5745,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-232 : 
+## HARDE-RHEL-232 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5770,21 +5769,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-233 : 
+## HARDE-RHEL-233 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5794,21 +5793,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-234 : 
+## HARDE-RHEL-234 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5818,21 +5817,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-235 : 
+## HARDE-RHEL-235 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5842,21 +5841,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-236 : Renvoyer les journaux vers un hôte distant
+## HARDE-RHEL-236 : Renvoyer les journaux vers un hôte distant
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5866,21 +5865,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-237 : 
+## HARDE-RHEL-237 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5890,21 +5889,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-238 : 
+## HARDE-RHEL-238 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5914,21 +5913,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-239 : 
+## HARDE-RHEL-239 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5938,21 +5937,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-240 : 
+## HARDE-RHEL-240 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5962,26 +5961,26 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-241 : S'assurer de la permission des fichiers journaux
+## HARDE-RHEL-241 : S'assurer de la permission des fichiers journaux
 Il s'agit de s'assurer que les droits d'accès aux journaux (qui peuvent contenir des informations sensibles) soient limités au maximum.
 
 Cette règle peut causer des problèmes pour des services ne s'exécutant pas en root. Si cela est possible, il convient de modifier la configuration pour :
  - envoyer les logs de manière sécurisé à un serveur centralisé.
  - ou, sélectionner un répertoire différent en dehors de l'arborescence `/var/log`.   
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -5991,21 +5990,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-242 : 
+## HARDE-RHEL-242 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -6015,21 +6014,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-243 : 
+## HARDE-RHEL-243 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -6039,21 +6038,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-244 : 
+## HARDE-RHEL-244 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -6063,21 +6062,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-245 : 
+## HARDE-RHEL-245 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -6087,21 +6086,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-246 : 
+## HARDE-RHEL-246 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 
@@ -6111,21 +6110,21 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-### HARDE-RHEL-247 : 
+## HARDE-RHEL-247 : 
 
-#### Description
+### Description
 
 
 ### Références
 
-##### CIS
+#### CIS
 Références:
 Contrôles:
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement:
+#### Niveau de Durcissement:
 
 #### Méthode à suivre
 

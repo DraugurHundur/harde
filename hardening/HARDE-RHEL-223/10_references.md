@@ -1,10 +1,10 @@
 ### Références
 
-##### CIS
+#### CIS
 Références: RHEL 8 4.1.2.2
 Contrôles: 06.4 Ensure adequate storage for logs
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement: 4
+#### Niveau de Durcissement: 4

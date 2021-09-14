@@ -1,6 +1,6 @@
 ### Références
 
-##### CIS
+#### CIS
 Références:
 RHEL 8 1.1.7
 RHEL 8 1.1.8
@@ -14,7 +14,7 @@ Contrôles:
 02.6 Address unapproved software
 
 
-##### ANSSI
+#### ANSSI
 Référence ANSSI:
 
-##### Niveau de Durcissement: 4
+#### Niveau de Durcissement: 4

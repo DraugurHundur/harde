@@ -1,6 +1,6 @@
-### HARDE-RHEL-019 : Partitionnement type
+## HARDE-RHEL-019 : Partitionnement type
 
-#### Description
+### Description
 Les partitions permettent de segmenter l'espace de stockage et d'appliquer des directives de haut-niveau comme `noexec` pour empêcher l'exécution de logiciels.
 
 Les partitions /tmp et /var/tmp sont traitées de manière légérement différente car elles sont gérées via pam_namespace.
