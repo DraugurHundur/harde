@@ -1,6 +1,6 @@
-## HARDE-RHEL-017 : S'assurer de la configuration de /var
+### HARDE-RHEL-017 : S'assurer de la configuration de /var
 
-### Description
+#### Description
 `/var` doit être installé dans une partition séparée d'au moins 4GB avec les options nodev,noexec et nosuid.
 
 Beaucoup de logiciels nécessitent néanmoins des droits d'exécution dans des sous-répertoires (par exemple /var/lib/raas/unpack pour VMWare SaltStack Config). Dans ces cas-là, il est recommandé de créer une partition dédiée à cette application (ici avec lvm): 
