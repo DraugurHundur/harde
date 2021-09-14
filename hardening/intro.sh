@@ -6,14 +6,18 @@
 # source cdir.sh
 pushd . >/dev/null
 umask 027
-#WORKDIR="$(mktemp -d --tmpdir)"
-WORKDIR=$(mktemp -t .hardening-run.XXXXXXXXXX -p "$HOME" -d)
+# WORKDIR="$(mktemp -d --tmpdir)"
+# WORKDIR=$(mktemp -t .hardening-run.XXXXXXXXXX -p "$HOME" -d)
 # cd "$WORKDIR"
 SCRIPTNAME="$(basename "$0")"
 OUTFILE="/$HOME/$SCRIPTNAME-$$.txt"
 # Exit on error
 set -e
 exec > >(tee "${OUTFILE}") 2>&1
+
+function harde_error() {
+    echo "harde: ERROR: $*"
+}
 
 function copy_se_labels() {
     # copy SElinux labels from $1 to $2

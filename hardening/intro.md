@@ -72,6 +72,7 @@ https://access.redhat.com/errata/RHBA-2020:0334
 https://access.redhat.com/errata/RHBA-2020:1773
 
 Pour rappel, il est évidemment nécessaire d’installer au plus tôt les dernières mises à jour de sécurité.
+
 ##	Opérations Manuelles
 Editer le fichier /etc/fstab pour rajouter les options sur les points de montage suivant le tableau suivant :
 
@@ -125,6 +126,7 @@ none      			   		/dev/shm        	tmpfs 	nosuid,nodev,noexec,defaults				0 0
 ## 	Lancer le script de sécurisation
 Copier le script fourni en attachement dans le répertoire /root, puis le lancer dans une session root (ou dans une session sudo). Il est obligatoire d’avoir inséré un DVD d’installation dans le lecteur (ou à défaut d’avoir monté l’image ISO sur le répertoire /mnt/disc). Une fois lancé, le script pose quelques questions pour affiner le paramétrage.
 Une fois la sécurisation effectuée (et le système redémarré), il n’est plus possible de relancer le script : le montage des images ISO n’étant plus possible. Voir le chapitre 7.7 pour les procédures à appliquer pour utiliser des supports externes.
+
 ##	Documents à établir
 La directive HARDE-RHEL-51 demande à ce qu’une liste blanche des démons (services résidents) soit établie.
 La directive HARDE-RHEL-143 demande à ce qu’une liste blanche et une liste noire des utilisateurs soient établies.

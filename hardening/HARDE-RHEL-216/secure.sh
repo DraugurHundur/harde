@@ -19,13 +19,17 @@ cat >/etc/audit/rules.d/10etc.rules <<EOF
 EOF
 cat >/etc/audit/rules.d/20mount.rules<<EOF
 # Surveillance de montage/démontage
--a exit,always -S mount -S umount2 -k mounts
+-a exit,always -F arch=b32 -S mount -S umount2 -k mounts
+-a exit,always -F arch=b64 -S mount -S umount2 -k mounts
 EOF
 cat >/etc/audit/rules.d/30syscalls.rules <<EOF
 # Appels de syscalls x86 suspects
--a exit,always -S ioperm -S modify_ldt
+-a exit,always -F arch=b32 -S ioperm -S modify_ldt
+-a exit,always -F arch=b64 -S ioperm -S modify_ldt
 # Appels de syscalls qui doivent être rares et surveillés de près
--a exit,always -S get_kernel_syms -S ptrace
--a exit,always -S prctl
+-a exit,always -F arch=b32 -S get_kernel_syms -S ptrace
+-a exit,always -F arch=b64 -S get_kernel_syms -S ptrace
+-a exit,always -F arch=b32 -S prctl
+-a exit,always -F arch=b64 -S prctl
 EOF
 # Fin: HARDE-RHEL-216
