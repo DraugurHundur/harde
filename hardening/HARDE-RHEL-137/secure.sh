@@ -1,5 +1,5 @@
 echo "HARDE-RHEL-137 : S'assurer que la connexion est root est seulement possible sur la console system"
-for i in 1 2 3 4 5 6; do echo "tty$i" >> /etc/securetty; done
+for i in 1 2 3 4 5 6; do echo "tty$i" >>/etc/securetty; done
 # enable pam_securetty.so as well
 cat >/etc/pam.d/system-auth <<EOF
 #%PAM-1.0

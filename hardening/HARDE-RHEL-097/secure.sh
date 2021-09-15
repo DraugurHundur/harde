@@ -1,9 +1,10 @@
 echo "HARDE-RHEL-97 : Confinement des utilisateurs interactifs non privilégiés"
 # Find at least one user to add to sudogrp
 USER1000="$(grep 1000 /etc/passwd | awk -F: '{print $1}')"
-echo -n "Merci de préciser le nom d'un utilisateur à qui donner des droits administrateur [$USER1000] ? " ; read -e -i "$USER1000" -r ADMINUSER
+echo -n "Merci de préciser le nom d'un utilisateur à qui donner des droits administrateur [$USER1000] ? "
+read -e -i "$USER1000" -r ADMINUSER
 if [ -z "${ADMINUSER}" ]; then
-    ADMINUSER="${USER1000}"
+  ADMINUSER="${USER1000}"
 fi
 groupadd -r -f sudogrp
 echo "%sudogrp    ALL=(ALL)  TYPE=unconfined_t ROLE=unconfined_r    ALL" >/etc/sudoers.d/15group

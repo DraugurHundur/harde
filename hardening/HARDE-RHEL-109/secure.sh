@@ -1,6 +1,6 @@
 echo "HARDE-RHEL-109 : Afficher des bannières lors de la connexion"
 for i in /etc/motd /etc/issue /etc/issue.net; do
-cat >"$i" <<EOF
+  cat >"$i" <<EOF
 ***************************************************************************
 *L’utilisation d’un poste classifié n’est autorisée qu’aux personnes ayant* 
 *le niveau d’habilitation requis.                                         *

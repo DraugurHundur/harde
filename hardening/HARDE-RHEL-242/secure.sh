@@ -1,5 +1,5 @@
 echo "HARDE-RHEL-242 : S'assurer que logrotate est configuré"
-cat >/etc/logrotate.d/wtmp<<EOF
+cat >/etc/logrotate.d/wtmp <<EOF
 # no packages own wtmp -- we'll rotate it here
 /var/log/wtmp {
     missingok
@@ -9,7 +9,7 @@ cat >/etc/logrotate.d/wtmp<<EOF
     rotate 12
 }
 EOF
-cat >/etc/logrotate.d/lastlog<<EOF
+cat >/etc/logrotate.d/lastlog <<EOF
 # no packages own lastlog -- we'll rotate it here
 /var/log/lastlog {
     missingok
@@ -19,7 +19,7 @@ cat >/etc/logrotate.d/lastlog<<EOF
     rotate 12
 }
 EOF
-cat >/etc/logrotate.d/btmp<<EOF
+cat >/etc/logrotate.d/btmp <<EOF
 # no packages own btmp -- we'll rotate it here
 /var/log/btmp {
     missingok

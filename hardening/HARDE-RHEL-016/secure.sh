@@ -1,13 +1,13 @@
 echo "HARDE-RHEL-16 : Désactiver le stockage USB"
 declare -a modules
 modules=(
-    [0]="usb-storage"
+  [0]="usb-storage"
 )
 for i in "${modules[@]}"; do
-    cat >"/etc/modprobe.d/$i.conf" <<EOF
+  cat >"/etc/modprobe.d/$i.conf" <<EOF
 install $i /bin/true
 EOF
-    rmmod "$i" || true
+  rmmod "$i" || true
 done
-usbguard generate-policy > /etc/usbguard/rules.conf
+usbguard generate-policy >/etc/usbguard/rules.conf
 # Fin: HARDE-RHEL-16

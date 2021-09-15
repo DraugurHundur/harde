@@ -2,7 +2,7 @@
 echo "HARDE-RHEL-216 : Journalisation de l'activité par auditd"
 # Remove any pre-existing rules
 rm -f /etc/audit/rules.d/audit.rules || true
-cat >/etc/audit/rules.d/00audit.rules<<EOF
+cat >/etc/audit/rules.d/00audit.rules <<EOF
 ## First rule - delete all
 -D
 ## Increase the buffers to survive stress events.
@@ -17,7 +17,7 @@ cat >/etc/audit/rules.d/10etc.rules <<EOF
 # Journaliser les modifications dans /etc/
 -w /etc/ -p wa
 EOF
-cat >/etc/audit/rules.d/20mount.rules<<EOF
+cat >/etc/audit/rules.d/20mount.rules <<EOF
 # Surveillance de montage/démontage
 -a exit,always -F arch=b32 -S mount -S umount2 -k mounts
 -a exit,always -F arch=b64 -S mount -S umount2 -k mounts

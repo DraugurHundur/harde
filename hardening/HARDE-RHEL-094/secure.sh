@@ -24,7 +24,7 @@ chmod 000 /var/tmp/namespace
 copy_se_labels /var/tmp /var/tmp/namespace
 EOF
 chmod 0700 /etc/secure_namespace.sh
-cat >/etc/systemd/system/secure_namespace.service<<EOF
+cat >/etc/systemd/system/secure_namespace.service <<EOF
 [Unit]
 Description=Script to create the required directories for pam_namespace
 

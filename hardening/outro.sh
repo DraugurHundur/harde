@@ -1,11 +1,11 @@
 #!/bin/bash
 if [ ! "${YORN}" = "n" ]; then
-    umount /mnt/disc 
-    rmdir /mnt/disc
-    eject /dev/sr0
+  umount /mnt/disc
+  rmdir /mnt/disc
+  eject /dev/sr0
 fi
 
-# restart SSHd 
+# restart SSHd
 systemctl restart sshd
 # rebuild initramfs
 dracut -f -v
@@ -16,7 +16,7 @@ popd || true >/dev/null
 rm -rf "${WORKDIR}"
 
 echo "Fin de la sécurisation"
-echo 
+echo
 echo "Merci de redémarrer le poste pour que l'ensemble des modifications soient"
 echo " prises en compte."
 echo "Assurez-vous d'avoir modifié le fichier /etc/fstab selon le guide !"
