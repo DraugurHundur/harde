@@ -7,7 +7,7 @@ docs/harde-doc.mdpp:
 	bash docs/gen-mdpp.sh
 
 doc: docs/harde-doc.md
-	pandoc docs/harde-doc.md -f gfm -t html  --metadata title="HARDE : SÉCURISATION D'UN SYSTÈME RED HAT 8.x" -s -o docs/harde-doc.html
+	pandoc docs/harde-doc.md --shift-heading-level-by=1 -f gfm -t html5 --metadata title="HARDE : SÉCURISATION D'UN SYSTÈME RED HAT 8.x" --standalone -o docs/harde-doc.html
 
 index:  hardening/HARDE-RHEL-*/00_intro.md docs/harde-items.txt
 
