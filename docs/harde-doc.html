@@ -349,13 +349,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 7.5. <a href="#ajouterunservice">Ajouter un service</a><br />
 7.6. <a href="#seconnecterenroot">Se connecter en root</a><br />
 7.7. <a href="#monterunepartition">Monter une partition</a><br />
-7.8. <a href="#accéderàlapartition/boot">Accéder à la partition /boot</a><br />
-7.9. <a href="#diagnosticselinux">Diagnostic SELinux</a><br />
-7.10. <a href="#agrandirunepartition">Agrandir une partition</a><br />
-7.11. <a href="#modifierlemotdepassededémarrage">Modifier le mot de passe de démarrage</a><br />
-7.12. <a href="#modifierleserveursyslogdistant">Modifier le serveur SYSLOG distant</a><br />
-7.13. <a href="#modifierlasourcederéférencedetemps">Modifier la source de référence de temps</a><br />
-7.14. <a href="#joindreundomainewindows">Joindre un domaine Windows</a></p>
+7.8. <a href="#imagesisophysiquesouvirtuelles">Images ISO (physiques ou virtuelles)</a><br />
+7.9. <a href="#clésusb">Clés USB</a><br />
+7.10. <a href="#accéderàlapartition/boot">Accéder à la partition /boot</a><br />
+7.11. <a href="#diagnosticselinux">Diagnostic SELinux</a><br />
+7.12. <a href="#agrandirunepartition">Agrandir une partition</a><br />
+7.13. <a href="#modifierlemotdepassededémarrage">Modifier le mot de passe de démarrage</a><br />
+7.14. <a href="#modifierleserveursyslogdistant">Modifier le serveur SYSLOG distant</a><br />
+7.15. <a href="#modifierlasourcederéférencedetemps">Modifier la source de référence de temps</a><br />
+7.16. <a href="#joindreundomainewindows">Joindre un domaine Windows</a></p>
 <p><a name="sécurisation"></a></p>
 <h1 id="1-sécurisation">1. Sécurisation</h1>
 <p><a name="installation"></a></p>
@@ -594,10 +596,19 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <a class="sourceLine" id="cb2-2" title="2"><span class="co"># If we&#39;re online update</span></a>
 <a class="sourceLine" id="cb2-3" title="3"><span class="ex">dnf</span> update</a>
 <a class="sourceLine" id="cb2-4" title="4"><span class="co"># packages that we depends on</span></a>
-<a class="sourceLine" id="cb2-5" title="5"><span class="ex">dnf</span> install --assumeyes net-tools tar policycoreutils-python-utils setools-console chrony rsyslog bzip2 firewalld audit usbguard rng-tools openscap-scanner libcap-ng-utils aide rsyslog rsyslog-gnutls audispd-plugins tmux dnf-automatic sssd-ipa sudo policycoreutils python3-subscription-manager-rhsm fapolicyd aide scap-security-guide sssd realmd oddjob oddjob-mkhomedir adcli samba-common samba-common-tools krb5-workstation openldap-clients python3-policycoreutils</a>
-<a class="sourceLine" id="cb2-6" title="6"><span class="ex">dnf</span> remove --assumeyes abrt-addon-ccpp abrt-plugin-sosreport iprutils nfs-utils abrt-addon-python tuned abrt-addon-kerneloops gssproxy abrt-plugin-logger abrt-cli abrt-plugin-rhtsupport sendmail abrt setroubleshoot setroubleshoot-server mcstrans xinetd xorg-x11*.* ypbind telnet</a>
-<a class="sourceLine" id="cb2-7" title="7"><span class="co"># Fin: HARDE-RHEL-1</span></a>
-<a class="sourceLine" id="cb2-8" title="8"></a></code></pre></div>
+<a class="sourceLine" id="cb2-5" title="5"><span class="ex">dnf</span> install --assumeyes net-tools tar policycoreutils-python-utils \</a>
+<a class="sourceLine" id="cb2-6" title="6">  setools-console chrony rsyslog bzip2 firewalld audit usbguard rng-tools \</a>
+<a class="sourceLine" id="cb2-7" title="7">  openscap-scanner libcap-ng-utils aide rsyslog rsyslog-gnutls \</a>
+<a class="sourceLine" id="cb2-8" title="8">  audispd-plugins tmux dnf-automatic sssd-ipa sudo policycoreutils \</a>
+<a class="sourceLine" id="cb2-9" title="9">  python3-subscription-manager-rhsm fapolicyd aide scap-security-guide sssd \</a>
+<a class="sourceLine" id="cb2-10" title="10">  realmd oddjob oddjob-mkhomedir adcli samba-common samba-common-tools \</a>
+<a class="sourceLine" id="cb2-11" title="11">  krb5-workstation openldap-clients python3-policycoreutils</a>
+<a class="sourceLine" id="cb2-12" title="12"><span class="ex">dnf</span> remove --assumeyes abrt-addon-ccpp abrt-plugin-sosreport iprutils nfs-utils \</a>
+<a class="sourceLine" id="cb2-13" title="13">  abrt-addon-python tuned abrt-addon-kerneloops gssproxy abrt-plugin-logger \</a>
+<a class="sourceLine" id="cb2-14" title="14">  abrt-cli abrt-plugin-rhtsupport sendmail abrt setroubleshoot \</a>
+<a class="sourceLine" id="cb2-15" title="15">  setroubleshoot-server mcstrans xinetd xorg-x11*.* ypbind telnet</a>
+<a class="sourceLine" id="cb2-16" title="16"><span class="co"># Fin: HARDE-RHEL-1</span></a>
+<a class="sourceLine" id="cb2-17" title="17"></a></code></pre></div>
 <h4 id="méthode-daudit">Méthode d'audit</h4>
 <div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" title="1"><span class="fu">ps</span> aux</a>
 <a class="sourceLine" id="cb3-2" title="2"><span class="fu">netstat</span> -tulpen</a>
@@ -759,12 +770,13 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-011:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb13-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-11 : Désactiver les sytèmes de fichiers inutilisés&quot;</span></a>
 <a class="sourceLine" id="cb13-2" title="2"><span class="kw">for</span> <span class="ex">i</span> in cramfs freevxfs jffs2 hfs hfsplus squashfs crc-itu-t udf fat vfat<span class="kw">;</span> <span class="kw">do</span></a>
-<a class="sourceLine" id="cb13-3" title="3"><span class="fu">cat</span> <span class="op">&gt;</span><span class="st">&quot;/etc/modprobe.d/</span><span class="va">$i</span><span class="st">&quot;</span>.conf <span class="op">&lt;&lt;EOF</span></a>
+<a class="sourceLine" id="cb13-3" title="3">  <span class="fu">cat</span> <span class="op">&gt;</span><span class="st">&quot;/etc/modprobe.d/</span><span class="va">$i</span><span class="st">&quot;</span>.conf <span class="op">&lt;&lt;EOF</span></a>
 <a class="sourceLine" id="cb13-4" title="4">install <span class="va">$i</span> /bin/true</a>
 <a class="sourceLine" id="cb13-5" title="5"><span class="op">EOF</span></a>
-<a class="sourceLine" id="cb13-6" title="6"><span class="ex">rmmod</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span> <span class="kw">||</span> <span class="fu">true</span> <span class="kw">;</span> <span class="kw">done</span></a>
-<a class="sourceLine" id="cb13-7" title="7"><span class="co"># Fin: HARDE-RHEL-11</span></a>
-<a class="sourceLine" id="cb13-8" title="8"></a></code></pre></div>
+<a class="sourceLine" id="cb13-6" title="6">  <span class="ex">rmmod</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span> <span class="kw">||</span> <span class="fu">true</span></a>
+<a class="sourceLine" id="cb13-7" title="7"><span class="kw">done</span></a>
+<a class="sourceLine" id="cb13-8" title="8"><span class="co"># Fin: HARDE-RHEL-11</span></a>
+<a class="sourceLine" id="cb13-9" title="9"></a></code></pre></div>
 <h3 id="méthode-daudit-10">Méthode d'audit</h3>
 <p><a name="harde-rhel-012:"></a></p>
 <h2 id="612-harde-rhel-012-">6.12. HARDE-RHEL-012 :</h2>
@@ -779,7 +791,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-012:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb14-1" title="1"><span class="co">#! /bin/bash</span></a>
 <a class="sourceLine" id="cb14-2" title="2"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-12 : Partition séparée pour /home&quot;</span></a>
-<a class="sourceLine" id="cb14-3" title="3"><span class="fu">mount</span> <span class="kw">|</span><span class="fu">grep</span> -q -E <span class="st">&#39;/home\s&#39;</span> <span class="kw">||</span> <span class="ex">harde_error</span> <span class="st">&quot;/home n&#39;est pas une partition séparée !&quot;</span></a>
+<a class="sourceLine" id="cb14-3" title="3"><span class="fu">mount</span> <span class="kw">|</span> <span class="fu">grep</span> -q -E <span class="st">&#39;/home\s&#39;</span> <span class="kw">||</span> <span class="ex">harde_error</span> <span class="st">&quot;/home n&#39;est pas une partition séparée !&quot;</span></a>
 <a class="sourceLine" id="cb14-4" title="4"><span class="co"># Fin: HARDE-RHEL-12</span></a>
 <a class="sourceLine" id="cb14-5" title="5"></a></code></pre></div>
 <h3 id="méthode-daudit-11">Méthode d'audit</h3>
@@ -827,7 +839,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-14">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-015:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb17-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-15 : S&#39;assurer de la configuration de /tmp&quot;</span></a>
-<a class="sourceLine" id="cb17-2" title="2"><span class="fu">mount</span> <span class="kw">|</span><span class="fu">grep</span> -q -E <span class="st">&#39;/tmp\s&#39;</span> <span class="kw">||</span> <span class="ex">harde_error</span> <span class="st">&quot;/tmp n&#39;est pas une partition séparée !&quot;</span></a>
+<a class="sourceLine" id="cb17-2" title="2"><span class="fu">mount</span> <span class="kw">|</span> <span class="fu">grep</span> -q -E <span class="st">&#39;/tmp\s&#39;</span> <span class="kw">||</span> <span class="ex">harde_error</span> <span class="st">&quot;/tmp n&#39;est pas une partition séparée !&quot;</span></a>
 <a class="sourceLine" id="cb17-3" title="3"><span class="co"># Fin: HARDE-RHEL-15</span></a>
 <a class="sourceLine" id="cb17-4" title="4"></a></code></pre></div>
 <h3 id="méthode-daudit-14">Méthode d'audit</h3>
@@ -847,15 +859,15 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <div class="sourceCode" id="cb18"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb18-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-16 : Désactiver le stockage USB&quot;</span></a>
 <a class="sourceLine" id="cb18-2" title="2"><span class="bu">declare</span> -a <span class="va">modules</span></a>
 <a class="sourceLine" id="cb18-3" title="3"><span class="va">modules=(</span></a>
-<a class="sourceLine" id="cb18-4" title="4">    [<span class="ex">0</span>]=<span class="st">&quot;usb-storage&quot;</span></a>
+<a class="sourceLine" id="cb18-4" title="4">  [<span class="ex">0</span>]=<span class="st">&quot;usb-storage&quot;</span></a>
 <a class="sourceLine" id="cb18-5" title="5">)</a>
 <a class="sourceLine" id="cb18-6" title="6"><span class="kw">for</span> <span class="ex">i</span> in <span class="st">&quot;</span><span class="va">${modules[@]}</span><span class="st">&quot;</span><span class="kw">;</span> <span class="kw">do</span></a>
-<a class="sourceLine" id="cb18-7" title="7">    <span class="fu">cat</span> <span class="op">&gt;</span><span class="st">&quot;/etc/modprobe.d/</span><span class="va">$i</span><span class="st">.conf&quot;</span> <span class="op">&lt;&lt;EOF</span></a>
+<a class="sourceLine" id="cb18-7" title="7">  <span class="fu">cat</span> <span class="op">&gt;</span><span class="st">&quot;/etc/modprobe.d/</span><span class="va">$i</span><span class="st">.conf&quot;</span> <span class="op">&lt;&lt;EOF</span></a>
 <a class="sourceLine" id="cb18-8" title="8">install <span class="va">$i</span> /bin/true</a>
 <a class="sourceLine" id="cb18-9" title="9"><span class="op">EOF</span></a>
-<a class="sourceLine" id="cb18-10" title="10">    <span class="ex">rmmod</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span> <span class="kw">||</span> <span class="fu">true</span></a>
+<a class="sourceLine" id="cb18-10" title="10">  <span class="ex">rmmod</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span> <span class="kw">||</span> <span class="fu">true</span></a>
 <a class="sourceLine" id="cb18-11" title="11"><span class="kw">done</span></a>
-<a class="sourceLine" id="cb18-12" title="12"><span class="ex">usbguard</span> generate-policy <span class="op">&gt;</span> /etc/usbguard/rules.conf</a>
+<a class="sourceLine" id="cb18-12" title="12"><span class="ex">usbguard</span> generate-policy <span class="op">&gt;</span>/etc/usbguard/rules.conf</a>
 <a class="sourceLine" id="cb18-13" title="13"><span class="co"># Fin: HARDE-RHEL-16</span></a>
 <a class="sourceLine" id="cb18-14" title="14"></a></code></pre></div>
 <h3 id="méthode-daudit-15">Méthode d'audit</h3>
@@ -926,7 +938,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb22-1" title="1"><span class="co">#! /usr/bin/env bash</span></a>
 <a class="sourceLine" id="cb22-2" title="2"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-19 : Partitionnement type&quot;</span></a>
 <a class="sourceLine" id="cb22-3" title="3"><span class="bu">echo</span> <span class="st">&quot;Les options sur les partitions doivent être positionnées manuellement en suivant le guide&quot;</span></a>
-<a class="sourceLine" id="cb22-4" title="4"><span class="fu">mkdir</span> -p /etc/systemd/system/systemd-logind.service.d </a>
+<a class="sourceLine" id="cb22-4" title="4"><span class="fu">mkdir</span> -p /etc/systemd/system/systemd-logind.service.d</a>
 <a class="sourceLine" id="cb22-5" title="5"><span class="co"># makes systemd-logind work with hidepid</span></a>
 <a class="sourceLine" id="cb22-6" title="6"><span class="fu">cat</span> <span class="op">&gt;</span>/etc/systemd/system/systemd-logind.service.d/hidepid.conf <span class="op">&lt;&lt;EOF</span></a>
 <a class="sourceLine" id="cb22-7" title="7">[Service]</a>
@@ -1043,9 +1055,10 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-25">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-026:</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb29-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-26 : S&#39;assurer que les politiques de chiffrement historiques soit désactivées&quot;</span></a>
-<a class="sourceLine" id="cb29-2" title="2"><span class="ex">update-crypto-policies</span> --set DEFAULT <span class="kw">;</span> <span class="ex">update-crypto-policies</span></a>
-<a class="sourceLine" id="cb29-3" title="3"><span class="co"># Fin: HARDE-RHEL-26</span></a>
-<a class="sourceLine" id="cb29-4" title="4"></a></code></pre></div>
+<a class="sourceLine" id="cb29-2" title="2"><span class="ex">update-crypto-policies</span> --set DEFAULT</a>
+<a class="sourceLine" id="cb29-3" title="3"><span class="ex">update-crypto-policies</span></a>
+<a class="sourceLine" id="cb29-4" title="4"><span class="co"># Fin: HARDE-RHEL-26</span></a>
+<a class="sourceLine" id="cb29-5" title="5"></a></code></pre></div>
 <h3 id="méthode-daudit-25">Méthode d'audit</h3>
 <p><a name="harde-rhel-027:"></a></p>
 <h2 id="627-harde-rhel-027-">6.27. HARDE-RHEL-027 :</h2>
@@ -1059,9 +1072,10 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-26">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-027:</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb30-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-27 : S&#39;assurer que le mode FIPS ou FUTURE est activé pour le chiffrement&quot;</span></a>
-<a class="sourceLine" id="cb30-2" title="2"><span class="ex">update-crypto-policies</span> --set FIPS<span class="kw">;</span> <span class="ex">update-crypto-policies</span></a>
-<a class="sourceLine" id="cb30-3" title="3"><span class="co"># Fin: HARDE-RHEL-27</span></a>
-<a class="sourceLine" id="cb30-4" title="4"></a></code></pre></div>
+<a class="sourceLine" id="cb30-2" title="2"><span class="ex">update-crypto-policies</span> --set FIPS</a>
+<a class="sourceLine" id="cb30-3" title="3"><span class="ex">update-crypto-policies</span></a>
+<a class="sourceLine" id="cb30-4" title="4"><span class="co"># Fin: HARDE-RHEL-27</span></a>
+<a class="sourceLine" id="cb30-5" title="5"></a></code></pre></div>
 <h3 id="méthode-daudit-26">Méthode d'audit</h3>
 <p><a name="harde-rhel-028:"></a></p>
 <h2 id="628-harde-rhel-028-">6.28. HARDE-RHEL-028 :</h2>
@@ -1257,13 +1271,16 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <a class="sourceLine" id="cb40-4" title="4">net.ipv6.conf.all.disable_ipv6 = 1</a>
 <a class="sourceLine" id="cb40-5" title="5">net.ipv6.conf.default.disable_ipv6 = 1</a>
 <a class="sourceLine" id="cb40-6" title="6"><span class="op">EOF</span></a>
-<a class="sourceLine" id="cb40-7" title="7"><span class="co"># Samba and others may require the stack to be available, even with no interfaces </span></a>
+<a class="sourceLine" id="cb40-7" title="7"><span class="co"># Samba and others may require the stack to be available, even with no interfaces</span></a>
 <a class="sourceLine" id="cb40-8" title="8"><span class="co"># so the follwoing will have to be disabled</span></a>
-<a class="sourceLine" id="cb40-9" title="9"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;ipv6.disable=&#39;</span> /etc/default/grub <span class="kw">;</span> <span class="kw">then</span> <span class="fu">sed</span> -e <span class="st">&#39;s/\(GRUB_CMDLINE_LINUX=&quot;[^&quot;]*\)&quot;/\1 ipv6.disable=1&quot;/&#39;</span> -i /etc/default/grub <span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;Parameter ipv6.disable added.&quot;</span><span class="kw">;</span> <span class="kw">fi</span></a>
-<a class="sourceLine" id="cb40-10" title="10"><span class="ex">grub2-mkconfig</span> –o /boot/grub2/grub.cfg  <span class="op">&gt;</span>/dev/null</a>
-<a class="sourceLine" id="cb40-11" title="11"><span class="ex">grub2-mkconfig</span> –o /boot/efi/EFI/grub.cfg  <span class="op">&gt;</span>/dev/null</a>
-<a class="sourceLine" id="cb40-12" title="12"><span class="co"># Fin: HARDE-RHEL-37</span></a>
-<a class="sourceLine" id="cb40-13" title="13"></a></code></pre></div>
+<a class="sourceLine" id="cb40-9" title="9"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;ipv6.disable=&#39;</span> /etc/default/grub<span class="kw">;</span> <span class="kw">then</span></a>
+<a class="sourceLine" id="cb40-10" title="10">  <span class="fu">sed</span> -e <span class="st">&#39;s/\(GRUB_CMDLINE_LINUX=&quot;[^&quot;]*\)&quot;/\1 ipv6.disable=1&quot;/&#39;</span> -i /etc/default/grub</a>
+<a class="sourceLine" id="cb40-11" title="11">  <span class="bu">echo</span> <span class="st">&quot;Parameter ipv6.disable added.&quot;</span></a>
+<a class="sourceLine" id="cb40-12" title="12"><span class="kw">fi</span></a>
+<a class="sourceLine" id="cb40-13" title="13"><span class="ex">grub2-mkconfig</span> –o /boot/grub2/grub.cfg <span class="op">&gt;</span>/dev/null</a>
+<a class="sourceLine" id="cb40-14" title="14"><span class="ex">grub2-mkconfig</span> –o /boot/efi/EFI/grub.cfg <span class="op">&gt;</span>/dev/null</a>
+<a class="sourceLine" id="cb40-15" title="15"><span class="co"># Fin: HARDE-RHEL-37</span></a>
+<a class="sourceLine" id="cb40-16" title="16"></a></code></pre></div>
 <h3 id="méthode-daudit-36">Méthode d'audit</h3>
 <p><a name="harde-rhel-038:"></a></p>
 <h2 id="638-harde-rhel-038-">6.38. HARDE-RHEL-038 :</h2>
@@ -1337,7 +1354,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-041:</p>
 <div class="sourceCode" id="cb44"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb44-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-41 : Verrouiller par mot de passe la configuration de demarrage&quot;</span></a>
 <a class="sourceLine" id="cb44-2" title="2"><span class="kw">while</span> ! <span class="ex">grub2-setpassword</span> -o /boot/grub2<span class="kw">;</span> <span class="kw">do</span></a>
-<a class="sourceLine" id="cb44-3" title="3">    <span class="bu">echo</span> <span class="st">&quot;Mot de passe non enregistré. Veuillez réessayer ...&quot;</span></a>
+<a class="sourceLine" id="cb44-3" title="3">  <span class="bu">echo</span> <span class="st">&quot;Mot de passe non enregistré. Veuillez réessayer ...&quot;</span></a>
 <a class="sourceLine" id="cb44-4" title="4"><span class="kw">done</span></a>
 <a class="sourceLine" id="cb44-5" title="5"><span class="fu">cp</span> /boot/grub2/user.cfg /boot/efi/EFI/redhat/</a>
 <a class="sourceLine" id="cb44-6" title="6"><span class="co"># Fin: HARDE-RHEL-41</span></a>
@@ -1371,11 +1388,14 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-42">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-043:</p>
 <div class="sourceCode" id="cb46"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb46-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-43 : Directive de configuration de l&#39;IOMMU&quot;</span></a>
-<a class="sourceLine" id="cb46-2" title="2"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;iommu=&#39;</span> /etc/default/grub <span class="kw">;</span> <span class="kw">then</span> <span class="fu">sed</span> -e <span class="st">&#39;s/\(GRUB_CMDLINE_LINUX=&quot;[^&quot;]*\)&quot;/\1 iommu=force&quot;/&#39;</span> -i /etc/default/grub <span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;Parameter iommu added.&quot;</span><span class="kw">;</span> <span class="kw">fi</span></a>
-<a class="sourceLine" id="cb46-3" title="3"><span class="ex">grub2-mkconfig</span> -o /boot/grub2/grub.cfg  <span class="op">&gt;</span>/dev/null</a>
-<a class="sourceLine" id="cb46-4" title="4"><span class="ex">grub2-mkconfig</span> –o /boot/efi/EFI/grub.cfg  <span class="op">&gt;</span>/dev/null</a>
-<a class="sourceLine" id="cb46-5" title="5"><span class="co"># Fin: HARDE-RHEL-43</span></a>
-<a class="sourceLine" id="cb46-6" title="6"></a></code></pre></div>
+<a class="sourceLine" id="cb46-2" title="2"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;iommu=&#39;</span> /etc/default/grub<span class="kw">;</span> <span class="kw">then</span></a>
+<a class="sourceLine" id="cb46-3" title="3">  <span class="fu">sed</span> -e <span class="st">&#39;s/\(GRUB_CMDLINE_LINUX=&quot;[^&quot;]*\)&quot;/\1 iommu=force&quot;/&#39;</span> -i /etc/default/grub</a>
+<a class="sourceLine" id="cb46-4" title="4">  <span class="bu">echo</span> <span class="st">&quot;Parameter iommu added.&quot;</span></a>
+<a class="sourceLine" id="cb46-5" title="5"><span class="kw">fi</span></a>
+<a class="sourceLine" id="cb46-6" title="6"><span class="ex">grub2-mkconfig</span> -o /boot/grub2/grub.cfg <span class="op">&gt;</span>/dev/null</a>
+<a class="sourceLine" id="cb46-7" title="7"><span class="ex">grub2-mkconfig</span> –o /boot/efi/EFI/grub.cfg <span class="op">&gt;</span>/dev/null</a>
+<a class="sourceLine" id="cb46-8" title="8"><span class="co"># Fin: HARDE-RHEL-43</span></a>
+<a class="sourceLine" id="cb46-9" title="9"></a></code></pre></div>
 <h3 id="méthode-daudit-42">Méthode d'audit</h3>
 <p><a name="harde-rhel-044:"></a></p>
 <h2 id="644-harde-rhel-044-">6.44. HARDE-RHEL-044 :</h2>
@@ -1855,12 +1875,13 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-073:</p>
 <div class="sourceCode" id="cb76"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb76-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-73 : Désactiver les protocoles DDCP, SCTP, RDS et TIPC&quot;</span></a>
 <a class="sourceLine" id="cb76-2" title="2"><span class="kw">for</span> <span class="ex">i</span> in dccp sctp rds tipc<span class="kw">;</span> <span class="kw">do</span></a>
-<a class="sourceLine" id="cb76-3" title="3"><span class="fu">cat</span> <span class="op">&gt;</span><span class="st">&quot;/etc/modprobe.d/</span><span class="va">$i</span><span class="st">.conf&quot;</span> <span class="op">&lt;&lt;EOF</span></a>
+<a class="sourceLine" id="cb76-3" title="3">  <span class="fu">cat</span> <span class="op">&gt;</span><span class="st">&quot;/etc/modprobe.d/</span><span class="va">$i</span><span class="st">.conf&quot;</span> <span class="op">&lt;&lt;EOF</span></a>
 <a class="sourceLine" id="cb76-4" title="4">install <span class="va">$i</span> /bin/true</a>
 <a class="sourceLine" id="cb76-5" title="5"><span class="op">EOF</span></a>
-<a class="sourceLine" id="cb76-6" title="6"><span class="ex">rmmod</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span> <span class="kw">||</span> <span class="fu">true</span> <span class="kw">;</span> <span class="kw">done</span></a>
-<a class="sourceLine" id="cb76-7" title="7"><span class="co"># Fin: HARDE-RHEL-73</span></a>
-<a class="sourceLine" id="cb76-8" title="8"></a></code></pre></div>
+<a class="sourceLine" id="cb76-6" title="6">  <span class="ex">rmmod</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span> <span class="kw">||</span> <span class="fu">true</span></a>
+<a class="sourceLine" id="cb76-7" title="7"><span class="kw">done</span></a>
+<a class="sourceLine" id="cb76-8" title="8"><span class="co"># Fin: HARDE-RHEL-73</span></a>
+<a class="sourceLine" id="cb76-9" title="9"></a></code></pre></div>
 <h3 id="méthode-daudit-72">Méthode d'audit</h3>
 <p><a name="harde-rhel-074:"></a></p>
 <h2 id="674-harde-rhel-074-">6.74. HARDE-RHEL-074 :</h2>
@@ -2002,7 +2023,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-81">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-082:</p>
 <div class="sourceCode" id="cb85"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb85-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-82 : S&#39;assurer que les interfaces soient assignées à une zone&quot;</span></a>
-<a class="sourceLine" id="cb85-2" title="2"><span class="va">ITF=</span><span class="st">&quot;</span><span class="va">$(</span><span class="ex">nmcli</span> --terse connection show <span class="kw">|</span><span class="fu">awk</span> -F: <span class="st">&#39;{print $1}&#39;</span><span class="va">)</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb85-2" title="2"><span class="va">ITF=</span><span class="st">&quot;</span><span class="va">$(</span><span class="ex">nmcli</span> --terse connection show <span class="kw">|</span> <span class="fu">awk</span> -F: <span class="st">&#39;{print $1}&#39;</span><span class="va">)</span><span class="st">&quot;</span></a>
 <a class="sourceLine" id="cb85-3" title="3"><span class="ex">firewall-cmd</span> --zone=public --change-interface=<span class="st">&quot;</span><span class="va">${ITF}</span><span class="st">&quot;</span></a>
 <a class="sourceLine" id="cb85-4" title="4"><span class="co"># Fin: HARDE-RHEL-82</span></a>
 <a class="sourceLine" id="cb85-5" title="5"></a></code></pre></div>
@@ -2084,7 +2105,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-86">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-087:</p>
 <div class="sourceCode" id="cb90"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb90-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-87 : Activation de SELinux avec la politique targeted&quot;</span></a>
-<a class="sourceLine" id="cb90-2" title="2"><span class="ex">selinuxenabled</span> <span class="kw">||</span> <span class="ex">setenforce</span> 1 </a>
+<a class="sourceLine" id="cb90-2" title="2"><span class="ex">selinuxenabled</span> <span class="kw">||</span> <span class="ex">setenforce</span> 1</a>
 <a class="sourceLine" id="cb90-3" title="3"><span class="ex">fixfiles</span> onboot</a>
 <a class="sourceLine" id="cb90-4" title="4"><span class="co"># Fin: HARDE-RHEL-87</span></a>
 <a class="sourceLine" id="cb90-5" title="5"></a></code></pre></div>
@@ -2119,8 +2140,8 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <div class="sourceCode" id="cb92"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb92-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-89 : S&#39;assurer que at/cron est restreint aux utilisateurs autorisés&quot;</span></a>
 <a class="sourceLine" id="cb92-2" title="2"><span class="fu">rm</span> -f /etc/cron.deny</a>
 <a class="sourceLine" id="cb92-3" title="3"><span class="fu">rm</span> -f /etc/at.deny</a>
-<a class="sourceLine" id="cb92-4" title="4"><span class="fu">true</span> <span class="op">&gt;</span> /etc/cron.allow</a>
-<a class="sourceLine" id="cb92-5" title="5"><span class="fu">true</span> <span class="op">&gt;</span> /etc/at.allow</a>
+<a class="sourceLine" id="cb92-4" title="4"><span class="fu">true</span> <span class="op">&gt;</span>/etc/cron.allow</a>
+<a class="sourceLine" id="cb92-5" title="5"><span class="fu">true</span> <span class="op">&gt;</span>/etc/at.allow</a>
 <a class="sourceLine" id="cb92-6" title="6"><span class="fu">chmod</span> og-rwx /etc/cron.allow</a>
 <a class="sourceLine" id="cb92-7" title="7"><span class="fu">chmod</span> og-rwx /etc/at.allow</a>
 <a class="sourceLine" id="cb92-8" title="8"><span class="fu">chown</span> root:root /etc/cron.allow</a>
@@ -2140,8 +2161,8 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-89">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-090:</p>
 <div class="sourceCode" id="cb93"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb93-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-90 : S&#39;assurer que l&#39;accès SSH soit limité&quot;</span></a>
-<a class="sourceLine" id="cb93-2" title="2"><span class="kw">if</span>  ! <span class="fu">grep</span> -q -E <span class="st">&#39;^AllowGroups sudogrp&#39;</span> /etc/ssh/sshd_config <span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;AllowGroups sudogrp&quot;</span> <span class="op">&gt;&gt;</span> /etc/ssh/ssd_config <span class="kw">;fi</span> </a>
-<a class="sourceLine" id="cb93-3" title="3"><span class="kw">if</span>  ! <span class="fu">grep</span> -q -E <span class="st">&#39;^DenyUsers root&#39;</span> /etc/ssh/sshd_config <span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;DenyUsers root&quot;</span> <span class="op">&gt;&gt;</span> /etc/ssh/ssd_config<span class="kw">;</span> <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb93-2" title="2"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;^AllowGroups sudogrp&#39;</span> /etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;AllowGroups sudogrp&quot;</span> <span class="op">&gt;&gt;</span>/etc/ssh/ssd_config<span class="kw">;</span> <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb93-3" title="3"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;^DenyUsers root&#39;</span> /etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;DenyUsers root&quot;</span> <span class="op">&gt;&gt;</span>/etc/ssh/ssd_config<span class="kw">;</span> <span class="kw">fi</span></a>
 <a class="sourceLine" id="cb93-4" title="4"><span class="co"># Fin: HARDE-RHEL-90</span></a>
 <a class="sourceLine" id="cb93-5" title="5"></a></code></pre></div>
 <h3 id="méthode-daudit-89">Méthode d'audit</h3>
@@ -2230,7 +2251,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <a class="sourceLine" id="cb97-24" title="24">copy_se_labels /var/tmp /var/tmp/namespace</a>
 <a class="sourceLine" id="cb97-25" title="25"><span class="op">EOF</span></a>
 <a class="sourceLine" id="cb97-26" title="26"><span class="fu">chmod</span> 0700 /etc/secure_namespace.sh</a>
-<a class="sourceLine" id="cb97-27" title="27"><span class="fu">cat</span> <span class="op">&gt;</span>/etc/systemd/system/secure_namespace.service<span class="op">&lt;&lt;EOF</span></a>
+<a class="sourceLine" id="cb97-27" title="27"><span class="fu">cat</span> <span class="op">&gt;</span>/etc/systemd/system/secure_namespace.service <span class="op">&lt;&lt;EOF</span></a>
 <a class="sourceLine" id="cb97-28" title="28">[Unit]</a>
 <a class="sourceLine" id="cb97-29" title="29">Description=Script to create the required directories for pam_namespace</a>
 <a class="sourceLine" id="cb97-30" title="30"></a>
@@ -2282,15 +2303,16 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <a class="sourceLine" id="cb99-3" title="3"><span class="ex">setsebool</span> -P allow_execstack=off</a>
 <a class="sourceLine" id="cb99-4" title="4"><span class="co"># paramètrage appliqué dynamiquement à la fin du processus de boot : setsebool -P secure_mode_insmod=on</span></a>
 <a class="sourceLine" id="cb99-5" title="5"><span class="co"># A passer à on si des administrateurs doivent se connecter à distance</span></a>
-<a class="sourceLine" id="cb99-6" title="6"><span class="bu">echo</span> -n <span class="st">&quot;Autoriser les administrateurs à se connecter par SSH ? &quot;</span><span class="kw">;</span> <span class="bu">read</span> -e -i <span class="st">&quot;O&quot;</span> -r <span class="va">ADMINSSH</span></a>
-<a class="sourceLine" id="cb99-7" title="7"><span class="kw">if</span><span class="bu"> [</span> <span class="ot">-z</span> <span class="st">&quot;</span><span class="va">${ADMINSSH}</span><span class="st">&quot;</span><span class="bu"> ]</span>; <span class="kw">then</span></a>
-<a class="sourceLine" id="cb99-8" title="8">    <span class="ex">setsebool</span> -P ssh_sysadm_login=off</a>
-<a class="sourceLine" id="cb99-9" title="9"><span class="kw">else</span></a>
-<a class="sourceLine" id="cb99-10" title="10">    <span class="ex">setsebool</span> -P ssh_sysadm_login=on</a>
-<a class="sourceLine" id="cb99-11" title="11"><span class="kw">fi</span></a>
-<a class="sourceLine" id="cb99-12" title="12"><span class="bu">echo</span></a>
-<a class="sourceLine" id="cb99-13" title="13"><span class="co"># Fin: HARDE-RHEL-96</span></a>
-<a class="sourceLine" id="cb99-14" title="14"></a></code></pre></div>
+<a class="sourceLine" id="cb99-6" title="6"><span class="bu">echo</span> -n <span class="st">&quot;Autoriser les administrateurs à se connecter par SSH ? &quot;</span></a>
+<a class="sourceLine" id="cb99-7" title="7"><span class="bu">read</span> -e -i <span class="st">&quot;O&quot;</span> -r <span class="va">ADMINSSH</span></a>
+<a class="sourceLine" id="cb99-8" title="8"><span class="kw">if</span><span class="bu"> [</span> <span class="ot">-z</span> <span class="st">&quot;</span><span class="va">${ADMINSSH}</span><span class="st">&quot;</span><span class="bu"> ]</span>; <span class="kw">then</span></a>
+<a class="sourceLine" id="cb99-9" title="9">  <span class="ex">setsebool</span> -P ssh_sysadm_login=off</a>
+<a class="sourceLine" id="cb99-10" title="10"><span class="kw">else</span></a>
+<a class="sourceLine" id="cb99-11" title="11">  <span class="ex">setsebool</span> -P ssh_sysadm_login=on</a>
+<a class="sourceLine" id="cb99-12" title="12"><span class="kw">fi</span></a>
+<a class="sourceLine" id="cb99-13" title="13"><span class="bu">echo</span></a>
+<a class="sourceLine" id="cb99-14" title="14"><span class="co"># Fin: HARDE-RHEL-96</span></a>
+<a class="sourceLine" id="cb99-15" title="15"></a></code></pre></div>
 <h3 id="méthode-daudit-95">Méthode d'audit</h3>
 <p><a name="harde-rhel-097:"></a></p>
 <h2 id="697-harde-rhel-097-">6.97. HARDE-RHEL-097 :</h2>
@@ -2306,20 +2328,21 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <div class="sourceCode" id="cb100"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb100-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-97 : Confinement des utilisateurs interactifs non privilégiés&quot;</span></a>
 <a class="sourceLine" id="cb100-2" title="2"><span class="co"># Find at least one user to add to sudogrp</span></a>
 <a class="sourceLine" id="cb100-3" title="3"><span class="va">USER1000=</span><span class="st">&quot;</span><span class="va">$(</span><span class="fu">grep</span> 1000 /etc/passwd <span class="kw">|</span> <span class="fu">awk</span> -F: <span class="st">&#39;{print $1}&#39;</span><span class="va">)</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb100-4" title="4"><span class="bu">echo</span> -n <span class="st">&quot;Merci de préciser le nom d&#39;un utilisateur à qui donner des droits administrateur [</span><span class="va">$USER1000</span><span class="st">] ? &quot;</span> <span class="kw">;</span> <span class="bu">read</span> -e -i <span class="st">&quot;</span><span class="va">$USER1000</span><span class="st">&quot;</span> -r <span class="va">ADMINUSER</span></a>
-<a class="sourceLine" id="cb100-5" title="5"><span class="kw">if</span><span class="bu"> [</span> <span class="ot">-z</span> <span class="st">&quot;</span><span class="va">${ADMINUSER}</span><span class="st">&quot;</span><span class="bu"> ]</span>; <span class="kw">then</span></a>
-<a class="sourceLine" id="cb100-6" title="6">    <span class="va">ADMINUSER=</span><span class="st">&quot;</span><span class="va">${USER1000}</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb100-7" title="7"><span class="kw">fi</span></a>
-<a class="sourceLine" id="cb100-8" title="8"><span class="ex">groupadd</span> -r -f sudogrp</a>
-<a class="sourceLine" id="cb100-9" title="9"><span class="bu">echo</span> <span class="st">&quot;%sudogrp    ALL=(ALL)  TYPE=unconfined_t ROLE=unconfined_r    ALL&quot;</span> <span class="op">&gt;</span>/etc/sudoers.d/15group</a>
-<a class="sourceLine" id="cb100-10" title="10"><span class="co">#usermod -Z sysadm_u &quot;${ADMINUSER}&quot;</span></a>
-<a class="sourceLine" id="cb100-11" title="11"><span class="ex">semanage</span> login -a -s staff_u -rs0:c0.c1023 <span class="st">&quot;</span><span class="va">${ADMINUSER}</span><span class="st">&quot;</span> <span class="kw">||</span> <span class="fu">true</span></a>
-<a class="sourceLine" id="cb100-12" title="12"><span class="ex">usermod</span> -G sudogrp <span class="st">&quot;</span><span class="va">${ADMINUSER}</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb100-13" title="13"><span class="co"># For unprivileged user, use usermod -Z user_u &lt;unprivileged&gt;</span></a>
-<a class="sourceLine" id="cb100-14" title="14"><span class="ex">semanage</span> login -m -r s0 -s user_u __default__</a>
-<a class="sourceLine" id="cb100-15" title="15"><span class="co"># restorecon is required at this point and will be performed on reboot</span></a>
-<a class="sourceLine" id="cb100-16" title="16"><span class="co"># Fin: HARDE-RHEL-97</span></a>
-<a class="sourceLine" id="cb100-17" title="17"></a></code></pre></div>
+<a class="sourceLine" id="cb100-4" title="4"><span class="bu">echo</span> -n <span class="st">&quot;Merci de préciser le nom d&#39;un utilisateur à qui donner des droits administrateur [</span><span class="va">$USER1000</span><span class="st">] ? &quot;</span></a>
+<a class="sourceLine" id="cb100-5" title="5"><span class="bu">read</span> -e -i <span class="st">&quot;</span><span class="va">$USER1000</span><span class="st">&quot;</span> -r <span class="va">ADMINUSER</span></a>
+<a class="sourceLine" id="cb100-6" title="6"><span class="kw">if</span><span class="bu"> [</span> <span class="ot">-z</span> <span class="st">&quot;</span><span class="va">${ADMINUSER}</span><span class="st">&quot;</span><span class="bu"> ]</span>; <span class="kw">then</span></a>
+<a class="sourceLine" id="cb100-7" title="7">  <span class="va">ADMINUSER=</span><span class="st">&quot;</span><span class="va">${USER1000}</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb100-8" title="8"><span class="kw">fi</span></a>
+<a class="sourceLine" id="cb100-9" title="9"><span class="ex">groupadd</span> -r -f sudogrp</a>
+<a class="sourceLine" id="cb100-10" title="10"><span class="bu">echo</span> <span class="st">&quot;%sudogrp    ALL=(ALL)  TYPE=unconfined_t ROLE=unconfined_r    ALL&quot;</span> <span class="op">&gt;</span>/etc/sudoers.d/15group</a>
+<a class="sourceLine" id="cb100-11" title="11"><span class="co">#usermod -Z sysadm_u &quot;${ADMINUSER}&quot;</span></a>
+<a class="sourceLine" id="cb100-12" title="12"><span class="ex">semanage</span> login -a -s staff_u -rs0:c0.c1023 <span class="st">&quot;</span><span class="va">${ADMINUSER}</span><span class="st">&quot;</span> <span class="kw">||</span> <span class="fu">true</span></a>
+<a class="sourceLine" id="cb100-13" title="13"><span class="ex">usermod</span> -G sudogrp <span class="st">&quot;</span><span class="va">${ADMINUSER}</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb100-14" title="14"><span class="co"># For unprivileged user, use usermod -Z user_u &lt;unprivileged&gt;</span></a>
+<a class="sourceLine" id="cb100-15" title="15"><span class="ex">semanage</span> login -m -r s0 -s user_u __default__</a>
+<a class="sourceLine" id="cb100-16" title="16"><span class="co"># restorecon is required at this point and will be performed on reboot</span></a>
+<a class="sourceLine" id="cb100-17" title="17"><span class="co"># Fin: HARDE-RHEL-97</span></a>
+<a class="sourceLine" id="cb100-18" title="18"></a></code></pre></div>
 <h3 id="méthode-daudit-96">Méthode d'audit</h3>
 <p><a name="harde-rhel-098:"></a></p>
 <h2 id="698-harde-rhel-098-">6.98. HARDE-RHEL-098 :</h2>
@@ -2446,7 +2469,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-105:</p>
 <div class="sourceCode" id="cb108"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb108-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-105 : S&#39;assurer que le paramètre SSH AllowTcpForwarding est désactivé&quot;</span></a>
 <a class="sourceLine" id="cb108-2" title="2"><span class="fu">sed</span> -i -e <span class="st">&#39;s/\(^AllowTcpForwarding yes\)/\#HARDE-RHEL-105: \1/&#39;</span> /etc/ssh/sshd_config</a>
-<a class="sourceLine" id="cb108-3" title="3"><span class="kw">if</span>  ! <span class="fu">grep</span> -q -E <span class="st">&#39;^AllowTcpForwarding&#39;</span> /etc/ssh/sshd_config <span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;AllowTcpForwarding no&quot;</span><span class="op">&gt;&gt;</span> /etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb108-3" title="3"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;^AllowTcpForwarding&#39;</span> /etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;AllowTcpForwarding no&quot;</span> <span class="op">&gt;&gt;</span>/etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">fi</span></a>
 <a class="sourceLine" id="cb108-4" title="4"><span class="co"># Fin: HARDE-RHEL-105</span></a>
 <a class="sourceLine" id="cb108-5" title="5"></a></code></pre></div>
 <h3 id="méthode-daudit-104">Méthode d'audit</h3>
@@ -2463,7 +2486,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-106:</p>
 <div class="sourceCode" id="cb109"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb109-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-106 : S&#39;assurer que le transfert X11 SSH est désactivé&quot;</span></a>
 <a class="sourceLine" id="cb109-2" title="2"><span class="fu">sed</span> -i -e <span class="st">&#39;s/\(^X11Forwarding yes\)/\#HARDE-RHEL-106: \1/&#39;</span> /etc/ssh/sshd_config</a>
-<a class="sourceLine" id="cb109-3" title="3"><span class="kw">if</span>  ! <span class="fu">grep</span> -q -E <span class="st">&#39;^X11Forwarding\s+no&#39;</span> /etc/ssh/sshd_config <span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;X11Forwarding no&quot;</span><span class="op">&gt;&gt;</span> /etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb109-3" title="3"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;^X11Forwarding\s+no&#39;</span> /etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;X11Forwarding no&quot;</span> <span class="op">&gt;&gt;</span>/etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">fi</span></a>
 <a class="sourceLine" id="cb109-4" title="4"><span class="co"># Fin: HARDE-RHEL-106</span></a>
 <a class="sourceLine" id="cb109-5" title="5"></a></code></pre></div>
 <h3 id="méthode-daudit-105">Méthode d'audit</h3>
@@ -2518,7 +2541,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-109:</p>
 <div class="sourceCode" id="cb112"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb112-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-109 : Afficher des bannières lors de la connexion&quot;</span></a>
 <a class="sourceLine" id="cb112-2" title="2"><span class="kw">for</span> <span class="ex">i</span> in /etc/motd /etc/issue /etc/issue.net<span class="kw">;</span> <span class="kw">do</span></a>
-<a class="sourceLine" id="cb112-3" title="3"><span class="fu">cat</span> <span class="op">&gt;</span><span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span> <span class="op">&lt;&lt;EOF</span></a>
+<a class="sourceLine" id="cb112-3" title="3">  <span class="fu">cat</span> <span class="op">&gt;</span><span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span> <span class="op">&lt;&lt;EOF</span></a>
 <a class="sourceLine" id="cb112-4" title="4">***************************************************************************</a>
 <a class="sourceLine" id="cb112-5" title="5">*L’utilisation d’un poste classifié n’est autorisée qu’aux personnes ayant* </a>
 <a class="sourceLine" id="cb112-6" title="6">*le niveau d’habilitation requis.                                         *</a>
@@ -2544,7 +2567,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-110:</p>
 <div class="sourceCode" id="cb113"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb113-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-110 : S&#39;assurer que le paramètre SSH root login est désactivé&quot;</span></a>
 <a class="sourceLine" id="cb113-2" title="2"><span class="fu">sed</span> -i -e <span class="st">&#39;s/\(^PermitRootLogin yes\)/\#HARDE-RHEL-110: \1/&#39;</span> /etc/ssh/sshd_config</a>
-<a class="sourceLine" id="cb113-3" title="3"><span class="kw">if</span>  ! <span class="fu">grep</span> -q -E <span class="st">&#39;^PermitRootLogin\s+no&#39;</span> /etc/ssh/sshd_config <span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;PermitRootLogin no&quot;</span><span class="op">&gt;&gt;</span> /etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb113-3" title="3"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;^PermitRootLogin\s+no&#39;</span> /etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;PermitRootLogin no&quot;</span> <span class="op">&gt;&gt;</span>/etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">fi</span></a>
 <a class="sourceLine" id="cb113-4" title="4"><span class="co"># Fin: HARDE-RHEL-110</span></a>
 <a class="sourceLine" id="cb113-5" title="5"></a></code></pre></div>
 <h3 id="méthode-daudit-109">Méthode d'audit</h3>
@@ -2560,7 +2583,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-110">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-111:</p>
 <div class="sourceCode" id="cb114"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb114-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-111 : S&#39;assurer que le paramètre SSH PermitEmptyPasswords est désactivé&quot;</span></a>
-<a class="sourceLine" id="cb114-2" title="2"><span class="kw">if</span>  ! <span class="fu">grep</span> -q -E <span class="st">&#39;^PermitEmptyPasswords\s+no&#39;</span> /etc/ssh/sshd_config <span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;PermitEmptyPasswords no&quot;</span><span class="op">&gt;&gt;</span> /etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb114-2" title="2"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;^PermitEmptyPasswords\s+no&#39;</span> /etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;PermitEmptyPasswords no&quot;</span> <span class="op">&gt;&gt;</span>/etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">fi</span></a>
 <a class="sourceLine" id="cb114-3" title="3"><span class="co"># Fin: HARDE-RHEL-111</span></a>
 <a class="sourceLine" id="cb114-4" title="4"></a></code></pre></div>
 <h3 id="méthode-daudit-110">Méthode d'audit</h3>
@@ -2576,7 +2599,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-111">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-112:</p>
 <div class="sourceCode" id="cb115"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb115-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-112 : S&#39;assurer que le paramètre SSH PermitUserEnvironment est désactivé&quot;</span></a>
-<a class="sourceLine" id="cb115-2" title="2"><span class="kw">if</span>  ! <span class="fu">grep</span> -q -E <span class="st">&#39;^PermitUserEnvironment\s+no&#39;</span> /etc/ssh/sshd_config <span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;PermitUserEnvironment no&quot;</span><span class="op">&gt;&gt;</span> /etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb115-2" title="2"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;^PermitUserEnvironment\s+no&#39;</span> /etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;PermitUserEnvironment no&quot;</span> <span class="op">&gt;&gt;</span>/etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">fi</span></a>
 <a class="sourceLine" id="cb115-3" title="3"><span class="co"># Fin: HARDE-RHEL-112</span></a>
 <a class="sourceLine" id="cb115-4" title="4"></a></code></pre></div>
 <h3 id="méthode-daudit-111">Méthode d'audit</h3>
@@ -2592,7 +2615,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-112">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-113:</p>
 <div class="sourceCode" id="cb116"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb116-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-113 : S&#39;assurer que le paramètre SSH Idle Timeout Interval est configuré&quot;</span></a>
-<a class="sourceLine" id="cb116-2" title="2"><span class="kw">if</span>  ! <span class="fu">grep</span> -q -E <span class="st">&#39;^Client&#39;</span> /etc/ssh/sshd_config <span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> -e <span class="st">&quot;ClientAliveInterval 300\nClientAliveCountMax 0&quot;</span><span class="op">&gt;&gt;</span> /etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb116-2" title="2"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;^Client&#39;</span> /etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> -e <span class="st">&quot;ClientAliveInterval 300\nClientAliveCountMax 0&quot;</span> <span class="op">&gt;&gt;</span>/etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">fi</span></a>
 <a class="sourceLine" id="cb116-3" title="3"><span class="co"># Fin: HARDE-RHEL-113</span></a>
 <a class="sourceLine" id="cb116-4" title="4"></a></code></pre></div>
 <h3 id="méthode-daudit-112">Méthode d'audit</h3>
@@ -2608,7 +2631,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-113">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-114:</p>
 <div class="sourceCode" id="cb117"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb117-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-114 : S&#39;assurer que le paramètre SSH LoginGraceTime est positionné à une minute ou moins&quot;</span></a>
-<a class="sourceLine" id="cb117-2" title="2"><span class="kw">if</span>  ! <span class="fu">grep</span> -q -E <span class="st">&#39;^LoginGraceTime&#39;</span> /etc/ssh/sshd_config <span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;LoginGraceTime 60&quot;</span><span class="op">&gt;&gt;</span> /etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb117-2" title="2"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;^LoginGraceTime&#39;</span> /etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;LoginGraceTime 60&quot;</span> <span class="op">&gt;&gt;</span>/etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">fi</span></a>
 <a class="sourceLine" id="cb117-3" title="3"><span class="co"># Fin: HARDE-RHEL-114</span></a>
 <a class="sourceLine" id="cb117-4" title="4"></a></code></pre></div>
 <h3 id="méthode-daudit-113">Méthode d'audit</h3>
@@ -2624,7 +2647,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-114">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-115:</p>
 <div class="sourceCode" id="cb118"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb118-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-115 : S&#39;assurer que la bannière SSH est configurée&quot;</span></a>
-<a class="sourceLine" id="cb118-2" title="2"><span class="kw">if</span>  ! <span class="fu">grep</span> -q -E <span class="st">&#39;^Banner&#39;</span> /etc/ssh/sshd_config <span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;Banner /etc/issue.net&quot;</span><span class="op">&gt;&gt;</span> /etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb118-2" title="2"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;^Banner&#39;</span> /etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;Banner /etc/issue.net&quot;</span> <span class="op">&gt;&gt;</span>/etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">fi</span></a>
 <a class="sourceLine" id="cb118-3" title="3"><span class="co"># Fin: HARDE-RHEL-115</span></a>
 <a class="sourceLine" id="cb118-4" title="4"></a></code></pre></div>
 <h3 id="méthode-daudit-114">Méthode d'audit</h3>
@@ -2640,7 +2663,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-115">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-116:</p>
 <div class="sourceCode" id="cb119"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb119-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-116 : S&#39;assurer que le paramètrage SSH PAM est activé&quot;</span></a>
-<a class="sourceLine" id="cb119-2" title="2"><span class="kw">if</span>  ! <span class="fu">grep</span> -q -E <span class="st">&#39;^UsePAM&#39;</span> /etc/ssh/sshd_config <span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;UsePAM yes&quot;</span><span class="op">&gt;&gt;</span> /etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb119-2" title="2"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;^UsePAM&#39;</span> /etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;UsePAM yes&quot;</span> <span class="op">&gt;&gt;</span>/etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">fi</span></a>
 <a class="sourceLine" id="cb119-3" title="3"><span class="co"># Fin: HARDE-RHEL-116</span></a>
 <a class="sourceLine" id="cb119-4" title="4"></a></code></pre></div>
 <h3 id="méthode-daudit-115">Méthode d'audit</h3>
@@ -2656,7 +2679,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-116">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-117:</p>
 <div class="sourceCode" id="cb120"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb120-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-117 : S&#39;assurer que le paramètre SSH MaxStartups est configuré&quot;</span></a>
-<a class="sourceLine" id="cb120-2" title="2"><span class="kw">if</span>  ! <span class="fu">grep</span> -q -E <span class="st">&#39;^MaxStartups&#39;</span> /etc/ssh/sshd_config <span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;MaxStartups 10:30:60&quot;</span><span class="op">&gt;&gt;</span> /etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb120-2" title="2"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;^MaxStartups&#39;</span> /etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;MaxStartups 10:30:60&quot;</span> <span class="op">&gt;&gt;</span>/etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">fi</span></a>
 <a class="sourceLine" id="cb120-3" title="3"><span class="co"># Fin: HARDE-RHEL-117</span></a>
 <a class="sourceLine" id="cb120-4" title="4"></a></code></pre></div>
 <h3 id="méthode-daudit-116">Méthode d'audit</h3>
@@ -2672,7 +2695,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-117">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-118:</p>
 <div class="sourceCode" id="cb121"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb121-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-118 : S&#39;assurer que le paramètre SSH MaxSessions est positionné à 4 ou moins&quot;</span></a>
-<a class="sourceLine" id="cb121-2" title="2"> <span class="kw">if</span>  ! <span class="fu">grep</span> -q -E <span class="st">&#39;^MaxSessions&#39;</span> /etc/ssh/sshd_config <span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;MaxSessions 4&quot;</span><span class="op">&gt;&gt;</span> /etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb121-2" title="2"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;^MaxSessions&#39;</span> /etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;MaxSessions 4&quot;</span> <span class="op">&gt;&gt;</span>/etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">fi</span></a>
 <a class="sourceLine" id="cb121-3" title="3"><span class="co"># Fin: HARDE-RHEL-118</span></a>
 <a class="sourceLine" id="cb121-4" title="4"></a></code></pre></div>
 <h3 id="méthode-daudit-117">Méthode d'audit</h3>
@@ -2688,7 +2711,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-118">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-119:</p>
 <div class="sourceCode" id="cb122"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb122-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-119 : S&#39;assurer que le paramètre SSH MaxAuthTries est positionné à 4 ou moins&quot;</span></a>
-<a class="sourceLine" id="cb122-2" title="2"><span class="bu">echo</span> <span class="st">&quot;MaxAuthTries 4&quot;</span><span class="op">&gt;&gt;</span>/etc/ssh/sshd_config</a>
+<a class="sourceLine" id="cb122-2" title="2"><span class="bu">echo</span> <span class="st">&quot;MaxAuthTries 4&quot;</span> <span class="op">&gt;&gt;</span>/etc/ssh/sshd_config</a>
 <a class="sourceLine" id="cb122-3" title="3"><span class="co"># Fin: HARDE-RHEL-119</span></a>
 <a class="sourceLine" id="cb122-4" title="4"></a></code></pre></div>
 <h3 id="méthode-daudit-118">Méthode d'audit</h3>
@@ -2704,7 +2727,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-119">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-120:</p>
 <div class="sourceCode" id="cb123"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb123-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-120 : S&#39;assurer que le paramètre SSH IgnoreRhosts est activé&quot;</span></a>
-<a class="sourceLine" id="cb123-2" title="2"><span class="kw">if</span>  ! <span class="fu">grep</span> -q -E <span class="st">&#39;^IgnoreRhosts\s+yes&#39;</span> /etc/ssh/sshd_config <span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;IgnoreRhosts yes&quot;</span><span class="op">&gt;&gt;</span> /etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb123-2" title="2"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;^IgnoreRhosts\s+yes&#39;</span> /etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;IgnoreRhosts yes&quot;</span> <span class="op">&gt;&gt;</span>/etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">fi</span></a>
 <a class="sourceLine" id="cb123-3" title="3"><span class="co"># Fin: HARDE-RHEL-120</span></a>
 <a class="sourceLine" id="cb123-4" title="4"></a></code></pre></div>
 <h3 id="méthode-daudit-119">Méthode d'audit</h3>
@@ -2720,7 +2743,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-120">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-121:</p>
 <div class="sourceCode" id="cb124"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb124-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-121 : S&#39;assurer que le paramètre SSH HostbasedAuthentication est désactivé&quot;</span></a>
-<a class="sourceLine" id="cb124-2" title="2"><span class="kw">if</span>  ! <span class="fu">grep</span> -q -E <span class="st">&#39;^HostbasedAuthentication\s+no&#39;</span> /etc/ssh/sshd_config <span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;HostbasedAuthentication no&quot;</span><span class="op">&gt;&gt;</span> /etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb124-2" title="2"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;^HostbasedAuthentication\s+no&#39;</span> /etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;HostbasedAuthentication no&quot;</span> <span class="op">&gt;&gt;</span>/etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">fi</span></a>
 <a class="sourceLine" id="cb124-3" title="3"><span class="co"># Fin: HARDE-RHEL-121</span></a>
 <a class="sourceLine" id="cb124-4" title="4"></a></code></pre></div>
 <h3 id="méthode-daudit-120">Méthode d'audit</h3>
@@ -2784,10 +2807,10 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-124">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-125:</p>
 <div class="sourceCode" id="cb128"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb128-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-125 : S&#39;assurer que les exigences de création de mot de passe soient correctes&quot;</span></a>
-<a class="sourceLine" id="cb128-2" title="2"><span class="kw">if</span>  ! <span class="fu">grep</span> -q -E <span class="st">&#39;^minlen&#39;</span> /etc/security/pwquality.conf <span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;minlen = 9&quot;</span><span class="op">&gt;&gt;</span> /etc/security/pwquality.conf<span class="kw">;</span> <span class="kw">fi</span></a>
-<a class="sourceLine" id="cb128-3" title="3"><span class="kw">if</span>  ! <span class="fu">grep</span> -q -E <span class="st">&#39;^minclass&#39;</span> /etc/security/pwquality.conf <span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;minclass = 4&quot;</span><span class="op">&gt;&gt;</span> /etc/security/pwquality.conf<span class="kw">;</span> <span class="kw">fi</span></a>
-<a class="sourceLine" id="cb128-4" title="4"><span class="kw">if</span>  ! <span class="fu">grep</span> -q -E <span class="st">&#39;^gecoscheck&#39;</span> /etc/security/pwquality.conf <span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;gecoscheck = 1&quot;</span><span class="op">&gt;&gt;</span> /etc/security/pwquality.conf<span class="kw">;</span> <span class="kw">fi</span></a>
-<a class="sourceLine" id="cb128-5" title="5"><span class="kw">if</span>  ! <span class="fu">grep</span> -q -E <span class="st">&#39;^usercheck&#39;</span> /etc/security/pwquality.conf <span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;usercheck = 1&quot;</span><span class="op">&gt;&gt;</span> /etc/security/pwquality.conf<span class="kw">;</span> <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb128-2" title="2"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;^minlen&#39;</span> /etc/security/pwquality.conf<span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;minlen = 9&quot;</span> <span class="op">&gt;&gt;</span>/etc/security/pwquality.conf<span class="kw">;</span> <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb128-3" title="3"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;^minclass&#39;</span> /etc/security/pwquality.conf<span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;minclass = 4&quot;</span> <span class="op">&gt;&gt;</span>/etc/security/pwquality.conf<span class="kw">;</span> <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb128-4" title="4"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;^gecoscheck&#39;</span> /etc/security/pwquality.conf<span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;gecoscheck = 1&quot;</span> <span class="op">&gt;&gt;</span>/etc/security/pwquality.conf<span class="kw">;</span> <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb128-5" title="5"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;^usercheck&#39;</span> /etc/security/pwquality.conf<span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;usercheck = 1&quot;</span> <span class="op">&gt;&gt;</span>/etc/security/pwquality.conf<span class="kw">;</span> <span class="kw">fi</span></a>
 <a class="sourceLine" id="cb128-6" title="6"><span class="co"># Fin: HARDE-RHEL-125</span></a>
 <a class="sourceLine" id="cb128-7" title="7"></a></code></pre></div>
 <h3 id="méthode-daudit-124">Méthode d'audit</h3>
@@ -2803,7 +2826,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-125">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-126:</p>
 <div class="sourceCode" id="cb129"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb129-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-126 : S&#39;assurer que le verrouillage après des tentatives de connexion soit configuré&quot;</span></a>
-<a class="sourceLine" id="cb129-2" title="2">    <span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-137&quot;</span></a>
+<a class="sourceLine" id="cb129-2" title="2"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-137&quot;</span></a>
 <a class="sourceLine" id="cb129-3" title="3"><span class="co"># Fin: HARDE-RHEL-126</span></a>
 <a class="sourceLine" id="cb129-4" title="4"></a></code></pre></div>
 <h3 id="méthode-daudit-125">Méthode d'audit</h3>
@@ -2844,25 +2867,30 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-127">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-128:</p>
 <div class="sourceCode" id="cb131"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb131-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-128 : Protection des mots de passe stockés&quot;</span></a>
-<a class="sourceLine" id="cb131-2" title="2"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;^ENCRYPT_METHOD\s+SHA512&#39;</span> /etc/login.defs <span class="kw">;</span> <span class="kw">then</span> <span class="fu">sed</span> -e <span class="st">&#39;s/\(ENCRYPT_METHOD.*\)/# \1/&#39;</span> -i /etc/login.defs<span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;ENCRYPT_METHOD SHA512&quot;</span> <span class="op">&gt;&gt;</span> /etc/login.defs<span class="kw">;</span> <span class="kw">fi</span></a>
-<a class="sourceLine" id="cb131-3" title="3"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;^SHA_CRYPT_MIN_ROUNDS\s+65536&#39;</span> /etc/login.defs <span class="kw">;</span> <span class="kw">then</span> <span class="fu">sed</span> -e <span class="st">&#39;s/\(SHA_CRYPT_MIN_ROUNDS.*\)/# \1/&#39;</span> -i /etc/login.defs<span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;SHA_CRYPT_MIN_ROUNDS 65536&quot;</span> <span class="op">&gt;&gt;</span> /etc/login.defs<span class="kw">;</span> <span class="kw">fi</span></a>
-<a class="sourceLine" id="cb131-4" title="4"><span class="va">AUTH_FILES=(</span></a>
-<a class="sourceLine" id="cb131-5" title="5">    [<span class="ex">0</span>]=<span class="st">&quot;/etc/pam.d/system-auth&quot;</span></a>
-<a class="sourceLine" id="cb131-6" title="6">    [<span class="ex">1</span>]=<span class="st">&quot;/etc/pam.d/password-auth&quot;</span></a>
-<a class="sourceLine" id="cb131-7" title="7">)</a>
-<a class="sourceLine" id="cb131-8" title="8"><span class="kw">for</span> <span class="ex">pamFile</span> in <span class="st">&quot;</span><span class="va">${AUTH_FILES[@]}</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb131-9" title="9"><span class="kw">do</span></a>
-<a class="sourceLine" id="cb131-10" title="10">    <span class="co"># suppress partial config and nullok</span></a>
-<a class="sourceLine" id="cb131-11" title="11">    <span class="fu">sed</span> -i --follow-symlinks <span class="st">&quot;/^password.*sufficient.*pam_unix.so/ s/ nullok//&quot;</span> <span class="st">&quot;</span><span class="va">$pamFile</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb131-12" title="12">    <span class="fu">sed</span> -i --follow-symlinks <span class="st">&quot;/^password.*sufficient.*pam_unix.so/ s/ sha512//&quot;</span> <span class="st">&quot;</span><span class="va">$pamFile</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb131-13" title="13">    <span class="fu">sed</span> -i --follow-symlinks <span class="st">&quot;/^password.*sufficient.*pam_unix.so/ s/ obscure//&quot;</span> <span class="st">&quot;</span><span class="va">$pamFile</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb131-14" title="14">    <span class="fu">sed</span> -i --follow-symlinks <span class="st">&quot;/^password.*sufficient.*pam_unix.so/ s/ rounds=65536//&quot;</span> <span class="st">&quot;</span><span class="va">$pamFile</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb131-15" title="15">    <span class="kw">if</span> ! <span class="fu">grep</span> -q <span class="st">&quot;^password.*sufficient.*pam_unix.so.*obscure sha512 rounds=65536&quot;</span> <span class="st">&quot;</span><span class="va">$pamFile</span><span class="st">&quot;</span><span class="kw">;</span> <span class="kw">then</span></a>
-<a class="sourceLine" id="cb131-16" title="16">    <span class="fu">sed</span> -i --follow-symlinks <span class="st">&quot;/^password.*sufficient.*pam_unix.so/ s/$/ obscure sha512 rounds=65536/&quot;</span> <span class="st">&quot;</span><span class="va">$pamFile</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb131-17" title="17">    <span class="kw">fi</span></a>
-<a class="sourceLine" id="cb131-18" title="18"><span class="kw">done</span></a>
-<a class="sourceLine" id="cb131-19" title="19"><span class="co"># Fin: HARDE-RHEL-128</span></a>
-<a class="sourceLine" id="cb131-20" title="20"></a></code></pre></div>
+<a class="sourceLine" id="cb131-2" title="2"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;^ENCRYPT_METHOD\s+SHA512&#39;</span> /etc/login.defs<span class="kw">;</span> <span class="kw">then</span></a>
+<a class="sourceLine" id="cb131-3" title="3">  <span class="fu">sed</span> -e <span class="st">&#39;s/\(ENCRYPT_METHOD.*\)/# \1/&#39;</span> -i /etc/login.defs</a>
+<a class="sourceLine" id="cb131-4" title="4">  <span class="bu">echo</span> <span class="st">&quot;ENCRYPT_METHOD SHA512&quot;</span> <span class="op">&gt;&gt;</span>/etc/login.defs</a>
+<a class="sourceLine" id="cb131-5" title="5"><span class="kw">fi</span></a>
+<a class="sourceLine" id="cb131-6" title="6"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;^SHA_CRYPT_MIN_ROUNDS\s+65536&#39;</span> /etc/login.defs<span class="kw">;</span> <span class="kw">then</span></a>
+<a class="sourceLine" id="cb131-7" title="7">  <span class="fu">sed</span> -e <span class="st">&#39;s/\(SHA_CRYPT_MIN_ROUNDS.*\)/# \1/&#39;</span> -i /etc/login.defs</a>
+<a class="sourceLine" id="cb131-8" title="8">  <span class="bu">echo</span> <span class="st">&quot;SHA_CRYPT_MIN_ROUNDS 65536&quot;</span> <span class="op">&gt;&gt;</span>/etc/login.defs</a>
+<a class="sourceLine" id="cb131-9" title="9"><span class="kw">fi</span></a>
+<a class="sourceLine" id="cb131-10" title="10"><span class="va">AUTH_FILES=(</span></a>
+<a class="sourceLine" id="cb131-11" title="11">  [<span class="ex">0</span>]=<span class="st">&quot;/etc/pam.d/system-auth&quot;</span></a>
+<a class="sourceLine" id="cb131-12" title="12">  [<span class="ex">1</span>]=<span class="st">&quot;/etc/pam.d/password-auth&quot;</span></a>
+<a class="sourceLine" id="cb131-13" title="13">)</a>
+<a class="sourceLine" id="cb131-14" title="14"><span class="kw">for</span> <span class="ex">pamFile</span> in <span class="st">&quot;</span><span class="va">${AUTH_FILES[@]}</span><span class="st">&quot;</span><span class="kw">;</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb131-15" title="15">  <span class="co"># suppress partial config and nullok</span></a>
+<a class="sourceLine" id="cb131-16" title="16">  <span class="fu">sed</span> -i --follow-symlinks <span class="st">&quot;/^password.*sufficient.*pam_unix.so/ s/ nullok//&quot;</span> <span class="st">&quot;</span><span class="va">$pamFile</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb131-17" title="17">  <span class="fu">sed</span> -i --follow-symlinks <span class="st">&quot;/^password.*sufficient.*pam_unix.so/ s/ sha512//&quot;</span> <span class="st">&quot;</span><span class="va">$pamFile</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb131-18" title="18">  <span class="fu">sed</span> -i --follow-symlinks <span class="st">&quot;/^password.*sufficient.*pam_unix.so/ s/ obscure//&quot;</span> <span class="st">&quot;</span><span class="va">$pamFile</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb131-19" title="19">  <span class="fu">sed</span> -i --follow-symlinks <span class="st">&quot;/^password.*sufficient.*pam_unix.so/ s/ rounds=65536//&quot;</span> <span class="st">&quot;</span><span class="va">$pamFile</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb131-20" title="20">  <span class="kw">if</span> ! <span class="fu">grep</span> -q <span class="st">&quot;^password.*sufficient.*pam_unix.so.*obscure sha512 rounds=65536&quot;</span> <span class="st">&quot;</span><span class="va">$pamFile</span><span class="st">&quot;</span><span class="kw">;</span> <span class="kw">then</span></a>
+<a class="sourceLine" id="cb131-21" title="21">    <span class="fu">sed</span> -i --follow-symlinks <span class="st">&quot;/^password.*sufficient.*pam_unix.so/ s/$/ obscure sha512 rounds=65536/&quot;</span> <span class="st">&quot;</span><span class="va">$pamFile</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb131-22" title="22">  <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb131-23" title="23"><span class="kw">done</span></a>
+<a class="sourceLine" id="cb131-24" title="24"><span class="co"># Fin: HARDE-RHEL-128</span></a>
+<a class="sourceLine" id="cb131-25" title="25"></a></code></pre></div>
 <h3 id="méthode-daudit-127">Méthode d'audit</h3>
 <p><a name="harde-rhel-129:"></a></p>
 <h2 id="6129-harde-rhel-129-">6.129. HARDE-RHEL-129 :</h2>
@@ -2876,9 +2904,12 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-128">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-129:</p>
 <div class="sourceCode" id="cb132"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb132-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-129 : S&#39;assurer que l&#39;expiration des mots de passe soit de 365 jours ou moins&quot;</span></a>
-<a class="sourceLine" id="cb132-2" title="2"><span class="kw">if</span>  ! <span class="fu">grep</span> -q -E <span class="st">&#39;^PASS_MAX_DAYS\s+365&#39;</span> /etc/login.defs <span class="kw">;</span> <span class="kw">then</span> <span class="fu">sed</span> -e <span class="st">&#39;s/\(PASS_MAX_DAYS.*\)/# \1/&#39;</span> -i /etc/login.defs<span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;PASS_MAX_DAYS 365&quot;</span> <span class="op">&gt;&gt;</span> /etc/login.defs<span class="kw">;</span> <span class="kw">fi</span></a>
-<a class="sourceLine" id="cb132-3" title="3"><span class="co"># Fin: HARDE-RHEL-129</span></a>
-<a class="sourceLine" id="cb132-4" title="4"></a></code></pre></div>
+<a class="sourceLine" id="cb132-2" title="2"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;^PASS_MAX_DAYS\s+365&#39;</span> /etc/login.defs<span class="kw">;</span> <span class="kw">then</span></a>
+<a class="sourceLine" id="cb132-3" title="3">  <span class="fu">sed</span> -e <span class="st">&#39;s/\(PASS_MAX_DAYS.*\)/# \1/&#39;</span> -i /etc/login.defs</a>
+<a class="sourceLine" id="cb132-4" title="4">  <span class="bu">echo</span> <span class="st">&quot;PASS_MAX_DAYS 365&quot;</span> <span class="op">&gt;&gt;</span>/etc/login.defs</a>
+<a class="sourceLine" id="cb132-5" title="5"><span class="kw">fi</span></a>
+<a class="sourceLine" id="cb132-6" title="6"><span class="co"># Fin: HARDE-RHEL-129</span></a>
+<a class="sourceLine" id="cb132-7" title="7"></a></code></pre></div>
 <h3 id="méthode-daudit-128">Méthode d'audit</h3>
 <p><a name="harde-rhel-130:"></a></p>
 <h2 id="6130-harde-rhel-130-">6.130. HARDE-RHEL-130 :</h2>
@@ -2892,9 +2923,12 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-129">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-130:</p>
 <div class="sourceCode" id="cb133"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb133-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-130 : S&#39;assurer que le nombre minimum de jours entre 2 changements de mot de passe soit 7 ou plus&quot;</span></a>
-<a class="sourceLine" id="cb133-2" title="2"><span class="kw">if</span>  ! <span class="fu">grep</span> -q -E <span class="st">&#39;^PASS_MIN_DAYS\s+365&#39;</span> /etc/login.defs <span class="kw">;</span> <span class="kw">then</span> <span class="fu">sed</span> -e <span class="st">&#39;s/\(PASS_MIN_DAYS.*\)/# \1/&#39;</span> -i /etc/login.defs<span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;PASS_MIN_DAYS 7&quot;</span> <span class="op">&gt;&gt;</span> /etc/login.defs<span class="kw">;</span> <span class="kw">fi</span></a>
-<a class="sourceLine" id="cb133-3" title="3"><span class="co"># Fin: HARDE-RHEL-130</span></a>
-<a class="sourceLine" id="cb133-4" title="4"></a></code></pre></div>
+<a class="sourceLine" id="cb133-2" title="2"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;^PASS_MIN_DAYS\s+365&#39;</span> /etc/login.defs<span class="kw">;</span> <span class="kw">then</span></a>
+<a class="sourceLine" id="cb133-3" title="3">  <span class="fu">sed</span> -e <span class="st">&#39;s/\(PASS_MIN_DAYS.*\)/# \1/&#39;</span> -i /etc/login.defs</a>
+<a class="sourceLine" id="cb133-4" title="4">  <span class="bu">echo</span> <span class="st">&quot;PASS_MIN_DAYS 7&quot;</span> <span class="op">&gt;&gt;</span>/etc/login.defs</a>
+<a class="sourceLine" id="cb133-5" title="5"><span class="kw">fi</span></a>
+<a class="sourceLine" id="cb133-6" title="6"><span class="co"># Fin: HARDE-RHEL-130</span></a>
+<a class="sourceLine" id="cb133-7" title="7"></a></code></pre></div>
 <h3 id="méthode-daudit-129">Méthode d'audit</h3>
 <p><a name="harde-rhel-131:"></a></p>
 <h2 id="6131-harde-rhel-131-">6.131. HARDE-RHEL-131 :</h2>
@@ -2908,9 +2942,12 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-130">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-131:</p>
 <div class="sourceCode" id="cb134"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb134-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-131 : S&#39;assurer que l&#39;alerte pour expiration de mot de passe soit émise 7 jours ou plus avant expiration du mot de passe&quot;</span></a>
-<a class="sourceLine" id="cb134-2" title="2"><span class="kw">if</span>  ! <span class="fu">grep</span> -q -E <span class="st">&#39;^PASS_WARN_AGE\s+14&#39;</span> /etc/login.defs <span class="kw">;</span> <span class="kw">then</span> <span class="fu">sed</span> -e <span class="st">&#39;s/\(PASS_WARN_AGE.*\)/# \1/&#39;</span> -i /etc/login.defs<span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;PASS_WARN_AGE 14&quot;</span> <span class="op">&gt;&gt;</span> /etc/login.defs<span class="kw">;</span> <span class="kw">fi</span></a>
-<a class="sourceLine" id="cb134-3" title="3"><span class="co"># Fin: HARDE-RHEL-131</span></a>
-<a class="sourceLine" id="cb134-4" title="4"></a></code></pre></div>
+<a class="sourceLine" id="cb134-2" title="2"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;^PASS_WARN_AGE\s+14&#39;</span> /etc/login.defs<span class="kw">;</span> <span class="kw">then</span></a>
+<a class="sourceLine" id="cb134-3" title="3">  <span class="fu">sed</span> -e <span class="st">&#39;s/\(PASS_WARN_AGE.*\)/# \1/&#39;</span> -i /etc/login.defs</a>
+<a class="sourceLine" id="cb134-4" title="4">  <span class="bu">echo</span> <span class="st">&quot;PASS_WARN_AGE 14&quot;</span> <span class="op">&gt;&gt;</span>/etc/login.defs</a>
+<a class="sourceLine" id="cb134-5" title="5"><span class="kw">fi</span></a>
+<a class="sourceLine" id="cb134-6" title="6"><span class="co"># Fin: HARDE-RHEL-131</span></a>
+<a class="sourceLine" id="cb134-7" title="7"></a></code></pre></div>
 <h3 id="méthode-daudit-130">Méthode d'audit</h3>
 <p><a name="harde-rhel-132:"></a></p>
 <h2 id="6132-harde-rhel-132-">6.132. HARDE-RHEL-132 :</h2>
@@ -2924,7 +2961,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-131">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-132:</p>
 <div class="sourceCode" id="cb135"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb135-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-132 : S&#39;assurer que le verrouillage des comptes inutilisés soit de 30 jours ou moins&quot;</span></a>
-<a class="sourceLine" id="cb135-2" title="2"> <span class="ex">useradd</span> -D -f 30</a>
+<a class="sourceLine" id="cb135-2" title="2"><span class="ex">useradd</span> -D -f 30</a>
 <a class="sourceLine" id="cb135-3" title="3"><span class="co"># Fin: HARDE-RHEL-132</span></a>
 <a class="sourceLine" id="cb135-4" title="4"></a></code></pre></div>
 <h3 id="méthode-daudit-131">Méthode d'audit</h3>
@@ -2940,8 +2977,8 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-132">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-133:</p>
 <div class="sourceCode" id="cb136"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb136-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-133 : S&#39;assurer que toutes les dates de changement de mot de passe soient dans le passé&quot;</span></a>
-<a class="sourceLine" id="cb136-2" title="2"><span class="va">PATH=</span>/sbin:<span class="va">$PATH</span> <span class="fu">awk</span> -F: <span class="st">&#39;($1!=&quot;root&quot; &amp;&amp; $1!=&quot;sync&quot; &amp;&amp; $1!=&quot;shutdown&quot; &amp;&amp; $1!=&quot;halt&quot; &amp;&amp; $1!~/^\+/ &amp;&amp; $3&lt;&#39;&quot;</span><span class="va">$(</span><span class="fu">awk</span> <span class="st">&#39;/^\s*UID_MIN/{print $2}&#39;</span> /etc/login.defs<span class="va">)</span><span class="st">&quot;&#39; &amp;&amp; $7!=&quot;&#39;&quot;</span><span class="va">$(</span><span class="fu">which</span> nologin<span class="va">)</span><span class="st">&quot;&#39;&quot; &amp;&amp; $7!=&quot;/bin/false&quot;) {print $1}&#39;</span> /etc/passwd <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> -r <span class="va">user</span> ; <span class="kw">do</span> <span class="ex">usermod</span> -s <span class="st">&quot;</span><span class="va">$(</span><span class="fu">which</span> nologin<span class="va">)</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">${user}</span><span class="st">&quot;</span><span class="kw">;</span> <span class="kw">done</span></a>
-<a class="sourceLine" id="cb136-3" title="3"><span class="fu">awk</span> -F: <span class="st">&#39;($1!=&quot;root&quot; &amp;&amp; $1!~/^\+/ &amp;&amp; $3&lt;&#39;&quot;</span><span class="va">$(</span><span class="fu">awk</span> <span class="st">&#39;/^\s*UID_MIN/{print $2}&#39;</span> /etc/login.defs<span class="va">)</span><span class="st">&quot;&#39;) {print $1}&#39;</span> /etc/passwd <span class="kw">|</span> <span class="fu">xargs</span> -I <span class="st">&#39;{}&#39;</span> passwd -S <span class="st">&#39;{}&#39;</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;($2!=&quot;L&quot; &amp;&amp; $2!=&quot;LK&quot;) {print $1}&#39;</span> <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> -r <span class="va">user</span>; <span class="kw">do</span> <span class="ex">usermod</span> -L <span class="st">&quot;</span><span class="va">${user}</span><span class="st">&quot;</span> <span class="kw">;</span> <span class="kw">done</span></a>
+<a class="sourceLine" id="cb136-2" title="2"><span class="va">PATH=</span>/sbin:<span class="va">$PATH</span> <span class="fu">awk</span> -F: <span class="st">&#39;($1!=&quot;root&quot; &amp;&amp; $1!=&quot;sync&quot; &amp;&amp; $1!=&quot;shutdown&quot; &amp;&amp; $1!=&quot;halt&quot; &amp;&amp; $1!~/^\+/ &amp;&amp; $3&lt;&#39;&quot;</span><span class="va">$(</span><span class="fu">awk</span> <span class="st">&#39;/^\s*UID_MIN/{print $2}&#39;</span> /etc/login.defs<span class="va">)</span><span class="st">&quot;&#39; &amp;&amp; $7!=&quot;&#39;&quot;</span><span class="va">$(</span><span class="fu">which</span> nologin<span class="va">)</span><span class="st">&quot;&#39;&quot; &amp;&amp; $7!=&quot;/bin/false&quot;) {print $1}&#39;</span> /etc/passwd <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> -r <span class="va">user</span>; <span class="kw">do</span> <span class="ex">usermod</span> -s <span class="st">&quot;</span><span class="va">$(</span><span class="fu">which</span> nologin<span class="va">)</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">${user}</span><span class="st">&quot;</span><span class="kw">;</span> <span class="kw">done</span></a>
+<a class="sourceLine" id="cb136-3" title="3"><span class="fu">awk</span> -F: <span class="st">&#39;($1!=&quot;root&quot; &amp;&amp; $1!~/^\+/ &amp;&amp; $3&lt;&#39;&quot;</span><span class="va">$(</span><span class="fu">awk</span> <span class="st">&#39;/^\s*UID_MIN/{print $2}&#39;</span> /etc/login.defs<span class="va">)</span><span class="st">&quot;&#39;) {print $1}&#39;</span> /etc/passwd <span class="kw">|</span> <span class="fu">xargs</span> -I <span class="st">&#39;{}&#39;</span> passwd -S <span class="st">&#39;{}&#39;</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;($2!=&quot;L&quot; &amp;&amp; $2!=&quot;LK&quot;) {print $1}&#39;</span> <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> -r <span class="va">user</span>; <span class="kw">do</span> <span class="ex">usermod</span> -L <span class="st">&quot;</span><span class="va">${user}</span><span class="st">&quot;</span><span class="kw">;</span> <span class="kw">done</span></a>
 <a class="sourceLine" id="cb136-4" title="4"><span class="co"># Fin: HARDE-RHEL-133</span></a>
 <a class="sourceLine" id="cb136-5" title="5"></a></code></pre></div>
 <h3 id="méthode-daudit-132">Méthode d'audit</h3>
@@ -3010,7 +3047,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-136">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-137:</p>
 <div class="sourceCode" id="cb140"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb140-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-137 : S&#39;assurer que la connexion est root est seulement possible sur la console system&quot;</span></a>
-<a class="sourceLine" id="cb140-2" title="2"><span class="kw">for</span> <span class="ex">i</span> in 1 2 3 4 5 6<span class="kw">;</span> <span class="kw">do</span> <span class="bu">echo</span> <span class="st">&quot;tty</span><span class="va">$i</span><span class="st">&quot;</span> <span class="op">&gt;&gt;</span> /etc/securetty<span class="kw">;</span> <span class="kw">done</span></a>
+<a class="sourceLine" id="cb140-2" title="2"><span class="kw">for</span> <span class="ex">i</span> in 1 2 3 4 5 6<span class="kw">;</span> <span class="kw">do</span> <span class="bu">echo</span> <span class="st">&quot;tty</span><span class="va">$i</span><span class="st">&quot;</span> <span class="op">&gt;&gt;</span>/etc/securetty<span class="kw">;</span> <span class="kw">done</span></a>
 <a class="sourceLine" id="cb140-3" title="3"><span class="co"># enable pam_securetty.so as well</span></a>
 <a class="sourceLine" id="cb140-4" title="4"><span class="fu">cat</span> <span class="op">&gt;</span>/etc/pam.d/system-auth <span class="op">&lt;&lt;EOF</span></a>
 <a class="sourceLine" id="cb140-5" title="5">#%PAM-1.0</a>
@@ -3300,8 +3337,8 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-151">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-152:</p>
 <div class="sourceCode" id="cb155"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb155-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-152 : Authentification des utilisateurs exécutant sudo&quot;</span></a>
-<a class="sourceLine" id="cb155-2" title="2"><span class="kw">if</span> <span class="fu">grep</span> -q -E <span class="st">&quot;^[^#].*NOPASSWD&quot;</span> /etc/sudoers<span class="kw">;</span> <span class="kw">then</span> </a>
-<a class="sourceLine" id="cb155-3" title="3">    <span class="bu">echo</span> <span class="st">&quot;Directive NOPASSWD à supprimer du fichier /etc/sudoers&quot;</span></a>
+<a class="sourceLine" id="cb155-2" title="2"><span class="kw">if</span> <span class="fu">grep</span> -q -E <span class="st">&quot;^[^#].*NOPASSWD&quot;</span> /etc/sudoers<span class="kw">;</span> <span class="kw">then</span></a>
+<a class="sourceLine" id="cb155-3" title="3">  <span class="bu">echo</span> <span class="st">&quot;Directive NOPASSWD à supprimer du fichier /etc/sudoers&quot;</span></a>
 <a class="sourceLine" id="cb155-4" title="4"><span class="kw">fi</span></a>
 <a class="sourceLine" id="cb155-5" title="5"><span class="co"># Fin: HARDE-RHEL-152</span></a>
 <a class="sourceLine" id="cb155-6" title="6"></a></code></pre></div>
@@ -3712,7 +3749,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-174">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-175:</p>
 <div class="sourceCode" id="cb178"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb178-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-175 : Auditer les exécutables SUID&quot;</span></a>
-<a class="sourceLine" id="cb178-2" title="2"><span class="fu">df</span> --local -P <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{if (NR!=1) print $6}&#39;</span> <span class="kw">|</span> <span class="fu">xargs</span> -I <span class="st">&#39;{}&#39;</span> find <span class="st">&#39;{}&#39;</span> -xdev -type f -perm -4000 -ls <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/</span><span class="va">$0</span><span class="st">-suid-</span><span class="va">$(</span><span class="fu">date</span> +<span class="st">&#39;%Y-%m-%d&#39;</span><span class="va">)</span><span class="st">.txt&quot;</span></a>
+<a class="sourceLine" id="cb178-2" title="2"><span class="fu">df</span> --local -P <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{if (NR!=1) print $6}&#39;</span> <span class="kw">|</span> <span class="fu">xargs</span> -I <span class="st">&#39;{}&#39;</span> find <span class="st">&#39;{}&#39;</span> -xdev -type f -perm -4000 -ls <span class="op">&gt;</span><span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/</span><span class="va">$0</span><span class="st">-suid-</span><span class="va">$(</span><span class="fu">date</span> +<span class="st">&#39;%Y-%m-%d&#39;</span><span class="va">)</span><span class="st">.txt&quot;</span></a>
 <a class="sourceLine" id="cb178-3" title="3"><span class="co"># Fin: HARDE-RHEL-175</span></a>
 <a class="sourceLine" id="cb178-4" title="4"></a></code></pre></div>
 <h3 id="méthode-daudit-174">Méthode d'audit</h3>
@@ -3728,7 +3765,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-175">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-176:</p>
 <div class="sourceCode" id="cb179"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb179-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-176 : Auditer les exécutables SGID&quot;</span></a>
-<a class="sourceLine" id="cb179-2" title="2"><span class="fu">df</span> --local -P <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{if (NR!=1) print $6}&#39;</span> <span class="kw">|</span> <span class="fu">xargs</span> -I <span class="st">&#39;{}&#39;</span> find <span class="st">&#39;{}&#39;</span> -xdev -type f -perm -2000 -ls <span class="op">&gt;</span> <span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/</span><span class="va">$0</span><span class="st">-sgid-</span><span class="va">$(</span><span class="fu">date</span> +<span class="st">&#39;%Y-%m-%d&#39;</span><span class="va">)</span><span class="st">.txt&quot;</span></a>
+<a class="sourceLine" id="cb179-2" title="2"><span class="fu">df</span> --local -P <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{if (NR!=1) print $6}&#39;</span> <span class="kw">|</span> <span class="fu">xargs</span> -I <span class="st">&#39;{}&#39;</span> find <span class="st">&#39;{}&#39;</span> -xdev -type f -perm -2000 -ls <span class="op">&gt;</span><span class="st">&quot;</span><span class="va">$HOME</span><span class="st">/</span><span class="va">$0</span><span class="st">-sgid-</span><span class="va">$(</span><span class="fu">date</span> +<span class="st">&#39;%Y-%m-%d&#39;</span><span class="va">)</span><span class="st">.txt&quot;</span></a>
 <a class="sourceLine" id="cb179-3" title="3"><span class="co"># Fin: HARDE-RHEL-176</span></a>
 <a class="sourceLine" id="cb179-4" title="4"></a></code></pre></div>
 <h3 id="méthode-daudit-175">Méthode d'audit</h3>
@@ -4368,7 +4405,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <a class="sourceLine" id="cb212-3" title="3">Defaults logfile=&quot;/var/log/sudo/sudo.log&quot;</a>
 <a class="sourceLine" id="cb212-4" title="4"><span class="op">EOF</span></a>
 <a class="sourceLine" id="cb212-5" title="5"><span class="fu">mkdir</span> /var/log/sudo</a>
-<a class="sourceLine" id="cb212-6" title="6"><span class="ex">semanage</span> fcontext --add -t sudo_log_t /var/log/sudo </a>
+<a class="sourceLine" id="cb212-6" title="6"><span class="ex">semanage</span> fcontext --add -t sudo_log_t /var/log/sudo</a>
 <a class="sourceLine" id="cb212-7" title="7"><span class="ex">restorecon</span> -R -v /var/log/sudo</a>
 <a class="sourceLine" id="cb212-8" title="8"><span class="co"># Fin: HARDE-RHEL-209</span></a>
 <a class="sourceLine" id="cb212-9" title="9"></a></code></pre></div>
@@ -4417,11 +4454,14 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-211">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-212:</p>
 <div class="sourceCode" id="cb215"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb215-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-212 : S&#39;assurer que l&#39;audit commence au plus tôt&quot;</span></a>
-<a class="sourceLine" id="cb215-2" title="2"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;auditd=&#39;</span> /etc/default/grub <span class="kw">;</span> <span class="kw">then</span> <span class="fu">sed</span> -e <span class="st">&#39;s/\(GRUB_CMDLINE_LINUX=&quot;[^&quot;]*\)&quot;/\1 auditd=1&quot;/&#39;</span> -i /etc/default/grub <span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;Parameter auditd added.&quot;</span><span class="kw">;</span> <span class="kw">fi</span></a>
-<a class="sourceLine" id="cb215-3" title="3"><span class="ex">grub2-mkconfig</span> –o /boot/grub2/grub.cfg <span class="op">&gt;</span>/dev/null</a>
-<a class="sourceLine" id="cb215-4" title="4"><span class="ex">grub2-mkconfig</span> –o /boot/efi/EFI/grub.cfg  <span class="op">&gt;</span>/dev/null</a>
-<a class="sourceLine" id="cb215-5" title="5"><span class="co"># Fin: HARDE-RHEL-212</span></a>
-<a class="sourceLine" id="cb215-6" title="6"></a></code></pre></div>
+<a class="sourceLine" id="cb215-2" title="2"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;auditd=&#39;</span> /etc/default/grub<span class="kw">;</span> <span class="kw">then</span></a>
+<a class="sourceLine" id="cb215-3" title="3">  <span class="fu">sed</span> -e <span class="st">&#39;s/\(GRUB_CMDLINE_LINUX=&quot;[^&quot;]*\)&quot;/\1 auditd=1&quot;/&#39;</span> -i /etc/default/grub</a>
+<a class="sourceLine" id="cb215-4" title="4">  <span class="bu">echo</span> <span class="st">&quot;Parameter auditd added.&quot;</span></a>
+<a class="sourceLine" id="cb215-5" title="5"><span class="kw">fi</span></a>
+<a class="sourceLine" id="cb215-6" title="6"><span class="ex">grub2-mkconfig</span> –o /boot/grub2/grub.cfg <span class="op">&gt;</span>/dev/null</a>
+<a class="sourceLine" id="cb215-7" title="7"><span class="ex">grub2-mkconfig</span> –o /boot/efi/EFI/grub.cfg <span class="op">&gt;</span>/dev/null</a>
+<a class="sourceLine" id="cb215-8" title="8"><span class="co"># Fin: HARDE-RHEL-212</span></a>
+<a class="sourceLine" id="cb215-9" title="9"></a></code></pre></div>
 <h3 id="méthode-daudit-211">Méthode d'audit</h3>
 <p><a name="harde-rhel-213:"></a></p>
 <h2 id="6213-harde-rhel-213-">6.213. HARDE-RHEL-213 :</h2>
@@ -4435,11 +4475,14 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-212">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-213:</p>
 <div class="sourceCode" id="cb216"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb216-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-213 : S&#39;assurer que la valeur d&#39;audit_backlog_limit est suffisante&quot;</span></a>
-<a class="sourceLine" id="cb216-2" title="2"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;audit_backlog_limit=&#39;</span> /etc/default/grub <span class="kw">;</span> <span class="kw">then</span> <span class="fu">sed</span> -e <span class="st">&#39;s/\(GRUB_CMDLINE_LINUX=&quot;[^&quot;]*\)&quot;/\1 audit_backlog_limit=8192&quot;/&#39;</span> -i /etc/default/grub <span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;Parameter audit_backlog_limit added.&quot;</span><span class="kw">;</span> <span class="kw">fi</span></a>
-<a class="sourceLine" id="cb216-3" title="3"><span class="ex">grub2-mkconfig</span> –o /boot/grub2/grub.cfg <span class="op">&gt;</span>/dev/null</a>
-<a class="sourceLine" id="cb216-4" title="4"><span class="ex">grub2-mkconfig</span> –o /boot/efi/EFI/grub.cfg  <span class="op">&gt;</span>/dev/null</a>
-<a class="sourceLine" id="cb216-5" title="5"><span class="co"># Fin: HARDE-RHEL-213</span></a>
-<a class="sourceLine" id="cb216-6" title="6"></a></code></pre></div>
+<a class="sourceLine" id="cb216-2" title="2"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;audit_backlog_limit=&#39;</span> /etc/default/grub<span class="kw">;</span> <span class="kw">then</span></a>
+<a class="sourceLine" id="cb216-3" title="3">  <span class="fu">sed</span> -e <span class="st">&#39;s/\(GRUB_CMDLINE_LINUX=&quot;[^&quot;]*\)&quot;/\1 audit_backlog_limit=8192&quot;/&#39;</span> -i /etc/default/grub</a>
+<a class="sourceLine" id="cb216-4" title="4">  <span class="bu">echo</span> <span class="st">&quot;Parameter audit_backlog_limit added.&quot;</span></a>
+<a class="sourceLine" id="cb216-5" title="5"><span class="kw">fi</span></a>
+<a class="sourceLine" id="cb216-6" title="6"><span class="ex">grub2-mkconfig</span> –o /boot/grub2/grub.cfg <span class="op">&gt;</span>/dev/null</a>
+<a class="sourceLine" id="cb216-7" title="7"><span class="ex">grub2-mkconfig</span> –o /boot/efi/EFI/grub.cfg <span class="op">&gt;</span>/dev/null</a>
+<a class="sourceLine" id="cb216-8" title="8"><span class="co"># Fin: HARDE-RHEL-213</span></a>
+<a class="sourceLine" id="cb216-9" title="9"></a></code></pre></div>
 <h3 id="méthode-daudit-212">Méthode d'audit</h3>
 <p><a name="harde-rhel-214:"></a></p>
 <h2 id="6214-harde-rhel-214-">6.214. HARDE-RHEL-214 :</h2>
@@ -4499,7 +4542,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <a class="sourceLine" id="cb219-2" title="2"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-216 : Journalisation de l&#39;activité par auditd&quot;</span></a>
 <a class="sourceLine" id="cb219-3" title="3"><span class="co"># Remove any pre-existing rules</span></a>
 <a class="sourceLine" id="cb219-4" title="4"><span class="fu">rm</span> -f /etc/audit/rules.d/audit.rules <span class="kw">||</span> <span class="fu">true</span></a>
-<a class="sourceLine" id="cb219-5" title="5"><span class="fu">cat</span> <span class="op">&gt;</span>/etc/audit/rules.d/00audit.rules<span class="op">&lt;&lt;EOF</span></a>
+<a class="sourceLine" id="cb219-5" title="5"><span class="fu">cat</span> <span class="op">&gt;</span>/etc/audit/rules.d/00audit.rules <span class="op">&lt;&lt;EOF</span></a>
 <a class="sourceLine" id="cb219-6" title="6">## First rule - delete all</a>
 <a class="sourceLine" id="cb219-7" title="7">-D</a>
 <a class="sourceLine" id="cb219-8" title="8">## Increase the buffers to survive stress events.</a>
@@ -4514,7 +4557,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <a class="sourceLine" id="cb219-17" title="17"># Journaliser les modifications dans /etc/</a>
 <a class="sourceLine" id="cb219-18" title="18">-w /etc/ -p wa</a>
 <a class="sourceLine" id="cb219-19" title="19"><span class="op">EOF</span></a>
-<a class="sourceLine" id="cb219-20" title="20"><span class="fu">cat</span> <span class="op">&gt;</span>/etc/audit/rules.d/20mount.rules<span class="op">&lt;&lt;EOF</span></a>
+<a class="sourceLine" id="cb219-20" title="20"><span class="fu">cat</span> <span class="op">&gt;</span>/etc/audit/rules.d/20mount.rules <span class="op">&lt;&lt;EOF</span></a>
 <a class="sourceLine" id="cb219-21" title="21"># Surveillance de montage/démontage</a>
 <a class="sourceLine" id="cb219-22" title="22">-a exit,always -F arch=b32 -S mount -S umount2 -k mounts</a>
 <a class="sourceLine" id="cb219-23" title="23">-a exit,always -F arch=b64 -S mount -S umount2 -k mounts</a>
@@ -4544,7 +4587,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-216">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-217:</p>
 <div class="sourceCode" id="cb220"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb220-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-217 : Tracer l&#39;utilisation des commandes privilégiés&quot;</span></a>
-<a class="sourceLine" id="cb220-2" title="2"><span class="fu">find</span> / /usr /srv -xdev <span class="dt">\(</span> -perm -4000 -o -perm -2000 <span class="dt">\)</span> -type f <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{print &quot;-a always,exit -F path=&quot; $1 &quot; -F perm=x -F auid&gt;=&#39;&quot;</span><span class="va">$(</span><span class="fu">awk</span> <span class="st">&#39;/^\s*UID_MIN/{print $2}&#39;</span> /etc/login.defs<span class="va">)</span><span class="st">&quot;&#39; -F auid!=4294967295 -k privileged&quot; }&#39;</span> <span class="op">&gt;</span> /etc/audit/rules.d/25privileged.rules</a>
+<a class="sourceLine" id="cb220-2" title="2"><span class="fu">find</span> / /usr /srv -xdev <span class="dt">\(</span> -perm -4000 -o -perm -2000 <span class="dt">\)</span> -type f <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{print &quot;-a always,exit -F path=&quot; $1 &quot; -F perm=x -F auid&gt;=&#39;&quot;</span><span class="va">$(</span><span class="fu">awk</span> <span class="st">&#39;/^\s*UID_MIN/{print $2}&#39;</span> /etc/login.defs<span class="va">)</span><span class="st">&quot;&#39; -F auid!=4294967295 -k privileged&quot; }&#39;</span> <span class="op">&gt;</span>/etc/audit/rules.d/25privileged.rules</a>
 <a class="sourceLine" id="cb220-3" title="3"><span class="co"># Fin: HARDE-RHEL-217</span></a>
 <a class="sourceLine" id="cb220-4" title="4"></a></code></pre></div>
 <h3 id="méthode-daudit-216">Méthode d'audit</h3>
@@ -4637,9 +4680,12 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-221">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-222:</p>
 <div class="sourceCode" id="cb225"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb225-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-222 : S&#39;assurer que la taille de stockage est spécifiée&quot;</span></a>
-<a class="sourceLine" id="cb225-2" title="2"><span class="kw">if</span>  ! <span class="fu">grep</span> -q -E <span class="st">&#39;^max_log_file = 8&#39;</span> /etc/audit/auditd.conf <span class="kw">;</span> <span class="kw">then</span> <span class="fu">sed</span> -e <span class="st">&#39;s/\(max_log_file .*\)/#HARDE-RHEL-222: \1/&#39;</span> -i /etc/audit/auditd.conf<span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;max_log_file = 8&quot;</span> <span class="op">&gt;&gt;</span> /etc/audit/auditd.conf<span class="kw">;</span> <span class="kw">fi</span></a>
-<a class="sourceLine" id="cb225-3" title="3"><span class="co"># Fin: HARDE-RHEL-222</span></a>
-<a class="sourceLine" id="cb225-4" title="4"></a></code></pre></div>
+<a class="sourceLine" id="cb225-2" title="2"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;^max_log_file = 8&#39;</span> /etc/audit/auditd.conf<span class="kw">;</span> <span class="kw">then</span></a>
+<a class="sourceLine" id="cb225-3" title="3">  <span class="fu">sed</span> -e <span class="st">&#39;s/\(max_log_file .*\)/#HARDE-RHEL-222: \1/&#39;</span> -i /etc/audit/auditd.conf</a>
+<a class="sourceLine" id="cb225-4" title="4">  <span class="bu">echo</span> <span class="st">&quot;max_log_file = 8&quot;</span> <span class="op">&gt;&gt;</span>/etc/audit/auditd.conf</a>
+<a class="sourceLine" id="cb225-5" title="5"><span class="kw">fi</span></a>
+<a class="sourceLine" id="cb225-6" title="6"><span class="co"># Fin: HARDE-RHEL-222</span></a>
+<a class="sourceLine" id="cb225-7" title="7"></a></code></pre></div>
 <h3 id="méthode-daudit-221">Méthode d'audit</h3>
 <p><a name="harde-rhel-223:s&#39;assurerqueleslogsd&#39;auditnesoientpaspurgés"></a></p>
 <h2 id="harde-rhel-223--sassurer-que-les-logs-daudit-ne-soient-pas-purgés">HARDE-RHEL-223 : S'assurer que les logs d'audit ne soient pas purgés</h2>
@@ -4656,27 +4702,27 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-223:</p>
 <div class="sourceCode" id="cb226"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb226-1" title="1"><span class="co">#! /usr/bin/env bash</span></a>
 <a class="sourceLine" id="cb226-2" title="2"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-223 : S&#39;assurer que les logs d&#39;audit ne soient pas purgés&quot;</span></a>
-<a class="sourceLine" id="cb226-3" title="3"><span class="kw">if</span>  ! <span class="fu">grep</span> -q -E <span class="st">&#39;^max_log_file_action = keep_logs&#39;</span> /etc/audit/auditd.conf</a>
-<a class="sourceLine" id="cb226-4" title="4"><span class="kw">then</span> </a>
-<a class="sourceLine" id="cb226-5" title="5">    <span class="fu">sed</span> -e <span class="st">&#39;s/\(max_log_file_action.*\)/#HARDE-RHEL-223: \1/&#39;</span> -i /etc/audit/auditd.conf</a>
-<a class="sourceLine" id="cb226-6" title="6">    <span class="bu">echo</span> <span class="st">&quot;max_log_file_action = keep_logs&quot;</span> <span class="op">&gt;&gt;</span> /etc/audit/auditd.conf</a>
+<a class="sourceLine" id="cb226-3" title="3"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;^max_log_file_action = keep_logs&#39;</span> /etc/audit/auditd.conf<span class="kw">;</span> <span class="kw">then</span></a>
+<a class="sourceLine" id="cb226-4" title="4">  <span class="fu">sed</span> -e <span class="st">&#39;s/\(max_log_file_action.*\)/#HARDE-RHEL-223: \1/&#39;</span> \</a>
+<a class="sourceLine" id="cb226-5" title="5">    -i /etc/audit/auditd.conf</a>
+<a class="sourceLine" id="cb226-6" title="6">  <span class="bu">echo</span> <span class="st">&quot;max_log_file_action = keep_logs&quot;</span> <span class="op">&gt;&gt;</span>/etc/audit/auditd.conf</a>
 <a class="sourceLine" id="cb226-7" title="7"><span class="kw">fi</span></a>
 <a class="sourceLine" id="cb226-8" title="8"><span class="fu">cat</span> <span class="op">&gt;</span>/etc/cron.daily/auditd <span class="op">&lt;&lt;&#39;EOF&#39;</span></a>
-<a class="sourceLine" id="cb226-9" title="9">NUM_LOGS=30</a>
-<a class="sourceLine" id="cb226-10" title="10"># /var/log/audit/audit.log.XX</a>
-<a class="sourceLine" id="cb226-11" title="11"># Only keep the files where XX &gt; NUM_LOGS</a>
-<a class="sourceLine" id="cb226-12" title="12">for log in /var/log/audit/audit.log.*</a>
-<a class="sourceLine" id="cb226-13" title="13">do</a>
-<a class="sourceLine" id="cb226-14" title="14">    extension=&quot;${log##*.}&quot;</a>
-<a class="sourceLine" id="cb226-15" title="15">    # Ignore non-numeric extensions</a>
-<a class="sourceLine" id="cb226-16" title="16">    [ &quot;$extension&quot; -eq &quot;$extension&quot; ] 2&gt;/dev/null || continue </a>
-<a class="sourceLine" id="cb226-17" title="17">    [ &quot;$extension&quot; -gt $NUM_LOGS ] &amp;&amp; /bin/rm -f &quot;$log&quot;</a>
-<a class="sourceLine" id="cb226-18" title="18">done</a>
-<a class="sourceLine" id="cb226-19" title="19">kill -USR1 $(/sbin/pidof auditd)</a>
-<a class="sourceLine" id="cb226-20" title="20"><span class="op">EOF</span></a>
-<a class="sourceLine" id="cb226-21" title="21"><span class="fu">chmod</span> 0500 /etc/cron.daily/auditd</a>
-<a class="sourceLine" id="cb226-22" title="22"><span class="co"># Fin: HARDE-RHEL-223</span></a>
-<a class="sourceLine" id="cb226-23" title="23"></a>
+<a class="sourceLine" id="cb226-9" title="9">#! /bin/bash</a>
+<a class="sourceLine" id="cb226-10" title="10">NUM_LOGS=30</a>
+<a class="sourceLine" id="cb226-11" title="11"># /var/log/audit/audit.log.XX</a>
+<a class="sourceLine" id="cb226-12" title="12"># Only keep the files where XX &gt; NUM_LOGS</a>
+<a class="sourceLine" id="cb226-13" title="13">for log in /var/log/audit/audit.log.*</a>
+<a class="sourceLine" id="cb226-14" title="14">do</a>
+<a class="sourceLine" id="cb226-15" title="15">    extension=&quot;${log##*.}&quot;</a>
+<a class="sourceLine" id="cb226-16" title="16">    # Ignore non-numeric extensions</a>
+<a class="sourceLine" id="cb226-17" title="17">    [ &quot;$extension&quot; -eq &quot;$extension&quot; ] 2&gt;/dev/null || continue </a>
+<a class="sourceLine" id="cb226-18" title="18">    [ &quot;$extension&quot; -gt $NUM_LOGS ] &amp;&amp; /bin/rm -f &quot;$log&quot;</a>
+<a class="sourceLine" id="cb226-19" title="19">done</a>
+<a class="sourceLine" id="cb226-20" title="20">kill -USR1 &quot;$(/sbin/pidof auditd)&quot;</a>
+<a class="sourceLine" id="cb226-21" title="21"><span class="op">EOF</span></a>
+<a class="sourceLine" id="cb226-22" title="22"><span class="fu">chmod</span> 0500 /etc/cron.daily/auditd</a>
+<a class="sourceLine" id="cb226-23" title="23"><span class="co"># Fin: HARDE-RHEL-223</span></a>
 <a class="sourceLine" id="cb226-24" title="24"></a></code></pre></div>
 <h3 id="méthode-daudit-222">Méthode d'audit</h3>
 <p><a name="harde-rhel-224:s&#39;assurerquelesystèmes&#39;arrêtesilesystèmed&#39;auditestplein"></a></p>
@@ -4695,9 +4741,12 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-224:</p>
 <div class="sourceCode" id="cb227"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb227-1" title="1"><span class="co">#! /bin/bash</span></a>
 <a class="sourceLine" id="cb227-2" title="2"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-224 : S&#39;assurer que le système s&#39;arrête si le système d&#39;audit est plein&quot;</span></a>
-<a class="sourceLine" id="cb227-3" title="3"><span class="kw">if</span>  ! <span class="fu">grep</span> -q -E <span class="st">&#39;^admin_space_left_action = halt&#39;</span> /etc/audit/auditd.conf <span class="kw">;</span> <span class="kw">then</span> <span class="fu">sed</span> -e <span class="st">&#39;s/\(admin_space_left_action .*\)/#HARDE-RHEL-224: \1/&#39;</span> -i /etc/audit/auditd.conf<span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;admin_space_left_action = halt&quot;</span> <span class="op">&gt;&gt;</span> /etc/audit/auditd.conf<span class="kw">;</span> <span class="kw">fi</span></a>
-<a class="sourceLine" id="cb227-4" title="4"><span class="co"># Fin: HARDE-RHEL-224</span></a>
-<a class="sourceLine" id="cb227-5" title="5"></a></code></pre></div>
+<a class="sourceLine" id="cb227-3" title="3"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;^admin_space_left_action = halt&#39;</span> /etc/audit/auditd.conf<span class="kw">;</span> <span class="kw">then</span></a>
+<a class="sourceLine" id="cb227-4" title="4">  <span class="fu">sed</span> -e <span class="st">&#39;s/\(admin_space_left_action .*\)/#HARDE-RHEL-224: \1/&#39;</span> -i /etc/audit/auditd.conf</a>
+<a class="sourceLine" id="cb227-5" title="5">  <span class="bu">echo</span> <span class="st">&quot;admin_space_left_action = halt&quot;</span> <span class="op">&gt;&gt;</span>/etc/audit/auditd.conf</a>
+<a class="sourceLine" id="cb227-6" title="6"><span class="kw">fi</span></a>
+<a class="sourceLine" id="cb227-7" title="7"><span class="co"># Fin: HARDE-RHEL-224</span></a>
+<a class="sourceLine" id="cb227-8" title="8"></a></code></pre></div>
 <h3 id="méthode-daudit-223">Méthode d'audit</h3>
 <p><a name="harde-rhel-225:"></a></p>
 <h2 id="6225-harde-rhel-225-">6.225. HARDE-RHEL-225 :</h2>
@@ -4711,7 +4760,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-224">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-225:</p>
 <div class="sourceCode" id="cb228"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb228-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-225 : Auditer tout changement du fichier sudoers&quot;</span></a>
-<a class="sourceLine" id="cb228-2" title="2"><span class="fu">cat</span> <span class="op">&gt;</span>/etc/audit/rules.d/60scope.rules<span class="op">&lt;&lt;EOF</span></a>
+<a class="sourceLine" id="cb228-2" title="2"><span class="fu">cat</span> <span class="op">&gt;</span>/etc/audit/rules.d/60scope.rules <span class="op">&lt;&lt;EOF</span></a>
 <a class="sourceLine" id="cb228-3" title="3">-w /etc/sudoers -p wa -k scope</a>
 <a class="sourceLine" id="cb228-4" title="4">-w /etc/sudoers.d/ -p wa -k scope</a>
 <a class="sourceLine" id="cb228-5" title="5"><span class="op">EOF</span></a>
@@ -4730,7 +4779,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-225">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-226:</p>
 <div class="sourceCode" id="cb229"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb229-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-226 : Auditer toute connexion/déconnexion&quot;</span></a>
-<a class="sourceLine" id="cb229-2" title="2"><span class="fu">cat</span> <span class="op">&gt;</span> /etc/audit/rules.d/65audit.rules<span class="op">&lt;&lt;EOF</span></a>
+<a class="sourceLine" id="cb229-2" title="2"><span class="fu">cat</span> <span class="op">&gt;</span>/etc/audit/rules.d/65audit.rules <span class="op">&lt;&lt;EOF</span></a>
 <a class="sourceLine" id="cb229-3" title="3">-w /var/log/faillog -p wa -k logins</a>
 <a class="sourceLine" id="cb229-4" title="4">-w /var/log/lastlog -p wa -k logins</a>
 <a class="sourceLine" id="cb229-5" title="5"><span class="op">EOF</span></a>
@@ -4749,7 +4798,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-226">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-227:</p>
 <div class="sourceCode" id="cb230"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb230-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-227 : Collecter toutes les informations de session&quot;</span></a>
-<a class="sourceLine" id="cb230-2" title="2"><span class="fu">cat</span> <span class="op">&gt;</span>/etc/audit/rules.d/70logins.rules<span class="op">&lt;&lt;EOF</span></a>
+<a class="sourceLine" id="cb230-2" title="2"><span class="fu">cat</span> <span class="op">&gt;</span>/etc/audit/rules.d/70logins.rules <span class="op">&lt;&lt;EOF</span></a>
 <a class="sourceLine" id="cb230-3" title="3">-w /var/run/utmp -p wa -k session</a>
 <a class="sourceLine" id="cb230-4" title="4">-w /var/log/wtmp -p wa -k logins</a>
 <a class="sourceLine" id="cb230-5" title="5">-w /var/log/btmp -p wa -k logins</a>
@@ -4791,7 +4840,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-228">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-229:</p>
 <div class="sourceCode" id="cb232"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb232-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-229 : S&#39;assurer que les événements modifiant les MAC soient collectéees&quot;</span></a>
-<a class="sourceLine" id="cb232-2" title="2"><span class="fu">cat</span> <span class="op">&gt;</span>/etc/audit/rules.d/80MAC-policy.rules<span class="op">&lt;&lt;EOF</span></a>
+<a class="sourceLine" id="cb232-2" title="2"><span class="fu">cat</span> <span class="op">&gt;</span>/etc/audit/rules.d/80MAC-policy.rules <span class="op">&lt;&lt;EOF</span></a>
 <a class="sourceLine" id="cb232-3" title="3">-w /etc/selinux/ -p wa -k MAC-policy</a>
 <a class="sourceLine" id="cb232-4" title="4">-w /usr/share/selinux/ -p wa -k MAC-policy</a>
 <a class="sourceLine" id="cb232-5" title="5"><span class="op">EOF</span></a>
@@ -4833,7 +4882,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-230">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-231:</p>
 <div class="sourceCode" id="cb234"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb234-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-231 : Tracer les changements de permission&quot;</span></a>
-<a class="sourceLine" id="cb234-2" title="2"><span class="fu">cat</span> <span class="op">&gt;</span> /etc/audit/rules.d/90perm_mod.rules <span class="op">&lt;&lt;EOF</span></a>
+<a class="sourceLine" id="cb234-2" title="2"><span class="fu">cat</span> <span class="op">&gt;</span>/etc/audit/rules.d/90perm_mod.rules <span class="op">&lt;&lt;EOF</span></a>
 <a class="sourceLine" id="cb234-3" title="3">-a always,exit -F arch=b64 -S chmod -S fchmod -S fchmodat -F auid&gt;=1000 -F auid!=4294967295 -k perm_mod</a>
 <a class="sourceLine" id="cb234-4" title="4">-a always,exit -F arch=b32 -S chmod -S fchmod -S fchmodat -F auid&gt;=1000 -F auid!=4294967295 -k perm_mod</a>
 <a class="sourceLine" id="cb234-5" title="5">-a always,exit -F arch=b64 -S chown -S fchown -S fchownat -S lchown -F auid&gt;=1000 -F auid!=4294967295 -k perm_mod</a>
@@ -4888,7 +4937,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-233">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-234:</p>
 <div class="sourceCode" id="cb237"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb237-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-234 : Configurer les permissions des fichiers journaux&quot;</span></a>
-<a class="sourceLine" id="cb237-2" title="2"><span class="fu">cat</span> <span class="op">&gt;</span> /etc/rsyslog.d/10FileCreate.conf <span class="op">&lt;&lt;EOF</span></a>
+<a class="sourceLine" id="cb237-2" title="2"><span class="fu">cat</span> <span class="op">&gt;</span>/etc/rsyslog.d/10FileCreate.conf <span class="op">&lt;&lt;EOF</span></a>
 <a class="sourceLine" id="cb237-3" title="3"><span class="dt">\$</span>FileCreateMode 0640</a>
 <a class="sourceLine" id="cb237-4" title="4"><span class="op">EOF</span></a>
 <a class="sourceLine" id="cb237-5" title="5"><span class="co"># Fin: HARDE-RHEL-234</span></a>
@@ -4949,13 +4998,14 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-236:</p>
 <div class="sourceCode" id="cb239"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb239-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-236 : Renvoyer les journaux vers un hôte distant&quot;</span></a>
 <a class="sourceLine" id="cb239-2" title="2"><span class="co"># ask for the syslog server</span></a>
-<a class="sourceLine" id="cb239-3" title="3"><span class="bu">echo</span> -n <span class="st">&quot;Merci de préciser l&#39;adresse ou le nom du serveur SYSLOG distant :&quot;</span><span class="kw">;</span> <span class="bu">read</span> -e -i <span class="st">&#39;127.0.0.1&#39;</span> -r <span class="va">SYSLOGSERVER</span></a>
-<a class="sourceLine" id="cb239-4" title="4"><span class="fu">cat</span> <span class="op">&gt;</span> /etc/rsyslog.d/loghost.conf <span class="op">&lt;&lt;EOF</span></a>
-<a class="sourceLine" id="cb239-5" title="5"># TCP version *.*     @@<span class="va">$SYSLOGSERVER</span>:514</a>
-<a class="sourceLine" id="cb239-6" title="6">*.*     @<span class="va">$SYSLOGSERVER</span>:514</a>
-<a class="sourceLine" id="cb239-7" title="7"><span class="op">EOF</span></a>
-<a class="sourceLine" id="cb239-8" title="8"><span class="co"># Fin: HARDE-RHEL-236</span></a>
-<a class="sourceLine" id="cb239-9" title="9"></a></code></pre></div>
+<a class="sourceLine" id="cb239-3" title="3"><span class="bu">echo</span> -n <span class="st">&quot;Merci de préciser l&#39;adresse ou le nom du serveur SYSLOG distant :&quot;</span></a>
+<a class="sourceLine" id="cb239-4" title="4"><span class="bu">read</span> -e -i <span class="st">&#39;127.0.0.1&#39;</span> -r <span class="va">SYSLOGSERVER</span></a>
+<a class="sourceLine" id="cb239-5" title="5"><span class="fu">cat</span> <span class="op">&gt;</span>/etc/rsyslog.d/loghost.conf <span class="op">&lt;&lt;EOF</span></a>
+<a class="sourceLine" id="cb239-6" title="6"># TCP version *.*     @@<span class="va">$SYSLOGSERVER</span>:514</a>
+<a class="sourceLine" id="cb239-7" title="7">*.*     @<span class="va">$SYSLOGSERVER</span>:514</a>
+<a class="sourceLine" id="cb239-8" title="8"><span class="op">EOF</span></a>
+<a class="sourceLine" id="cb239-9" title="9"><span class="co"># Fin: HARDE-RHEL-236</span></a>
+<a class="sourceLine" id="cb239-10" title="10"></a></code></pre></div>
 <h3 id="méthode-daudit-235">Méthode d'audit</h3>
 <p><a name="harde-rhel-237:"></a></p>
 <h2 id="6237-harde-rhel-237-">6.237. HARDE-RHEL-237 :</h2>
@@ -4987,8 +5037,8 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <div class="sourceCode" id="cb241"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb241-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-238 : S&#39;assurer que journald est redirigé vers rsyslog&quot;</span></a>
 <a class="sourceLine" id="cb241-2" title="2"><span class="ex">systemctl</span> stop systemd-journald</a>
 <a class="sourceLine" id="cb241-3" title="3"><span class="ex">systemctl</span> disable systemd-journald</a>
-<a class="sourceLine" id="cb241-4" title="4"><span class="fu">mkdir</span> -p /etc/systemd/journald.conf.d/ </a>
-<a class="sourceLine" id="cb241-5" title="5"><span class="fu">cat</span> <span class="op">&gt;</span> /etc/systemd/journald.conf.d/00-forwardsyslog.conf <span class="op">&lt;&lt;EOF</span></a>
+<a class="sourceLine" id="cb241-4" title="4"><span class="fu">mkdir</span> -p /etc/systemd/journald.conf.d/</a>
+<a class="sourceLine" id="cb241-5" title="5"><span class="fu">cat</span> <span class="op">&gt;</span>/etc/systemd/journald.conf.d/00-forwardsyslog.conf <span class="op">&lt;&lt;EOF</span></a>
 <a class="sourceLine" id="cb241-6" title="6">[Journal]</a>
 <a class="sourceLine" id="cb241-7" title="7">ForwardToSyslog=yes</a>
 <a class="sourceLine" id="cb241-8" title="8"><span class="op">EOF</span></a>
@@ -5007,7 +5057,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-238">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-239:</p>
 <div class="sourceCode" id="cb242"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb242-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-239 : S&#39;assurer que journald compresse les journaux de grande taille&quot;</span></a>
-<a class="sourceLine" id="cb242-2" title="2"><span class="fu">cat</span> <span class="op">&gt;</span> /etc/systemd/journald.conf.d/10-compress.conf <span class="op">&lt;&lt;EOF</span></a>
+<a class="sourceLine" id="cb242-2" title="2"><span class="fu">cat</span> <span class="op">&gt;</span>/etc/systemd/journald.conf.d/10-compress.conf <span class="op">&lt;&lt;EOF</span></a>
 <a class="sourceLine" id="cb242-3" title="3">[Journal]</a>
 <a class="sourceLine" id="cb242-4" title="4">Compress=yes</a>
 <a class="sourceLine" id="cb242-5" title="5"><span class="op">EOF</span></a>
@@ -5026,7 +5076,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-239">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-240:</p>
 <div class="sourceCode" id="cb243"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb243-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-240 : S&#39;assurer que journald écrit les journaux sur disque&quot;</span></a>
-<a class="sourceLine" id="cb243-2" title="2"><span class="fu">cat</span> <span class="op">&gt;</span> /etc/systemd/journald.conf.d/20-persistent.conf <span class="op">&lt;&lt;EOF</span></a>
+<a class="sourceLine" id="cb243-2" title="2"><span class="fu">cat</span> <span class="op">&gt;</span>/etc/systemd/journald.conf.d/20-persistent.conf <span class="op">&lt;&lt;EOF</span></a>
 <a class="sourceLine" id="cb243-3" title="3">[Journal]</a>
 <a class="sourceLine" id="cb243-4" title="4">Storage=persistent</a>
 <a class="sourceLine" id="cb243-5" title="5"><span class="op">EOF</span></a>
@@ -5055,10 +5105,10 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <a class="sourceLine" id="cb244-3" title="3"><span class="co"># this is a one time solution since systemd resets permissions on reboot</span></a>
 <a class="sourceLine" id="cb244-4" title="4"><span class="co">#   find /var/log -type f -exec chmod g-wx,o-rwx &quot;{}&quot; + -o -type d -exec chmod g-w,o-rwx &quot;{}&quot; &quot;;&quot;</span></a>
 <a class="sourceLine" id="cb244-5" title="5"><span class="co"># systemd way:</span></a>
-<a class="sourceLine" id="cb244-6" title="6"><span class="fu">sed</span> -e <span class="st">&#39;s,d /var/log 0755,d /var/log 0751,&#39;</span> -i /usr/lib/tmpfiles.d/var.conf </a>
-<a class="sourceLine" id="cb244-7" title="7"><span class="fu">sed</span> -e <span class="st">&#39;s,f /var/log/wtmp 0664,f /var/log/wtmp 0640,&#39;</span> -i /usr/lib/tmpfiles.d/var.conf </a>
-<a class="sourceLine" id="cb244-8" title="8"><span class="fu">sed</span> -e <span class="st">&#39;s,f /var/log/lastlog 0664,f /var/log/lastlog 0640,&#39;</span> -i /usr/lib/tmpfiles.d/var.conf </a>
-<a class="sourceLine" id="cb244-9" title="9"><span class="fu">sed</span> -e <span class="st">&#39;s,f /var/log/btmp 0660,f /var/log/btmp 0640,&#39;</span> -i /usr/lib/tmpfiles.d/var.conf </a>
+<a class="sourceLine" id="cb244-6" title="6"><span class="fu">sed</span> -e <span class="st">&#39;s,d /var/log 0755,d /var/log 0751,&#39;</span> -i /usr/lib/tmpfiles.d/var.conf</a>
+<a class="sourceLine" id="cb244-7" title="7"><span class="fu">sed</span> -e <span class="st">&#39;s,f /var/log/wtmp 0664,f /var/log/wtmp 0640,&#39;</span> -i /usr/lib/tmpfiles.d/var.conf</a>
+<a class="sourceLine" id="cb244-8" title="8"><span class="fu">sed</span> -e <span class="st">&#39;s,f /var/log/lastlog 0664,f /var/log/lastlog 0640,&#39;</span> -i /usr/lib/tmpfiles.d/var.conf</a>
+<a class="sourceLine" id="cb244-9" title="9"><span class="fu">sed</span> -e <span class="st">&#39;s,f /var/log/btmp 0660,f /var/log/btmp 0640,&#39;</span> -i /usr/lib/tmpfiles.d/var.conf</a>
 <a class="sourceLine" id="cb244-10" title="10"><span class="fu">sed</span> -e <span class="st">&#39;s,z /var/log/journal 2755,z /var/log/journal 2750,&#39;</span> -i /usr/lib/tmpfiles.d/systemd.conf</a>
 <a class="sourceLine" id="cb244-11" title="11"><span class="fu">sed</span> -e <span class="st">&#39;s,z /var/log/journal/%m 2755,z /var/log/journal/%m 2750,&#39;</span> -i /usr/lib/tmpfiles.d/systemd.conf</a>
 <a class="sourceLine" id="cb244-12" title="12"><span class="co"># Fin: HARDE-RHEL-241</span></a>
@@ -5076,7 +5126,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-241">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-242:</p>
 <div class="sourceCode" id="cb245"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb245-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-242 : S&#39;assurer que logrotate est configuré&quot;</span></a>
-<a class="sourceLine" id="cb245-2" title="2"><span class="fu">cat</span> <span class="op">&gt;</span>/etc/logrotate.d/wtmp<span class="op">&lt;&lt;EOF</span></a>
+<a class="sourceLine" id="cb245-2" title="2"><span class="fu">cat</span> <span class="op">&gt;</span>/etc/logrotate.d/wtmp <span class="op">&lt;&lt;EOF</span></a>
 <a class="sourceLine" id="cb245-3" title="3"># no packages own wtmp -- we&#39;ll rotate it here</a>
 <a class="sourceLine" id="cb245-4" title="4">/var/log/wtmp {</a>
 <a class="sourceLine" id="cb245-5" title="5">    missingok</a>
@@ -5086,7 +5136,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <a class="sourceLine" id="cb245-9" title="9">    rotate 12</a>
 <a class="sourceLine" id="cb245-10" title="10">}</a>
 <a class="sourceLine" id="cb245-11" title="11"><span class="op">EOF</span></a>
-<a class="sourceLine" id="cb245-12" title="12"><span class="fu">cat</span> <span class="op">&gt;</span>/etc/logrotate.d/lastlog<span class="op">&lt;&lt;EOF</span></a>
+<a class="sourceLine" id="cb245-12" title="12"><span class="fu">cat</span> <span class="op">&gt;</span>/etc/logrotate.d/lastlog <span class="op">&lt;&lt;EOF</span></a>
 <a class="sourceLine" id="cb245-13" title="13"># no packages own lastlog -- we&#39;ll rotate it here</a>
 <a class="sourceLine" id="cb245-14" title="14">/var/log/lastlog {</a>
 <a class="sourceLine" id="cb245-15" title="15">    missingok</a>
@@ -5096,7 +5146,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <a class="sourceLine" id="cb245-19" title="19">    rotate 12</a>
 <a class="sourceLine" id="cb245-20" title="20">}</a>
 <a class="sourceLine" id="cb245-21" title="21"><span class="op">EOF</span></a>
-<a class="sourceLine" id="cb245-22" title="22"><span class="fu">cat</span> <span class="op">&gt;</span>/etc/logrotate.d/btmp<span class="op">&lt;&lt;EOF</span></a>
+<a class="sourceLine" id="cb245-22" title="22"><span class="fu">cat</span> <span class="op">&gt;</span>/etc/logrotate.d/btmp <span class="op">&lt;&lt;EOF</span></a>
 <a class="sourceLine" id="cb245-23" title="23"># no packages own btmp -- we&#39;ll rotate it here</a>
 <a class="sourceLine" id="cb245-24" title="24">/var/log/btmp {</a>
 <a class="sourceLine" id="cb245-25" title="25">    missingok</a>
@@ -5120,7 +5170,7 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <h4 id="méthode-à-suivre-242">Méthode à suivre</h4>
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-243:</p>
 <div class="sourceCode" id="cb246"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb246-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-243 : S&#39;assurer que le paramètre SSH LogLevel est approprié&quot;</span></a>
-<a class="sourceLine" id="cb246-2" title="2"><span class="kw">if</span>  ! <span class="fu">grep</span> -q -E <span class="st">&#39;^LogLevel\s+(VERBOSE|INFO)&#39;</span> /etc/ssh/sshd_config <span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;LogLevel VERBOSE&quot;</span><span class="op">&gt;&gt;</span> /etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb246-2" title="2"><span class="kw">if</span> ! <span class="fu">grep</span> -q -E <span class="st">&#39;^LogLevel\s+(VERBOSE|INFO)&#39;</span> /etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">then</span> <span class="bu">echo</span> <span class="st">&quot;LogLevel VERBOSE&quot;</span> <span class="op">&gt;&gt;</span>/etc/ssh/sshd_config<span class="kw">;</span> <span class="kw">fi</span></a>
 <a class="sourceLine" id="cb246-3" title="3"><span class="co"># Fin: HARDE-RHEL-243</span></a>
 <a class="sourceLine" id="cb246-4" title="4"></a></code></pre></div>
 <h3 id="méthode-daudit-242">Méthode d'audit</h3>
@@ -5185,7 +5235,8 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <p>Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-247:</p>
 <div class="sourceCode" id="cb250"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb250-1" title="1"><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-247 : Journaux d&#39;activité de service&quot;</span></a>
 <a class="sourceLine" id="cb250-2" title="2"></a>
-<a class="sourceLine" id="cb250-3" title="3"><span class="co"># Fin: HARDE-RHEL-247</span></a></code></pre></div>
+<a class="sourceLine" id="cb250-3" title="3"><span class="co"># Fin: HARDE-RHEL-247</span></a>
+<a class="sourceLine" id="cb250-4" title="4"></a></code></pre></div>
 <h3 id="méthode-daudit-246">Méthode d'audit</h3>
 <p><a name="utilisationdusysteme"></a></p>
 <h1 id="7-utilisation-du-systeme">7. UTILISATION DU SYSTEME</h1>
@@ -5204,13 +5255,15 @@ none                        /dev/shm            tmpfs   nosuid,nodev,noexec,defa
 <p>Il n’est possible de se connecter en root que sur une console « physique » c’est-à-dire les consoles (tty de 1 à 6) disponibles sur l’écran/clavier connectés directement à l’ordinateur. Pour les autres connexions, il faut passer par sudo (via sudo -i). <a name="monterunepartition"></a></p>
 <h2 id="77-monter-une-partition">7.7. Monter une partition</h2>
 <p>À cause de l’utilisation de pam_namespace, il est recommandé de modifier /etc/fstab (puis redémarrer) pour tous les points de montage destinés à être « permanents » ou visibles de tous les utilisateurs. Utiliser mount dans une session sudo ne rendra ce point de montage visible que dans la session courante (et sera donc invisible des autres utilisateurs). D’autre part, la sécurisation par défaut empêche le chargement de modules noyaux, ce qui bloque donc l’utilisation de clés USB ou de CD/DVD (même sous la forme de fichiers ISO). Il faudra donc dans ces cas-là autoriser temporairement le chargement de modules noyaux :</p>
-<h3 id="images-iso-physiques-ou-virtuelles">Images ISO (physiques ou virtuelles)</h3>
+<p><a name="imagesisophysiquesouvirtuelles"></a></p>
+<h2 id="78-images-iso-physiques-ou-virtuelles">7.8. Images ISO (physiques ou virtuelles)</h2>
 <p>Suivant le format, elles requièrent le module iso9660 ou udf. Il faut donc passer en mode de maintenance pour autoriser le chargement des modules. Pour se faire, lancer la commande suivante : sudo /etc/maintenance_mode.sh Le script vous demande de redémarrer. Une fois le système à nouveau accessible, il devient possible d’utiliser de monter des images ISO.</p>
-<h3 id="clés-usb">Clés USB</h3>
+<p><a name="clésusb"></a></p>
+<h2 id="79-clés-usb">7.9. Clés USB</h2>
 <p>Là encore, il n’est pas possible d’utiliser de clés USB en mode normal et il faut donc passer en mode de maintenance. Pour se faire, lancer la commande suivante : sudo /etc/maintenance_mode.sh Le script vous demande de redémarrer. Une fois le système à nouveau accessible, il devient possible d’utiliser des clés USB. <a name="accéderàlapartition/boot"></a></p>
-<h2 id="78-accéder-à-la-partition-boot">7.8. Accéder à la partition /boot</h2>
+<h2 id="710-accéder-à-la-partition-boot">7.10. Accéder à la partition /boot</h2>
 <p>Avant d’appliquer une mise à jour, il faut monter /boot et /boot/efi (souvent nécessaire lors des mises à jour) : il faut donc autoriser le chargement des modules: sudo /etc/maintenance_mode.sh Puis redémarrer. Ensuite monter le système de fichier : mount /boot &amp;&amp; mount /boot/efi Une fois la mise à jour faite, redémarrer pour revenir en situation normale. <a name="diagnosticselinux"></a></p>
-<h2 id="79-diagnostic-selinux">7.9. Diagnostic SELinux</h2>
+<h2 id="711-diagnostic-selinux">7.11. Diagnostic SELinux</h2>
 <p>La commande ausearch permet de repérer les événements liés à un blocage par SELinux.</p>
 <p>Cette commande est très puissante et décrire l’ensemble des options possibles dépasse du cadre de ce guide. Pour plus d’information, nous renvoyons vers ce site : <a href="https://wiki.centos.org/HowTos/SELinux" class="uri">https://wiki.centos.org/HowTos/SELinux</a>.</p>
 <p>À titre d’exemple, la commande suivante est lancée et nous reporte un événement « bloqué » : ausearch -m AVC,USER_AVC,SELINUX_ERR,USER_SELINUX_ERR -i Résultat : type=PROCTITLE msg=audit(12/09/2020 07:18:11.625:4768) : proctitle=ausearch -m AVC,USER_AVC,SELINUX_ERR,USER_SELINUX_ERR -i type=PATH msg=audit(12/09/2020 07:18:11.625:4768) : item=0 name=/var/log/audit/audit.log nametype=UNKNOWN cap_fp=none cap_fi=none cap_fe=0 cap_fver=0 type=CWD msg=audit(12/09/2020 07:18:11.625:4768) : cwd=/root type=SYSCALL msg=audit(12/09/2020 07:18:11.625:4768) : arch=x86_64 syscall=openat success=no exit=EACCES(Permission non accordée) a0=0xffffff9c a1=0x55fd00b078f0 a2=O_RDONLY a3=0x0 items=1 ppid=6470 pid=6489 auid=blanchet uid=root gid=root euid=root suid=root fsuid=root egid=root sgid=root fsgid=root tty=pts1 ses=22 comm=ausearch exe=/usr/sbin/ausearch subj=staff_u:staff_r:staff_t:s0-s0:c0.c1023 key=access type=AVC msg=audit(12/09/2020 07:18:11.625:4768) : avc: denied { search } for pid=6489 comm=ausearch name=/ dev=&quot;dm-4&quot; ino=128 scontext=staff_u:staff_r:staff_t:s0-s0:c0.c1023 tcontext=system_u:object_r:auditd_log_t:s0 tclass=dir permissive=0</p>
@@ -5231,17 +5284,17 @@ type=AVC msg=audit(1599887891.625:4768): avc:  denied  { search } for  pid=6489 
 allow staff_t auditd_log_t:dir search;
 </code></pre>
 <p>Il faut alors lancer les commandes suivantes pour les charger : semodule -i ausearch.pp checkmodule -m -M sudolog.te -o ausearch.mod Il peut être nécessaire de passer en mode Permissive pour établir l’ensemble des règles nécessaires au bon fonctionnement d’un service. Ceci doit être réalisé dans un environnement de développement sécurisé. En mode Permissive, seuls les logs sont générés et peuvent donc être manipulés par ausearch, audit2why et audit2allow. <a name="agrandirunepartition"></a></p>
-<h2 id="710-agrandir-une-partition">7.10. Agrandir une partition</h2>
+<h2 id="712-agrandir-une-partition">7.12. Agrandir une partition</h2>
 <p>Il suffit d’utiliser les outils classiques de LVM pour rajouter des disques ou étendre des partitions</p>
 <p><a name="modifierlemotdepassededémarrage"></a></p>
-<h2 id="711-modifier-le-mot-de-passe-de-démarrage">7.11. Modifier le mot de passe de démarrage</h2>
+<h2 id="713-modifier-le-mot-de-passe-de-démarrage">7.13. Modifier le mot de passe de démarrage</h2>
 <p>Le mot de passe de démarrage qui protège les paramètres de «boot» est stocké dans le répertoire /boot. Pour pouvoir le modifier, il faut donc d’abord suivre la procédure de passage en mode «maitenance». Une fois la partition accessible, lancer : grub2-setpassword -o /boot/grub2 Et ensuite : cp /boot/grub2/user.cfg /boot/efi/EFI/redhat/</p>
 <p><a name="modifierleserveursyslogdistant"></a></p>
-<h2 id="712-modifier-le-serveur-syslog-distant">7.12. Modifier le serveur SYSLOG distant</h2>
+<h2 id="714-modifier-le-serveur-syslog-distant">7.14. Modifier le serveur SYSLOG distant</h2>
 <p>Il faut modifier le fichier /etc/rsyslog.d/loghost.conf <a name="modifierlasourcederéférencedetemps"></a></p>
-<h2 id="713-modifier-la-source-de-référence-de-temps">7.13. Modifier la source de référence de temps</h2>
+<h2 id="715-modifier-la-source-de-référence-de-temps">7.15. Modifier la source de référence de temps</h2>
 <p>Il faut modifier le fichier /etc/chrony.conf et remplacer la directive par défaut pool x.rhel.pool.ntp.org … par server <adresse IP ou nom>, puis relancer chrony. <a name="joindreundomainewindows"></a></p>
-<h2 id="714-joindre-un-domaine-windows">7.14. Joindre un domaine Windows</h2>
+<h2 id="716-joindre-un-domaine-windows">7.16. Joindre un domaine Windows</h2>
 <p>Lancer la commande suivante pour joindre un domaine, remplacer domain.com par le domaine cible, user1 par le nom d’administrateur et SERVERS pour l’OU destination : <code>sudo realm join domain.com -U 'user1' --computer-ou=OU=SERVERS --os-name=&quot;$(uname -o)&quot; --os-version=&quot;$(uname -rsv)&quot; --install='/' --verbose</code></p>
 <p>Pour restreindre la connexion à un certain groupe seulement (ici SUDOERS), lancer : <code>sudo realm deny -R domain.com -a</code> <code>sudo realm permit -R domain.com -g SUDOERS</code></p>
 </body>
