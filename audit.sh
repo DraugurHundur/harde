@@ -4,7 +4,7 @@
 #set -e
 #set -x
 export LANG=C
-BATS_VERSION="1.3.0"
+BATS_VERSION="1.5.0"
 pushd . >/dev/null
 
 function check_required_command() {

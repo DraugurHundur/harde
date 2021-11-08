@@ -329,7 +329,7 @@ skip "Pas d'audit automatique pour HARDE-RHEL-78"
 @test "HARDE-RHEL-79 : Désactiver iptables" {
 skip "Pas d'audit automatique pour HARDE-RHEL-79"
 }
-@test "HARDE-RHEL-80 : Désctiver nftables" {
+@test "HARDE-RHEL-80 : Désactiver nftables" {
 skip "Pas d'audit automatique pour HARDE-RHEL-80"
 }
 @test "HARDE-RHEL-81 : S'assurer qu'une zone par défaut est définie" {
@@ -353,7 +353,7 @@ skip "Pas d'audit automatique pour HARDE-RHEL-86"
 @test "HARDE-RHEL-87 : Activation de SELinux avec la politique targeted" {
     rpm -q libselinux
     sestatus | grep "SELinux status" | grep enabled
-    # Ne doit rien retourner
+    # Ne doit rien retourner, FIXME UEFI
     if [ -d /boot/grub ]; then
         grep -E 'kernelopts=(\S+\s+)*(selinux=0|enforcing=0)+\b' /boot/grub2/grubenv \
         | fail_if_output
@@ -540,9 +540,9 @@ run grep -E '^\s*password\s+(requisite|sufficient)\s+(pam_pwhistory\.so|pam_unix
     grep -E ^[^:]+:[^\!*] /etc/shadow | cut -d: -f1,6
 }
 @test "HARDE-RHEL-132 : S'assurer que le verrouillage des comptes inutilisés soit de 30 jours ou moins" {
-    useradd -D | grep INACTIVE
-    # FIXME outputs account:expiration date
-    grep -E ^[^:]+:[^\!*] /etc/shadow | cut -d: -f1,7
+    useradd -D | grep INACTIVE=-1 | fail_if_output
+    # FIXME checks days is 30 OR LESS
+    useradd -D | grep INACTIVE=30
 }
 @test "HARDE-RHEL-133 : S'assurer que toutes les dates de changement de mot de passe sont dans le passé" {
     PATH=/sbin:$PATH awk -F: '($1!="root" && $1!="sync" && $1!="shutdown" && $1!="halt" && $1!~/^\+/ && $3<'"$(awk '/^\s*UID_MIN/{print $2}' /etc/login.defs)"' && $7!="'"$(which nologin)"'" && $7!="/bin/false") {print}' /etc/passwd
@@ -564,7 +564,7 @@ awk -F: '($1!="root" && $1!~/^\+/ && $3<'"$(awk '/^\s*UID_MIN/{print $2}' /etc/l
         [1]="/etc/pam.d/password-auth"
     )
     for pamFile in "${AUTH_FILES[@]}" ; do
-        grep securetty.so $pamFile
+        grep "pam_securetty.so noconsole" $pamFile
     done
 }
 @test "HARDE-RHEL-138 : S'assurer qu'aucun mot de passe n'est vide" {
@@ -880,7 +880,7 @@ run # grep -E "^\s*-w\s+$(grep -r logfile /etc/sudoers* | sed -e 's/.*logfile=//
 
 }
 @test "HARDE-RHEL-221 : S'assurer que la configuration auditd n'est pas modifiable" {
-grep "^\s*[^#]" /etc/audit/rules.d/*.rules | tail -1
+    grep "^\s*[^#]e\s2" /etc/audit/rules.d/*.rules | tail -1
 }
 @test "HARDE-RHEL-222 : S'assurer que la taille de stockage est spécifiée" {
     grep max_log_file /etc/audit/auditd.conf

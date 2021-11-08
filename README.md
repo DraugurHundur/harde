@@ -1,5 +1,5 @@
 # HARDE
-Hardening RHEL 8.x. Using the guidelines from the [CIS RHEL 8 benchmark](https://www.cisecurity.org/benchmark/red_hat_linux/) and [ANSSI](https://www.ssi.gouv.fr/guide/recommandations-de-securite-relatives-a-un-systeme-gnulinux/). If you are looking for a more robust/complete solution, please consider [Lynis](https://github.com/CISOfy/Lynis)
+Hardening RHEL 8.x. Using the guidelines from the [CIS RHEL 8 benchmark](https://www.cisecurity.org/benchmark/red_hat_linux/) and [ANSSI](https://www.ssi.gouv.fr/guide/recommandations-de-securite-relatives-a-un-systeme-gnulinux/). If you are looking for a more robust/complete solution, please consider [Lynis](https://github.com/CISOfy/Lynis) or [Compliance As Code](https://github.com/ComplianceAsCode). 
 
 Run `./harde.sh secure` to secure the system. Some questions are asked along the way when needed.
 

@@ -1,10 +1,10 @@
 ### Références
 
 #### CIS
-Références:
-Contrôles:
+Références: RHEL 8 1.11
+Contrôles: 14.4 Encrypt All Sensitive Information in Transit
 
 #### ANSSI
-Référence ANSSI:
+Référence ANSSI: 4
 
 #### Niveau de Durcissement:
