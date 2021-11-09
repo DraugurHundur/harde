@@ -1314,6 +1314,9 @@ Référence ANSSI:
 
 Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-027:
 ```bash
+#!/bin/bash
+# FIXME should probably switch to FUTURE or something more secure
+# See https://workbench.cisecurity.org/tickets/12887
 echo "HARDE-RHEL-27 : S'assurer que le mode FIPS ou FUTURE est activé pour le chiffrement"
 update-crypto-policies --set FIPS
 update-crypto-policies
@@ -4120,8 +4123,12 @@ Référence ANSSI:
 
 Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-118:
 ```bash
+#! /bin/bash
 echo "HARDE-RHEL-118 : S'assurer que le paramètre SSH MaxSessions est positionné à 4 ou moins"
-if ! grep -q -E '^MaxSessions' /etc/ssh/sshd_config; then echo "MaxSessions 4" >>/etc/ssh/sshd_config; fi
+if ! grep -q -E '^MaxSessions\s+4' /etc/ssh/sshd_config; then
+    sed -e 's/\(MaxSessions.*\)/#HARDE-RHEL-118 \1/' -i /etc/ssh/sshd_config
+    echo "MaxSessions 4" >>/etc/ssh/sshd_config
+fi
 # Fin: HARDE-RHEL-118
 
 ```
@@ -4568,6 +4575,7 @@ Référence ANSSI:
 
 Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-132:
 ```bash
+#! /bin/bash
 echo "HARDE-RHEL-132 : S'assurer que le verrouillage des comptes inutilisés soit de 30 jours ou moins"
 useradd -D -f 30
 # Fin: HARDE-RHEL-132
@@ -7609,6 +7617,8 @@ Référence ANSSI:
 
 Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-226:
 ```bash
+#! /bin/bash
+# See https://workbench.cisecurity.org/tickets/13291
 echo "HARDE-RHEL-226 : Auditer toute connexion/déconnexion"
 cat >/etc/audit/rules.d/65audit.rules <<EOF
 -w /var/log/faillog -p wa -k logins
@@ -7741,6 +7751,7 @@ Référence ANSSI:
 
 Pour se faire utiliser le script fourni, dont voici le code source concernant HARDE-RHEL-230:
 ```bash
+#! /bin/bash
 echo "HARDE-RHEL-230 : Tracer les événements changeant l'environnement réseau"
 cat >/etc/audit/rules.d/85system-locale.rules <<EOF
 -a always,exit -F arch=b64 -S sethostname -S setdomainname -k system-locale
@@ -7749,6 +7760,7 @@ cat >/etc/audit/rules.d/85system-locale.rules <<EOF
 -w /etc/issue.net -p wa -k system-locale
 -w /etc/hosts -p wa -k system-locale
 -w /etc/sysconfig/network -p wa -k system-locale
+-w /etc/sysconfig/network-scripts -p wa -k system-locale
 EOF
 # Fin: HARDE-RHEL-230
 
