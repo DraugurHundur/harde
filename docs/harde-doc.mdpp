@@ -815,7 +815,7 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-## HARDE-RHEL-027 : 
+## HARDE-RHEL-027 : S'assurer que le mode FIPS ou FUTURE est activé pour le chiffrement
 
 ### Description
 
@@ -823,13 +823,13 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 ### Références
 
 #### CIS
-Références:
-Contrôles:
+Références: RHEL 8 1.11
+Contrôles: 14.4 Encrypt All Sensitive Information in Transit
 
 #### ANSSI
 Référence ANSSI:
 
-#### Niveau de Durcissement:
+#### Niveau de Durcissement: 4
 
 #### Méthode à suivre
 
@@ -2999,21 +2999,22 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-## HARDE-RHEL-118 : 
+## HARDE-RHEL-118 : S'assurer que le paramètre SSH MaxSessions est positionné à 4 ou moins
 
 ### Description
+S'assurer que le paramètre SSH MaxSessions est positionné à 4 ou moins
 
 
 ### Références
 
 #### CIS
-Références:
-Contrôles:
+Références: RHEL 8 5.2.19
+Contrôles: 05.1 Establish Secure Configurations
 
 #### ANSSI
 Référence ANSSI:
 
-#### Niveau de Durcissement:
+#### Niveau de Durcissement: 1
 
 #### Méthode à suivre
 
@@ -3337,21 +3338,22 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-## HARDE-RHEL-132 : 
+## HARDE-RHEL-132 : S'assurer que le verrouillage des comptes inutilisés soit de 30 jours ou moins
 
 ### Description
+S'assurer que le verrouillage des comptes inutilisés soit de 30 jours ou moins
 
 
 ### Références
 
 #### CIS
-Références:
-Contrôles:
+Références: RHEL 8 5.5.1.4
+Contrôles: 04.4 Use Unique Passwords
 
 #### ANSSI
 Référence ANSSI:
 
-#### Niveau de Durcissement:
+#### Niveau de Durcissement: 1
 
 #### Méthode à suivre
 
@@ -5601,7 +5603,7 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-## HARDE-RHEL-226 : 
+## HARDE-RHEL-226 : Auditer toute connexion/déconnexion
 
 ### Description
 
@@ -5609,13 +5611,15 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 ### Références
 
 #### CIS
-Références:
-Contrôles:
+Références: RHEL 8 4.1.4
+Contrôles: "04.9 Log and Alert on Unsuccessful Administrative Account Login
+16.13 Alert on Account Login Behavior Deviation"
+
 
 #### ANSSI
 Référence ANSSI:
 
-#### Niveau de Durcissement:
+#### Niveau de Durcissement: 4
 
 #### Méthode à suivre
 
@@ -5697,7 +5701,7 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 !ENDIFEXISTS
 ### Méthode d'audit
 
-## HARDE-RHEL-230 : 
+## HARDE-RHEL-230 : Tracer les événements changeant l'environnement réseau
 
 ### Description
 
@@ -5705,13 +5709,13 @@ Pour se faire utiliser le script fourni, dont voici le code source concernant HA
 ### Références
 
 #### CIS
-Références:
-Contrôles:
+Références: RHEL 8 4.1.8
+Contrôles: 05.5 Implement Automated Configuration Monitoring Systems
 
 #### ANSSI
 Référence ANSSI:
 
-#### Niveau de Durcissement:
+#### Niveau de Durcissement: 4
 
 #### Méthode à suivre
 

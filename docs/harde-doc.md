@@ -40,7 +40,7 @@
 6.24\.  [HARDE-RHEL-024 :](#harde-rhel-024:)  
 6.25\.  [HARDE-RHEL-025 :](#harde-rhel-025:)  
 6.26\.  [HARDE-RHEL-026 :](#harde-rhel-026:)  
-6.27\.  [HARDE-RHEL-027 :](#harde-rhel-027:)  
+6.27\.  [HARDE-RHEL-027 : S&#39;assurer que le mode FIPS ou FUTURE est activé pour le chiffrement](#harde-rhel-027:s&#39;assurerquelemodefipsoufutureestactivépourlechiffrement)  
 6.28\.  [HARDE-RHEL-028 :](#harde-rhel-028:)  
 6.29\.  [HARDE-RHEL-029 :](#harde-rhel-029:)  
 6.30\.  [HARDE-RHEL-030 :](#harde-rhel-030:)  
@@ -131,7 +131,7 @@
 6.115\.  [HARDE-RHEL-115 :](#harde-rhel-115:)  
 6.116\.  [HARDE-RHEL-116 :](#harde-rhel-116:)  
 6.117\.  [HARDE-RHEL-117 :](#harde-rhel-117:)  
-6.118\.  [HARDE-RHEL-118 :](#harde-rhel-118:)  
+6.118\.  [HARDE-RHEL-118 : S&#39;assurer que le paramètre SSH MaxSessions est positionné à 4 ou moins](#harde-rhel-118:s&#39;assurerqueleparamètresshmaxsessionsestpositionnéà4oumoins)  
 6.119\.  [HARDE-RHEL-119 :](#harde-rhel-119:)  
 6.120\.  [HARDE-RHEL-120 :](#harde-rhel-120:)  
 6.121\.  [HARDE-RHEL-121 :](#harde-rhel-121:)  
@@ -145,7 +145,7 @@
 6.129\.  [HARDE-RHEL-129 :](#harde-rhel-129:)  
 6.130\.  [HARDE-RHEL-130 :](#harde-rhel-130:)  
 6.131\.  [HARDE-RHEL-131 :](#harde-rhel-131:)  
-6.132\.  [HARDE-RHEL-132 :](#harde-rhel-132:)  
+6.132\.  [HARDE-RHEL-132 : S&#39;assurer que le verrouillage des comptes inutilisés soit de 30 jours ou moins](#harde-rhel-132:s&#39;assurerqueleverrouillagedescomptesinutiliséssoitde30joursoumoins)  
 6.133\.  [HARDE-RHEL-133 :](#harde-rhel-133:)  
 6.134\.  [HARDE-RHEL-134 :](#harde-rhel-134:)  
 6.135\.  [HARDE-RHEL-135 :](#harde-rhel-135:)  
@@ -239,11 +239,11 @@
 6.223\.  [HARDE-RHEL-223 : S&#39;assurer que les logs d&#39;audit ne soient pas purgés](#harde-rhel-223:s&#39;assurerqueleslogsd&#39;auditnesoientpaspurgés)  
 6.224\.  [HARDE-RHEL-224 : S&#39;assurer que le système s&#39;arrête si le système d&#39;audit est plein](#harde-rhel-224:s&#39;assurerquelesystèmes&#39;arrêtesilesystèmed&#39;auditestplein)  
 6.225\.  [HARDE-RHEL-225 :](#harde-rhel-225:)  
-6.226\.  [HARDE-RHEL-226 :](#harde-rhel-226:)  
+6.226\.  [HARDE-RHEL-226 : Auditer toute connexion/déconnexion](#harde-rhel-226:auditertouteconnexion/déconnexion)  
 6.227\.  [HARDE-RHEL-227 :](#harde-rhel-227:)  
 6.228\.  [HARDE-RHEL-228 :](#harde-rhel-228:)  
 6.229\.  [HARDE-RHEL-229 :](#harde-rhel-229:)  
-6.230\.  [HARDE-RHEL-230 :](#harde-rhel-230:)  
+6.230\.  [HARDE-RHEL-230 : Tracer les événements changeant l&#39;environnement réseau](#harde-rhel-230:tracerlesévénementschangeantl&#39;environnementréseau)  
 6.231\.  [HARDE-RHEL-231 :](#harde-rhel-231:)  
 6.232\.  [HARDE-RHEL-232 :](#harde-rhel-232:)  
 6.233\.  [HARDE-RHEL-233 :](#harde-rhel-233:)  
@@ -1292,9 +1292,9 @@ update-crypto-policies
 ```
 ### Méthode d'audit
 
-<a name="harde-rhel-027:"></a>
+<a name="harde-rhel-027:s&#39;assurerquelemodefipsoufutureestactivépourlechiffrement"></a>
 
-## 6.27\. HARDE-RHEL-027 : 
+## HARDE-RHEL-027 : S'assurer que le mode FIPS ou FUTURE est activé pour le chiffrement
 
 ### Description
 
@@ -1302,13 +1302,13 @@ update-crypto-policies
 ### Références
 
 #### CIS
-Références:
-Contrôles:
+Références: RHEL 8 1.11
+Contrôles: 14.4 Encrypt All Sensitive Information in Transit
 
 #### ANSSI
 Référence ANSSI:
 
-#### Niveau de Durcissement:
+#### Niveau de Durcissement: 4
 
 #### Méthode à suivre
 
@@ -4101,23 +4101,24 @@ if ! grep -q -E '^MaxStartups' /etc/ssh/sshd_config; then echo "MaxStartups 10:3
 ```
 ### Méthode d'audit
 
-<a name="harde-rhel-118:"></a>
+<a name="harde-rhel-118:s&#39;assurerqueleparamètresshmaxsessionsestpositionnéà4oumoins"></a>
 
-## 6.118\. HARDE-RHEL-118 : 
+## HARDE-RHEL-118 : S'assurer que le paramètre SSH MaxSessions est positionné à 4 ou moins
 
 ### Description
+S'assurer que le paramètre SSH MaxSessions est positionné à 4 ou moins
 
 
 ### Références
 
 #### CIS
-Références:
-Contrôles:
+Références: RHEL 8 5.2.19
+Contrôles: 05.1 Establish Secure Configurations
 
 #### ANSSI
 Référence ANSSI:
 
-#### Niveau de Durcissement:
+#### Niveau de Durcissement: 1
 
 #### Méthode à suivre
 
@@ -4553,23 +4554,24 @@ fi
 ```
 ### Méthode d'audit
 
-<a name="harde-rhel-132:"></a>
+<a name="harde-rhel-132:s&#39;assurerqueleverrouillagedescomptesinutiliséssoitde30joursoumoins"></a>
 
-## 6.132\. HARDE-RHEL-132 : 
+## HARDE-RHEL-132 : S'assurer que le verrouillage des comptes inutilisés soit de 30 jours ou moins
 
 ### Description
+S'assurer que le verrouillage des comptes inutilisés soit de 30 jours ou moins
 
 
 ### Références
 
 #### CIS
-Références:
-Contrôles:
+Références: RHEL 8 5.5.1.4
+Contrôles: 04.4 Use Unique Passwords
 
 #### ANSSI
 Référence ANSSI:
 
-#### Niveau de Durcissement:
+#### Niveau de Durcissement: 1
 
 #### Méthode à suivre
 
@@ -7595,9 +7597,9 @@ EOF
 ```
 ### Méthode d'audit
 
-<a name="harde-rhel-226:"></a>
+<a name="harde-rhel-226:auditertouteconnexion/déconnexion"></a>
 
-## 6.226\. HARDE-RHEL-226 : 
+## 6.226\. HARDE-RHEL-226 : Auditer toute connexion/déconnexion
 
 ### Description
 
@@ -7605,13 +7607,15 @@ EOF
 ### Références
 
 #### CIS
-Références:
-Contrôles:
+Références: RHEL 8 4.1.4
+Contrôles: "04.9 Log and Alert on Unsuccessful Administrative Account Login
+16.13 Alert on Account Login Behavior Deviation"
+
 
 #### ANSSI
 Référence ANSSI:
 
-#### Niveau de Durcissement:
+#### Niveau de Durcissement: 4
 
 #### Méthode à suivre
 
@@ -7729,9 +7733,9 @@ EOF
 ```
 ### Méthode d'audit
 
-<a name="harde-rhel-230:"></a>
+<a name="harde-rhel-230:tracerlesévénementschangeantl&#39;environnementréseau"></a>
 
-## 6.230\. HARDE-RHEL-230 : 
+## HARDE-RHEL-230 : Tracer les événements changeant l'environnement réseau
 
 ### Description
 
@@ -7739,13 +7743,13 @@ EOF
 ### Références
 
 #### CIS
-Références:
-Contrôles:
+Références: RHEL 8 4.1.8
+Contrôles: 05.5 Implement Automated Configuration Monitoring Systems
 
 #### ANSSI
 Référence ANSSI:
 
-#### Niveau de Durcissement:
+#### Niveau de Durcissement: 4
 
 #### Méthode à suivre
 
