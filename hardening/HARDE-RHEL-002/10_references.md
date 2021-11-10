@@ -1,10 +1,10 @@
 ### Références
 
 #### CIS
-Références:
-Contrôles:
+Références: N/A
+Contrôles: N/A
 
 #### ANSSI
-Référence ANSSI:
+Référence ANSSI: R2
 
-#### Niveau de Durcissement:
+#### Niveau de Durcissement: 1

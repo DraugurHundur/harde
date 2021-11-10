@@ -1,3 +1,4 @@
+#! /bin/bash
 echo "HARDE-RHEL-148 : Sécurisation des services réseau d'authentification PAM"
 cat >/etc/pam.d/su <<EOF
 #%PAM-1.0

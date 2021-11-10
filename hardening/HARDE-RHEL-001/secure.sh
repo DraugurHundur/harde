@@ -1,3 +1,4 @@
+#! /bin/bash
 echo "HARDE-RHEL-1 : Minimisation des services installés"
 # If we're online update
 dnf update
