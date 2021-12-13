@@ -1,10 +1,8 @@
 ### Références
 
-#### CIS
-Références:
-Contrôles:
-
-#### ANSSI
-Référence ANSSI:
-
-#### Niveau de Durcissement:
+|                 |    |
+|----------------:|:---|
+|   *Durcissement*| 1 |
+|*Référence* [CIS]| RHEL 8 4.2.2.1 |
+|   *Contrôle CIS*| 06.5 Central Log Management |
+|          [ANSSI]|  |

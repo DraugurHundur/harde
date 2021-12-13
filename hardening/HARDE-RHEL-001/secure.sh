@@ -1,5 +1,5 @@
 #! /bin/bash
-echo "HARDE-RHEL-1 : Minimisation des services installés"
+echo "HARDE-RHEL-001 : Minimisation des services installés"
 # If we're online update
 dnf update
 # packages that we depends on
@@ -14,4 +14,4 @@ dnf remove --assumeyes abrt-addon-ccpp abrt-plugin-sosreport iprutils nfs-utils 
   abrt-addon-python tuned abrt-addon-kerneloops gssproxy abrt-plugin-logger \
   abrt-cli abrt-plugin-rhtsupport sendmail abrt setroubleshoot \
   setroubleshoot-server mcstrans xinetd xorg-x11*.* ypbind telnet
-# Fin: HARDE-RHEL-1
+# Fin: HARDE-RHEL-001

@@ -1,4 +1,6 @@
-## HARDE-RHEL-012 : 
+## HARDE-RHEL-012 : Partition séparée pour /home
 
 ### Description
+
+/home doit être installé dans une partition séparée d'au moins 1GB avec les options nodev
 

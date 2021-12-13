@@ -1,10 +1,9 @@
 ### Références
 
-#### CIS
-Références:
-Contrôles:
-
-#### ANSSI
-Référence ANSSI:
-
-#### Niveau de Durcissement:
+|                 |    |
+|----------------:|:---|
+|   *Durcissement*| 1 |
+|*Référence* [CIS]| RHEL 8 4.2.1.4 |
+|   *Contrôle CIS*| 06.2 Activate audit logging
+06.3 Enable Detailed Logging |
+|          [ANSSI]| R43 |

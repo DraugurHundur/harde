@@ -2,18 +2,19 @@
 # -*- mode: shell; coding: utf-8-unix -*-
 
 function usage {
-        echo "./$(basename $0) [-h] | [-v] <command>"
+        echo "./$(basename "$0") [-h] | [-v] <command>"
         echo ' Hardens/checks a Red Hat Enterprise Linux 8.x system.'
         echo ''
         echo 'COMMANDS'
         echo ' secure       Runs the commands required to secure the system.'
         echo ' audit        Audits the system.'
         echo ' gendoc       Generates the PDF and html version of the documentation.'
-        echo ' help'        Displays this message.
+        echo ' help         Displays this message.'
         echo ''
         echo 'GENERAL OPTIONS'
         echo ' -h           shows usage'
         echo ' -v           enable debugging output'
+        echo ''
 }
 
 export LANG=C
@@ -64,10 +65,13 @@ done
 case "${1}" in
     secure)
         [ -n "$DEBUG" ] && set -x 
+        # shellcheck source=hardening/intro.sh
         source hardening/intro.sh
         for f in hardening/HARDE-RHEL-*/secure.sh; do
+            # shellcheck source=/dev/null
             source "$f"
         done
+        # shellcheck source=hardening/outro.sh
         source hardening/outro.sh
         [ -n "$DEBUG" ] && set +x
         ;;
@@ -105,12 +109,15 @@ case "${1}" in
         rm -rf "$TMPDIR"
         ;;
     gendoc)
-        # use pandoc to generate the final documentation.
-        pandoc hardening/intro.md hardening/HARDE-RHEL-*/*.md hardening/outro.md -f markdown -t html -o docs/harde-doc.html
+        # 
+        check_required_command make 4
+        check_required_command pandoc 4
+        make
         ;;
     search)
         # lookup words in scripts or description
         shift
+        echo "Searching not implemented yet !" 
         echo "$@" 
         ;;
     *)

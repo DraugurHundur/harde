@@ -1,4 +1,6 @@
-## HARDE-RHEL-174 : 
+## HARDE-RHEL-174 : S'assurer que tous les fichiers ont un groupe
 
 ### Description
+
+Red Hat 8 est conforme par défaut. 
 

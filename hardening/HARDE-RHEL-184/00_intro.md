@@ -1,4 +1,6 @@
-## HARDE-RHEL-184 : 
+## HARDE-RHEL-184 : S'assurer que les permissions sur /etc/gshadow- soient correctes
 
 ### Description
+
+Lancer les commandes suivantes :
 

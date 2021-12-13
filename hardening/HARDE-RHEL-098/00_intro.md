@@ -1,4 +1,6 @@
-## HARDE-RHEL-098 : 
+## HARDE-RHEL-098 : Utiliser une source de temps
 
 ### Description
+
+Lancer la commande suivante :
 

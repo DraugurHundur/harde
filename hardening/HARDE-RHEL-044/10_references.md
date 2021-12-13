@@ -1,10 +1,8 @@
 ### Références
 
-#### CIS
-Références:
-Contrôles:
-
-#### ANSSI
-Référence ANSSI:
-
-#### Niveau de Durcissement:
+|                 |    |
+|----------------:|:---|
+|   *Durcissement*| 1 |
+|*Référence* [CIS]| RHEL 8 1.2.1 |
+|   *Contrôle CIS*| 03.4 Deploy Automated Operating System Patch Management Tools |
+|          [ANSSI]|  |

@@ -2,3 +2,5 @@
 
 ### Description
 
+S'assurer que les flux d'authentification soit sécurisés.
+

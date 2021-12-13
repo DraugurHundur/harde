@@ -1,10 +1,8 @@
 ### Références
 
-#### CIS
-Références:
-Contrôles:
-
-#### ANSSI
-Référence ANSSI:
-
-#### Niveau de Durcissement:
+|                 |    |
+|----------------:|:---|
+|   *Durcissement*| 4 |
+|*Référence* [CIS]| RHEL 8 4.1.10 |
+|   *Contrôle CIS*| 14.9 Enforce Detail Logging for Access or Changes to Sensitive Data |
+|          [ANSSI]|  |

@@ -1,14 +1,25 @@
-echo "HARDE-RHEL-137 : S'assurer que la connexion est root est seulement possible sur la console system"
-for i in 1 2 3 4 5 6; do echo "tty$i" >>/etc/securetty; done
+#! /bin/bash
+echo "HARDE-RHEL-137 : S'assurer que la connexion est root est seulement possible sur la console système"
+for i in 1 2 3 4 5 6; do echo "tty$i" >/etc/securetty; done
+echo "ttyS1" >>/etc/securetty
 # enable pam_securetty.so as well
+AUTH_FILES=(
+    [0]="/etc/pam.d/system-auth"
+    [1]="/etc/pam.d/password-auth"
+)
+for pamFile in "${AUTH_FILES[@]}"; do
+    [ ! -e "$pamFile.harde-backup" ] &&
+        cp "$pamFile" "$pamFile.harde-backup"
+done
 cat >/etc/pam.d/system-auth <<EOF
 #%PAM-1.0
 # This file is auto-generated.
 # User changes will be destroyed the next time authselect is run.
 auth        required      pam_env.so
 auth        required      pam_securetty.so noconsole
-auth        sufficient    pam_unix.so try_first_pass
 auth        required      pam_faillock.so preauth silent deny=5 unlock_time=900
+auth        sufficient    pam_unix.so try_first_pass
+# auth        required      pam_faillock.so preauth silent deny=5 unlock_time=900
 auth        required      pam_faillock.so authfail deny=5 unlock_time=900
 auth        required      pam_deny.so
 

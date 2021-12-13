@@ -1,0 +1,17 @@
+
+### Méthode à suivre
+
+Pour implémenter cette règle, utiliser le script fourni, dont voici un extrait du code source concernant HARDE-RHEL-108 :
+
+``` {.bash .numberLines}
+echo "HARDE-RHEL-108 : S'assurer que les commandes sudo utilisent un pseudo-TTY et autres directives"
+cat >/etc/sudoers.d/10secure <<EOF
+#Defaults noexec
+#Defaults use_pty
+Defaults requiretty,umask=0027
+Defaults ignore_dot,env_reset,passwd_timeout=1
+Defaults timestamp_timeout=5
+EOF
+# Fin: HARDE-RHEL-108
+```
+

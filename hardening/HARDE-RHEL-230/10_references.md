@@ -1,10 +1,8 @@
 ### Références
 
-#### CIS
-Références: RHEL 8 4.1.8
-Contrôles: 05.5 Implement Automated Configuration Monitoring Systems
-
-#### ANSSI
-Référence ANSSI:
-
-#### Niveau de Durcissement: 4
+|                 |    |
+|----------------:|:---|
+|   *Durcissement*| 4 |
+|*Référence* [CIS]| RHEL 8 4.1.8 |
+|   *Contrôle CIS*| 05.5 Implement Automated Configuration Monitoring Systems |
+|          [ANSSI]|  |

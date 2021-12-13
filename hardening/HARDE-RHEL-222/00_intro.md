@@ -2,3 +2,5 @@
 
 ### Description
 
+Red Hat 8 est conforme par défaut.
+

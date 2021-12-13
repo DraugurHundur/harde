@@ -1,5 +1,7 @@
 ## HARDE-RHEL-002 : Minimisation de la configuration
 
 ### Description
-Les fonctionnalités configurées au niveau des services démarrés doivent être limitées
-au strict nécessaire.
+
+Activer seulement les options nécessaires.
+Cette directive est générique et ne peut être mise en place de manière automatique.
+
