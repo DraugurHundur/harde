@@ -1,8 +1,7 @@
-### Références
 
-|                 |    |
-|----------------:|:---|
-|   *Durcissement*| 1 |
-|*Référence* [CIS]| RHEL 8 5.2.13 |
-|   *Contrôle CIS*| 16.11 Lock Workstation Sessions After Inactivity |
-|          [ANSSI]|  |
+|           À implémenter    |    |    |    |
+|----------------:|:---|---:|:---|
+|                 |*Niveau*|| 1 |
+|*Référence* [CIS]| RHEL 8 5.2.13 |*Contrôle*| 16.11 Lock Workstation Sessions After Inactivity |
+|                 |[ANSSI] ||  |
+

@@ -1,7 +1,5 @@
 ## HARDE-RHEL-128 : Protection des mots de passe stockés
 
-### Description
-
 Red Hat 8 est partiellement conforme par défaut :
  - Supprimer la paramètre null_ok si présent dans /etc/pam.d/system-auth et /etc/pam.d/password-auth.
  - S'assurer que les fichiers /etc/pam.d/system-auth et /etc/pam.d/password-auth contienne:

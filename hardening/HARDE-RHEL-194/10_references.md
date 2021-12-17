@@ -1,8 +1,7 @@
-### Références
 
-|                 |    |
-|----------------:|:---|
-|   *Durcissement*| 1 |
-|*Référence* [CIS]| RHEL 8 6.2.19 |
-|   *Contrôle CIS*| 05.1 Establish Secure Configurations |
-|          [ANSSI]|  |
+|           À implémenter    |    |    |    |
+|----------------:|:---|---:|:---|
+|                 |*Niveau*|| 1 |
+|*Référence* [CIS]| RHEL 8 6.2.19 |*Contrôle*| 05.1 Establish Secure Configurations |
+|                 |[ANSSI] ||  |
+

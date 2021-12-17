@@ -25,5 +25,6 @@ session         include         system-auth
 session         include         postlogin
 session         optional        pam_xauth.so
 EOF
-# Fin: HARDE-RHEL-148```
+# Fin: HARDE-RHEL-148
+```
 

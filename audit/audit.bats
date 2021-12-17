@@ -403,8 +403,9 @@ done
 }
 @test "HARDE-RHEL-96 : Paramétrage des booléens SELinux" {
     getsebool selinuxuser_execheap | grep off
-    # getsebool allow_execmem | grep off
+    getsebool deny_execmem | grep on
     getsebool selinuxuser_execstack | grep off
+    getsebool selinuxuser_execmod | grep off
     getsebool secure_mode_insmod | grep on
     skip ssh_sysadm_login est recommandé à non mais peut être positionné à oui en fonction de la politique.
 }

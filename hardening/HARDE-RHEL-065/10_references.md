@@ -1,8 +1,7 @@
-### Références
 
-|                 |    |
-|----------------:|:---|
-|   *Durcissement*| 1 |
-|*Référence* [CIS]| RHEL 8 2.2.18 |
-|   *Contrôle CIS*| 09.2 Ensure Only Approved Ports, Protocols and Services Are Running |
-|          [ANSSI]| R1 |
+|           À implémenter    |    |    |    |
+|----------------:|:---|---:|:---|
+|                 |*Niveau*|| 1 |
+|*Référence* [CIS]| RHEL 8 2.2.18 |*Contrôle*| 09.2 Ensure Only Approved Ports, Protocols and Services Are Running |
+|                 |[ANSSI] || R1 |
+

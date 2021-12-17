@@ -30,19 +30,18 @@ function copy_se_labels() {
 }
 
 # To use the DVD, if available
-if [ ! -e /mnt/disc/media.repo ]; then
+if [ ! -e /media/media.repo ]; then
   echo -n "Est-ce que le DVD d'installation est dans le lecteur ? "
   read -e -i "O" -r YORN
   if [ ! "${YORN}" = "n" ]; then
-    mkdir -p /mnt/disc
-    mount -o ro /dev/sr0 /mnt/disc
-    cat >/etc/yum.repos.d/rhel8.1dvd.repo <<EOF
+    findmnt /media >/dev/null 2>&1 && mount -o ro /dev/sr0 /media
+    cat >/etc/yum.repos.d/rhel8.dvd.repo <<EOF
 [InstallMedia-BaseOS]			      
 name=Red Hat Enterprise Linux 8 - BaseOS
 metadata_expire=-1
 gpgcheck=1
 enabled=1
-baseurl=file:///mnt/disc/BaseOS/
+baseurl=file:///media/BaseOS/
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
 
 [InstallMedia-AppStream]
@@ -50,12 +49,12 @@ name=Red Hat Enterprise Linux 8 - AppStream
 metadata_expire=-1
 gpgcheck=1
 enabled=1
-baseurl=file:///mnt/disc/AppStream/
+baseurl=file:///media/AppStream/
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
 EOF
   fi
 fi
-if [ ! -e /mnt/disc/media.repo ]; then
+if [ ! -e /media/media.repo ]; then
   echo "Le disque d'installation est requis pour l'exécution de ce script."
   exit 1
 fi

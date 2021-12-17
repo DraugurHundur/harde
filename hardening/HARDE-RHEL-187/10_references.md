@@ -1,8 +1,7 @@
-### Références
 
-|                 |    |
-|----------------:|:---|
-|   *Durcissement*| 1 |
-|*Référence* [CIS]| RHEL 8 6.2.12 |
-|   *Contrôle CIS*| 14.6 Protect Information through Access Control Lists |
-|          [ANSSI]|  |
+|           À implémenter    |    |    |    |
+|----------------:|:---|---:|:---|
+|                 |*Niveau*|| 1 |
+|*Référence* [CIS]| RHEL 8 6.2.12 |*Contrôle*| 14.6 Protect Information through Access Control Lists |
+|                 |[ANSSI] ||  |
+

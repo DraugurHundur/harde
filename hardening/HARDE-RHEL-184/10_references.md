@@ -1,8 +1,7 @@
-### Références
 
-|                 |    |
-|----------------:|:---|
-|   *Durcissement*| 1 |
-|*Référence* [CIS]| RHEL 8 6.1.9 |
-|   *Contrôle CIS*| 16.4 Encrypt or Hash all Authentication Credentials |
-|          [ANSSI]|  |
+|           À implémenter    |    |    |    |
+|----------------:|:---|---:|:---|
+|                 |*Niveau*|| 1 |
+|*Référence* [CIS]| RHEL 8 6.1.9 |*Contrôle*| 16.4 Encrypt or Hash all Authentication Credentials |
+|                 |[ANSSI] ||  |
+

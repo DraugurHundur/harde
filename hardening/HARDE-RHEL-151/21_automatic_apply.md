@@ -13,5 +13,6 @@ groupadd -r -f sudogrp
 chgrp sudogrp /usr/bin/sudo
 chmod u+s /usr/bin/sudo
 chmod o-rwx /usr/bin/sudo
-# Fin: HARDE-RHEL-151```
+# Fin: HARDE-RHEL-151
+```
 

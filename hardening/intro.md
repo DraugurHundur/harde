@@ -1,9 +1,10 @@
 ---
 title: HARDE - SÉCURISATION D'UN SYSTÈME RED HAT 8.x
-date: 10 novembre 2021
 author: Pierre Blanchet
 lang: fr
 ---
+
+Dernière mise à jour : %date%
 
 # Principes de base
 
@@ -55,32 +56,32 @@ Le disque dur alloué doit être au minimum de 48 Go
 ## Depuis une image ISO
 
 Démarrer le système depuis l’image ISO:
-![Copie d'écran : Démarrage du DVD](.\images\2020-09-11 10_38_36-Window.png){style="display: block; margin-left: auto; margin-right: auto;"}
+![Copie d'écran : Démarrage du DVD](.\images\2020-09-11 10_38_36-Window.png)
 
 Puis dès que l’installateur graphique est démarré, sélectionner France, Français(France) comme paramètres linguistiques. S’assurer que le clavier est positionné à fr(oss) après avoir cliqué sur Continuer.
 
-![Copie d'écran : Langue d'installation](images/2020-09-11 10_42_28-Window.png){style="display: block; margin-left: auto; margin-right: auto;"}
+![Copie d'écran : Langue d'installation](.\images\VirtualBox_RHEL 8.3_16_12_2021_10_26_51.png)
+
+Depuis l’écran principal, régler l’heure & date pour pointer vers le fuseau horaire cible et si disponibles, définir plusieurs sources NTP fiables.
+![Copie d'écran : Configuration date et heure](.\images\VirtualBox_RHEL 8.5_08_12_2021_12_07_37.png)
 
 Depuis l’écran Résumé de l’installation, positionner la Sélection Logiciel à « Installation minimale » :
 
-![Copie d'écran : Sélection Logiciel](.\images\2020-09-10 17_47_41-Window.png){style="display: block; margin-left: auto; margin-right: auto;"}
+![Copie d'écran : Sélection Logiciel](.\images\2020-09-10 17_47_41-Window.png)
 
 Depuis l’écran Résumé de l’installation, positionner le paramètre KDUMP à désactivé :
 
-![Copie d'écran : KDUMP est désactivé](.\images\2020-09-10 17_51_10-Window.png){style="display: block; margin-left: auto; margin-right: auto;"}
+![Copie d'écran : KDUMP est désactivé](.\images\2020-09-10 17_51_10-Window.png)
 
 Depuis l’écran Résumé de l’installation, cliquer sur « Nom du réseau &…» pour activer la carte réseau et modifier les différents paramètres réseau (dont le nom DNS).
 
-![Copie d'écran : Configuration du réseau](images\VirtualBox_RHEL 8.5_08_12_2021_12_06_58.png){style="display: block; margin-left: auto; margin-right: auto;"}
+![Copie d'écran : Configuration du réseau](images\VirtualBox_RHEL 8.5_08_12_2021_12_06_58.png)
 
-Depuis l’écran principal, régler l’heure & date pour pointer vers le fuseau horaire cible et si disponible, définir une ou plusieurs sources NTP fiables.
-![Copie d'écran : Configuration date et heure](.\images\VirtualBox_RHEL 8.5_08_12_2021_12_07_37.png){style="display: block; margin-left: auto; margin-right: auto;"}
+Depuis l’écran Résumé de l’installation, dans le chapitre « Installation Destination » pour le partitionnement du disque dur, choisissez « Personnalisé » (cliquer sur Fait) :
 
-Depuis l’écran Résumé de l’installation, pour le partitionnement du disque dur, choisissez ‘Personnalisé’ (cliquer sur Fait) puis garder les options par défaut pour le disque (LVM).
+![Copie d'écran : Configuration du stockage](.\images\2020-09-11 10_51_10-Window.png)
 
-![Copie d'écran : Configuration du stockage](.\images\2020-09-11 10_51_10-Window.png){style="display: block; margin-left: auto; margin-right: auto;"}
-
-Cliquer sur + pour créer les partitions suivantes :
+Puis garder les options par défaut pour le disque (LVM). Cliquer sur + pour créer les partitions suivantes :
 
 Point de montage | Taille Minimum
 --|--
@@ -97,11 +98,11 @@ Point de montage | Taille Minimum
 /srv ou /opt | 6 Gio
 swap | 4 Gio (ou 20% de la mémoire vive)
 
-![Copie d'écran : Partitionnement](images/VirtualBox_RHEL 8.5_08_12_2021_12_13_12.png){style="display: block; margin-left: auto; margin-right: auto;"}
+![Copie d'écran : Partitionnement](images/VirtualBox_RHEL 8.5_08_12_2021_12_13_12.png)
 
 Valider les modifications à effectuer sur le disque :
 
-![Copie d'écran : Partitionnement](images/VirtualBox_RHEL 8.5_08_12_2021_12_13_41.png){style="display: block; margin-left: auto; margin-right: auto;"}
+![Copie d'écran : Partitionnement](images/VirtualBox_RHEL 8.5_08_12_2021_12_13_41.png)
 
 Ne pas sélectionner de politique de sécurité.
 
@@ -109,16 +110,12 @@ Le chapitre But du système est optionnel et pour information seulement.
 
 Définir un mot de passe administrateur (root) et créer un compte utilisateur. Veiller à choisir des mots de passe conformes à la politique de sécurité.
 
-Cliquer sur Commencer l’installation.
-
-![Copie d'écran : Mot de passe](images/2020-09-11 11_20_59-Install Red Hat 8 [En fonction] - Oracle VM VirtualBox.png){style="display: block; margin-left: auto; margin-right: auto;"}
-
 Quand tous les paramètres sont réglés, cliquer sur 'Commencer l'installation':
-![Copie d'écran: Fin du paramétrage d'installation](images/VirtualBox_RHEL 8.5_08_12_2021_12_15_06.png){style="display: block; margin-left: auto; margin-right: auto;"}
+![Copie d'écran: Fin du paramétrage d'installation](images/VirtualBox_RHEL 8.5_08_12_2021_12_15_06.png)
 
 Redémarrer une fois l’installation terminée :
 
-![Copie d'écran : Fin d'installation](images/2020-09-11 11_27_45-Install Red Hat 8 [En fonction] - Oracle VM VirtualBox.png){style="display: block; margin-left: auto; margin-right: auto;"}
+![Copie d'écran : Fin d'installation](images/VirtualBox_RHEL 8.5_08_12_2021_14_17_26.png)
 
 Passer ensuite à la sécurisation dans le chapitre ci-dessous : [Sécurisation](#sécurisation-1).
 

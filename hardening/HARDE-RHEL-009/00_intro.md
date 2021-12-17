@@ -1,7 +1,5 @@
 ## HARDE-RHEL-009 : Configuration matérielle
 
-### Description
-
 Appliquer les recommandations de configuration mentionnées dans
 la note technique « Recommandations de configuration matérielle de postes clients et
 serveurs x86 ».

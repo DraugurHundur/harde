@@ -1,7 +1,5 @@
 ## HARDE-RHEL-143 : Désactivation des comptes utilisateurs inutilisés
 
-### Description
-
 Maintenir une liste blanche et noire d'utilisateurs.
 
 

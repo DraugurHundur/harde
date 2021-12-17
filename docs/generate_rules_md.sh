@@ -7,17 +7,20 @@
 [ -d docs ] && [ -d hardening ] || exit 2
 exec 1>"$1"
 
+APPLY_DOC="20_apply.md"
+AUTOMATIC_APPLY="21_automatic_apply.md"
+
 cd ./hardening || exit
 
 for i in HARDE-RHEL-???; do
     cd "$i" || exit
     cat 00_intro.md 10_references.md
     # do not overwrite if there is an existing file, not using a shell script
-    if [ ! -e 20_apply.md ]; then
-        # Create the 21_automatic_apply.mf if needed
-        if [ ! -e 21_automatic_apply ] || [ secure.sh -nt 21_automatic_apply ]; then
+    if [ -e secure.sh ]; then
+        [ -e $APPLY_DOC ] && rm $APPLY_DOC
+        if [ ! -e $AUTOMATIC_APPLY ] || [ secure.sh -nt $AUTOMATIC_APPLY ]; then
             (
-                exec 1>21_automatic_apply.md
+                exec 1>$AUTOMATIC_APPLY
                 echo
                 echo "### Méthode à suivre"
                 echo
@@ -29,13 +32,9 @@ for i in HARDE-RHEL-???; do
                 echo
             )
         fi
-        cat 21_automatic_apply.md
+        cat $AUTOMATIC_APPLY
     else
-        cat 20_apply.md
-        [ -e secure.sh ] && (
-            cat secure.sh
-            echo "Skipped/ignored hardening script in $PWD"
-        ) 1>&2
+        cat $APPLY_DOC
     fi
     [ -e 30_outro.md ] && cat 30_outro.md
     cd ..
