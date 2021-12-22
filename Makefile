@@ -25,7 +25,7 @@ hardening/rules.md: hardening/HARDE-RHEL-*/secure.sh hardening/HARDE-RHEL-*/20_a
 
 $(D)/harde-doc.html: hardening/intro.md hardening/rules.md hardening/outro.md $(D)/template.html $(D)/panda.lua
 #  --shift-heading-level-by=1 only works with the latest version of pandoc
->pandoc $(OPTIONS) $(FILTERS) hardening/intro.md hardening/rules.md hardening/outro.md -w html --template $(D)/template.html --standalone --toc --resource-path=$(D) -o $@
+>pandoc $(OPTIONS) $(FILTERS) --columns=10000 hardening/intro.md hardening/rules.md hardening/outro.md -w html --template $(D)/template.html --standalone --toc --resource-path=$(D) -o $@
 
 $(D)/harde-doc.docx: hardening/intro.md hardening/rules.md hardening/outro.md $(D)/template.html $(D)/panda.lua
 >pandoc $(OPTIONS) $(FILTERS) hardening/intro.md hardening/rules.md hardening/outro.md -w docx --reference-doc=$(D)/custom-reference.docx --standalone --toc --resource-path=$(D) -o $(D)/harde-doc.docx

@@ -21,6 +21,22 @@ exec > >(tee "${OUTFILE}") 2>&1
 function harde_error() {
   echo "harde: ERROR: $*"
 }
+function harde_backup_file() {
+  # cp file $1 to $1.YYYY-mm-dd.X
+  [ ! -e "$1" ] && return 3
+  local EXT
+  local i
+  i=0
+  while :
+  do
+    i=$((i + 1 ))
+    EXT=".-$(date +'%Y-%m-%d').$i"
+    [ ! -e "$1${EXT}" ] && break
+  done
+  cp "$1" "$1${EXT}"
+  chmod 0400 "$1${EXT}"
+  return 0
+}
 
 function copy_se_labels() {
   # copy SElinux labels from $1 to $2

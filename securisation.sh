@@ -595,7 +595,7 @@ if  ! grep -q -E '^gecoscheck' /etc/security/pwquality.conf ; then echo "gecosch
 if  ! grep -q -E '^usercheck' /etc/security/pwquality.conf ; then echo "usercheck = 1">> /etc/security/pwquality.conf; fi
 # Fin: HARDE-RHEL-125
 echo "HARDE-RHEL-126 : S'assurer que le verrouillage après des tentatives de connexion soit configuré"
-    echo "HARDE-RHEL-137"
+# Les modifications nécessaires sont appliquées par HARDE-RHEL-137
 # Fin: HARDE-RHEL-126
 echo "HARDE-RHEL-127 : S'assurer que la réutilisation d'anciens mots de passe soit limitée"
 

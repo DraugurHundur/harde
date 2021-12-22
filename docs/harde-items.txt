@@ -1,0 +1,247 @@
+## HARDE-RHEL-001 : Minimisation des services installés
+## HARDE-RHEL-002 : Minimisation de la configuration
+## HARDE-RHEL-003 : Principe de moindre privilège
+## HARDE-RHEL-004 : Utilisation des fonctions de contrôles d'accès
+## HARDE-RHEL-005 : Principe de défense en profondeur
+## HARDE-RHEL-006 : Cloisonnement des services réseaux
+## HARDE-RHEL-007 : Journalisation de l'activité des services
+## HARDE-RHEL-008 : Mises à jour régulières
+## HARDE-RHEL-009 : Configuration matérielle
+## HARDE-RHEL-010 : Architecture 32 et 64 bits
+## HARDE-RHEL-011 : Désactiver les systèmes de fichiers inutilisés
+## HARDE-RHEL-012 : Partition séparée pour /home
+## HARDE-RHEL-013 : Options de montage nodev,nosuid,noexec pour /dev/shm
+## HARDE-RHEL-014 : Options de montage nodev,nosuid,noexec pour les points de montage temporaire
+## HARDE-RHEL-015 : S'assurer de la configuration de /tmp
+## HARDE-RHEL-016 : Désactiver le stockage USB
+## HARDE-RHEL-017 : S'assurer de la configuration de /var
+## HARDE-RHEL-018 : S'assurer de la configuration de /var/tmp
+## HARDE-RHEL-019 : Partitionnement type
+## HARDE-RHEL-020 : Restrictions d'accès sur le dossier /boot
+## HARDE-RHEL-021 : Installation de paquets réduite au strict nécessaire
+## HARDE-RHEL-022 : Choix des dépôts de paquets
+## HARDE-RHEL-023 : Dépôts de paquets durcis
+## HARDE-RHEL-024 : Robustesse du mot de passe administrateur
+## HARDE-RHEL-025 : Installation d'éléments secrets ou de confiance
+## HARDE-RHEL-026 : S'assurer que les politiques de chiffrement historiques soient désactivées
+## HARDE-RHEL-027 : S'assurer que le mode FIPS ou FUTURE est activé pour le chiffrement
+## HARDE-RHEL-028 : S'assurer que l'IP Forwarding est désactivé
+## HARDE-RHEL-029 : Désactiver les ICMP Redirects
+## HARDE-RHEL-030 : Refuser les paquets routés par la source
+## HARDE-RHEL-031 : S'assurer que les paquets suspects soient journalisés
+## HARDE-RHEL-032 : Refuser les ICMP broadcast
+## HARDE-RHEL-033 : Ignorer les réponses ICMP douteuses
+## HARDE-RHEL-034 : Activer le filtrage par routage inversé
+## HARDE-RHEL-035 : Activer les TCP Syn Cookies
+## HARDE-RHEL-036 : Refuser les paquets IPv6 Router Advertisements
+## HARDE-RHEL-037 : Désactiver IPV6
+## HARDE-RHEL-038 : S'assurer que la politique de chiffrement système n'est pas outrepassée 
+## HARDE-RHEL-039 : Paramétrage des sysctl réseau
+## HARDE-RHEL-040 : Permissions des fichiers de configuration du démarrage
+## HARDE-RHEL-041 : Verrouiller par mot de passe la configuration de demarrage
+## HARDE-RHEL-042 : Demander un mot de passe pour les modes de secours
+## HARDE-RHEL-043 : Directive de configuration de l'IOMMU
+## HARDE-RHEL-044 : Configurer la connexion Red Hat Subscription Manager
+## HARDE-RHEL-045 : Désactiver le démon rhnsd
+## HARDE-RHEL-046 : S'assurer que les clés PGP soient configurées
+## HARDE-RHEL-047 : Activer l'option gpgcheck
+## HARDE-RHEL-048 : S'assurer que les dépôts soient configurés
+## HARDE-RHEL-049 : S'assurer que les mises à jour de sécurité sont installées
+## HARDE-RHEL-050 : Activer le démon cron
+## HARDE-RHEL-051 : Services et démons résidents en mémoire
+## HARDE-RHEL-052 : Restriction des accès des services déployés
+## HARDE-RHEL-053 : Durcissement des composants de virtualisation
+## HARDE-RHEL-054 : Cage chroot et privilèges d'accès du service cloisonné
+## HARDE-RHEL-055 : Activation et utilisation de chroot par un service
+## HARDE-RHEL-056 : Ne pas installer xinetd
+## HARDE-RHEL-057 : S'assurer que le serveur FTP est désactivé
+## HARDE-RHEL-058 : S'assurer que le serveur DNS est désactivé
+## HARDE-RHEL-059 : S'assurer que NFS est désactivé
+## HARDE-RHEL-060 : S'assurer que RPC est désactivé
+## HARDE-RHEL-061 : S'assurer que le serveur LDAP est désactivé
+## HARDE-RHEL-062 : S'assurer que le serveur DHCP est désactivé
+## HARDE-RHEL-063 : S'assurer que le serveur CUPS est désactivé
+## HARDE-RHEL-064 : S'assurer que le serveur NIS est désactivé
+## HARDE-RHEL-065 : S'assurer que l'agent de transfert de mail soit en mode local seulement
+## HARDE-RHEL-066 : Désactiver le service rsyncd
+## HARDE-RHEL-067 : S'assurer que le serveur Avahi est désactivé
+## HARDE-RHEL-068 : S'assurer que le serveur SNMP est désactivé
+## HARDE-RHEL-069 : S'assurer que le service Proxy HTTP est désactivé
+## HARDE-RHEL-070 : S'assurer que le service Samba  est désactivé
+## HARDE-RHEL-071 : S'assurer que le service IMAP/POP3 est désactivé
+## HARDE-RHEL-072 : S'assurer que le serveur HTTP est désactivé
+## HARDE-RHEL-073 : Désactiver les protocoles DDCP, SCTP, RDS et TIPC
+## HARDE-RHEL-074 : Durcissement et surveillance des services soumis à
+## HARDE-RHEL-075 : Configuration du service local de messagerie
+## HARDE-RHEL-076 : Alias de messagerie des comptes de service
+## HARDE-RHEL-077 : S'assurer que firewalld est installé
+## HARDE-RHEL-078 : Activer le service firewalld
+## HARDE-RHEL-079 : Désactiver iptables
+## HARDE-RHEL-080 : Désactiver nftables
+## HARDE-RHEL-081 : S'assurer qu'une zone par défaut est définie
+## HARDE-RHEL-082 : S'assurer que les interfaces soient assignées à une zone
+## HARDE-RHEL-083 : Bloquer les services et ports inutiles
+## HARDE-RHEL-084 : Configurer nftables
+## HARDE-RHEL-085 : Configurer iptables
+## HARDE-RHEL-086 : Désactiver les interfaces sans fil
+## HARDE-RHEL-087 : Activation de SELinux avec la politique targeted
+## HARDE-RHEL-088 : Désinstallation des outils de débogage de politique SELinux
+## HARDE-RHEL-089 : S'assurer que at/cron est restreint aux utilisateurs autorisés
+## HARDE-RHEL-090 : S'assurer que l'accès SSH soit limité
+## HARDE-RHEL-091 : S'assurer que l'accès à la commande su est limité
+## HARDE-RHEL-092 : S'assurer de l'intégrité de la variable PATH pour root
+## HARDE-RHEL-093 : Imputabilité des opérations d'administration
+## HARDE-RHEL-094 : Répertoires temporaires dédiés aux comptes
+## HARDE-RHEL-095 : Activation des profils de sécurité AppArmor
+## HARDE-RHEL-096 : Paramétrage des booléens SELinux
+## HARDE-RHEL-097 : Confinement des utilisateurs interactifs non privilégiés
+## HARDE-RHEL-098 : Utiliser une source de temps
+## HARDE-RHEL-099 : S'assurer que chrony est configuré
+## HARDE-RHEL-100 : Service autofs désactivé
+## HARDE-RHEL-101 : Supprimer le serveur X
+## HARDE-RHEL-102 : S'assurer que le client NIS n'est pas installé
+## HARDE-RHEL-103 : S'assurer que le client telnet n'est pas installé
+## HARDE-RHEL-104 : S'assurer que le client ldap n'est pas installé
+## HARDE-RHEL-105 : S'assurer que le paramètre SSH AllowTcpForwarding est désactivé
+## HARDE-RHEL-106 : S'assurer que le transfert X11 SSH est désactivé
+## HARDE-RHEL-107 : Installer sudo
+## HARDE-RHEL-108 : S'assurer que les commandes sudo utilisent un pseudo-TTY et autres directives
+## HARDE-RHEL-109 : Afficher des bannières lors de la connexion
+## HARDE-RHEL-110 : S'assurer que le paramètre SSH root login est désactivé
+## HARDE-RHEL-111 : S'assurer que le paramètre SSH PermitEmptyPasswords est désactivé
+## HARDE-RHEL-112 : S'assurer que le paramètre SSH PermitUserEnvironment est désactivé
+## HARDE-RHEL-113 : S'assurer que le paramètre SSH Idle Timeout Interval est configuré
+## HARDE-RHEL-114 : S'assurer que le paramètre SSH LoginGraceTime est positionné à une minute ou moins
+## HARDE-RHEL-115 : S'assurer que la bannière SSH est configurée
+## HARDE-RHEL-116 : S'assurer que le paramétrage SSH PAM est activé
+## HARDE-RHEL-117 : S'assurer que le paramètre SSH MaxStartups est configuré
+## HARDE-RHEL-118 : S'assurer que le paramètre SSH MaxSessions est positionné à 4 ou moins
+## HARDE-RHEL-119 : S'assurer que le paramètre SSH MaxAuthTries est positionné à 4 ou moins
+## HARDE-RHEL-120 : S'assurer que le paramètre SSH IgnoreRhosts est activé
+## HARDE-RHEL-121 : S'assurer que le paramètre SSH HostbasedAuthentication est désactivé
+## HARDE-RHEL-122 : Créer un profil authselect personnalisé
+## HARDE-RHEL-123 : Selectionner le profil authselect
+## HARDE-RHEL-124 : S'assurer que le paramétrage authselect inclus with-faillock
+## HARDE-RHEL-125 : S'assurer que les exigences de création de mot de passe soient correctes
+## HARDE-RHEL-126 : S'assurer que le verrouillage après des tentatives de connexion soit configuré
+## HARDE-RHEL-127 : S'assurer que la réutilisation d'anciens mots de passe soit limitée
+## HARDE-RHEL-128 : Protection des mots de passe stockés
+## HARDE-RHEL-129 : S'assurer que l'expiration des mots de passe soit de 365 jours ou moins
+## HARDE-RHEL-130 : S'assurer que le nombre minimum de jours entre 2 changements de mot de passe soit 7 ou plus
+## HARDE-RHEL-131 : S'assurer que l'alerte pour expiration de mot de passe soit émise 7 jours ou plus avant expiration du mot de passe
+## HARDE-RHEL-132 : S'assurer que le verrouillage des comptes inutilisés soit de 30 jours ou moins
+## HARDE-RHEL-133 : S'assurer que toutes les dates de changement de mot de passe sont dans le passé
+## HARDE-RHEL-134 : S'assurer que les comptes système soient sécurisés
+## HARDE-RHEL-135 : S'assurer que la temporisation par défaut des shell utilisateurs soit de 900 secondes ou moins
+## HARDE-RHEL-136 : S'assurer que le groupe par défaut du compte root est 0
+## HARDE-RHEL-137 : S'assurer que la connexion est root est seulement possible sur la console system
+## HARDE-RHEL-138 : S'assurer qu'aucun mot de passe n'est vide
+## HARDE-RHEL-139 : S'assurer que qu'aucune entrée dans /etc/passwd n'utilise le code historique "+" 
+## HARDE-RHEL-140 : S'assurer que qu'aucune entrée dans /etc/shadow n'utilise le code historique "+" 
+## HARDE-RHEL-141 : S'assurer que qu'aucune entrée dans /etc/group n'utilise le code historique "+" 
+## HARDE-RHEL-142 : S'assurer que root est le seul compte avec UID 0
+## HARDE-RHEL-143 : Désactivation des comptes utilisateurs inutilisés
+## HARDE-RHEL-144 : Désactivation des comptes de services
+## HARDE-RHEL-145 : Unicité et exclusivité des comptes de services
+## HARDE-RHEL-146 : Délai d'expiration de sessions utilisateurs
+## HARDE-RHEL-147 : Applications utilisant PAM
+## HARDE-RHEL-148 : Sécurisation des services réseau d'authentification PAM
+## HARDE-RHEL-149 : Sécurisation des accès aux bases utilisateurs distantes
+## HARDE-RHEL-150 : Séparation des comptes système et d'administrateur de l'annuaire
+## HARDE-RHEL-151 : Groupe dédié à l'usage de sudo
+## HARDE-RHEL-152 : Authentification des utilisateurs exécutant sudo
+## HARDE-RHEL-153 : Privilèges des utilisateurs cibles pour une commande sudo
+## HARDE-RHEL-154 : Limitation du nombre de commandes nécessitant l'option EXEC
+## HARDE-RHEL-155 : Du bon usage de la négation dans une spécification sudo
+## HARDE-RHEL-156 : Arguments explicites dans les spécifications sudo
+## HARDE-RHEL-157 : Du bon usage de sudoedit
+## HARDE-RHEL-158 : Sticky bit et droits d'accès en écriture
+## HARDE-RHEL-159 : Installer AIDE
+## HARDE-RHEL-160 : Vérification régulière de l'intégrité de système de fichiers
+## HARDE-RHEL-161 : S'assurer que les permissions sur /etc/crontab soient correctes
+## HARDE-RHEL-162 : S'assurer que les permissions sur /etc/cron.hourly soient correctes
+## HARDE-RHEL-163 : S'assurer que les permissions sur /etc/cron.daily soient correctes
+## HARDE-RHEL-164 : S'assurer que les permissions sur /etc/cron.weekly soient correctes
+## HARDE-RHEL-165 : S'assurer que les permissions sur /etc/cron.monthly soient correctes
+## HARDE-RHEL-166 : S'assurer que les permissions sur /etc/cron.d soient correctes
+## HARDE-RHEL-167 : S'assurer que les permissions sur /etc/ssh/sshd_config soient correctes
+## HARDE-RHEL-168 : S'assurer que les permissions sur les clés privées d'hôte SSH soient correctes
+## HARDE-RHEL-169 : S'assurer que les permissions sur les clés publiques d'hôte soient correctes
+## HARDE-RHEL-170 : S'assurer que l'umask utilisateur est ou plus restrictif
+## HARDE-RHEL-171 : Auditer les permissions du système de fichiers
+## HARDE-RHEL-172 : S'assurer qu'aucun fichier en écriture pour tout le monde n'existe
+## HARDE-RHEL-173 : S'assurer que tous les fichiers ont un propriétaire
+## HARDE-RHEL-174 : S'assurer que tous les fichiers ont un groupe
+## HARDE-RHEL-175 : Auditer les exécutables SUID
+## HARDE-RHEL-176 : Auditer les exécutables SGID
+## HARDE-RHEL-177 : S'assurer que les permissions sur /etc/passwd soient correctes
+## HARDE-RHEL-178 : S'assurer que les permissions sur /etc/shadow soient correctes
+## HARDE-RHEL-179 : S'assurer que les permissions sur /etc/group soient correctes
+## HARDE-RHEL-180 : S'assurer que les permissions sur /etc/gshadow soient correctes
+## HARDE-RHEL-181 : S'assurer que les permissions sur /etc/passwd- soient correctes
+## HARDE-RHEL-182 : S'assurer que les permissions sur /etc/shadow- soient correctes
+## HARDE-RHEL-183 : S'assurer que les permissions sur /etc/group- soient correctes
+## HARDE-RHEL-184 : S'assurer que les permissions sur /etc/gshadow- soient correctes
+## HARDE-RHEL-185 : S'assurer que les utilisateurs n'ont pas de fichier .forward
+## HARDE-RHEL-186 : S'assurer que les utilisateurs n'ont pas de fichier .netrc
+## HARDE-RHEL-187 : S'assurer que les fichiers .netrc ne soint pas accessibles en écriture
+## HARDE-RHEL-188 : S'assurer qu'il n'existe pas de fichier .rhosts
+## HARDE-RHEL-189 : S'assurer que tous les groupes de /etc/passwd existent dans /etc/group
+## HARDE-RHEL-190 : S'assurer qu'il n'y a pas d'UIDs dupliqués
+## HARDE-RHEL-191 : S'assurer qu'il n'y a pas de GIDs dupliqués
+## HARDE-RHEL-192 : S'assurer qu'il n'y a pas de de doublons dans les noms d'utilisateur
+## HARDE-RHEL-193 : S'assurer que qu'il n'y a pas de de doublons dans les noms de groupe
+## HARDE-RHEL-194 : S'assurer qu'il n'y a pas de groupe shadow
+## HARDE-RHEL-195 : Vérifier que tous les utilisateurs aient un répertoire d'accueil
+## HARDE-RHEL-196 : S'assurer que les permissions sur les répertoire d'accueil des utilisateurs soit 750 ou plus restrictif
+## HARDE-RHEL-197 : S'assurer que les utilisateurs possèdent leurs répertoires d'accueil
+## HARDE-RHEL-198 : S'assurer que les fichiers de configuration des utilisateurs ne soient pas ouverts en écriture au groupe ou à tout le monde
+## HARDE-RHEL-199 : Droits d'accès aux fichiers de contenu sensible
+## HARDE-RHEL-200 : Sécurisation des accès pour les sockets et pipes
+## HARDE-RHEL-201 : Protection de la base de données des scellés
+## HARDE-RHEL-202 : Désactiver la création de core dumps
+## HARDE-RHEL-203 : Activer l'aléatoire dans l'organisation de l'espace d'adressage
+## HARDE-RHEL-204 : Paramétrage des sysctl système
+## HARDE-RHEL-205 : Désactivation du chargement des modules noyau
+## HARDE-RHEL-206 : Configuration sysctl du module Yama
+## HARDE-RHEL-207 : Partition séparée pour /var/log
+## HARDE-RHEL-208 : Partition séparée pour /var/log/audit
+## HARDE-RHEL-209 : Journal spécifique pour sudo
+## HARDE-RHEL-210 : S'assurer qu'auditd est installé
+## HARDE-RHEL-211 : S'assurer que le service auditd est activé
+## HARDE-RHEL-212 : S'assurer que l'audit commence au plus tôt
+## HARDE-RHEL-213 : S'assurer que la valeur d'audit_backlog_limit est suffisante
+## HARDE-RHEL-214 : Tracer les tentatives d'accès aux fichiers refusées 
+## HARDE-RHEL-215 : Tracer les modifications d'utilisateurs
+## HARDE-RHEL-216 : Journalisation de l'activité par auditd
+## HARDE-RHEL-217 : Tracer l'utilisation des commandes privilégiés
+## HARDE-RHEL-218 : Tracer les suppressions de fichiers
+## HARDE-RHEL-219 : Tracer le chargement/déchargement de modules
+## HARDE-RHEL-220 : Tracer les actions des administrateurs
+## HARDE-RHEL-221 : S'assurer que la configuration auditd n'est pas modifiable
+## HARDE-RHEL-222 : S'assurer que la taille de stockage est spécifiée
+## HARDE-RHEL-223 : S'assurer que les logs d'audit ne soient pas purgés
+## HARDE-RHEL-224 : S'assurer que le système s'arrête si le système d'audit est plein
+## HARDE-RHEL-225 : Auditer tout changement du fichier sudoers
+## HARDE-RHEL-226 : Auditer toute connexion/déconnexion
+## HARDE-RHEL-227 : Collecter toutes les informations de session
+## HARDE-RHEL-228 : S'assurer que les évènements de changements horaires soient tracés
+## HARDE-RHEL-229 : S'assurer que les évènements modifiant les MAC soient collectés
+## HARDE-RHEL-230 : Tracer les évènements changeant l'environnement réseau
+## HARDE-RHEL-231 : Tracer les changements de permission
+## HARDE-RHEL-232 : Installer le service rsyslog
+## HARDE-RHEL-233 : Activer le service syslog
+## HARDE-RHEL-234 : Configurer les permissions des fichiers journaux
+## HARDE-RHEL-235 : Définir les fichiers journaux
+## HARDE-RHEL-236 : Renvoyer les journaux vers un hôte distant
+## HARDE-RHEL-237 : S'assurer que seuls les puits de logs peuvent recevoir des logs
+## HARDE-RHEL-238 : S'assurer que journald est redirigé vers rsyslog
+## HARDE-RHEL-239 : S'assurer que journald compresse les journaux de grande taille
+## HARDE-RHEL-240 : S'assurer que journald écrit les journaux sur disque
+## HARDE-RHEL-241 : S'assurer de la permission des fichiers journaux
+## HARDE-RHEL-242 : S'assurer que logrotate est configuré
+## HARDE-RHEL-243 : S'assurer que le paramètre SSH LogLevel est approprié
+## HARDE-RHEL-244 : Durcissement et configuration du service syslog
+## HARDE-RHEL-245 : Cloisonnement du service syslog par chroot
+## HARDE-RHEL-246 : Cloisonnement du service syslog par conteneur
+## HARDE-RHEL-247 : Journaux d'activité de service

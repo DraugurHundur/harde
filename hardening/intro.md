@@ -6,6 +6,8 @@ lang: fr
 
 Dernière mise à jour : %date%
 
+\newpage
+
 # Principes de base
 
 Ce guide vise à rendre un système Red Hat plus résilient face aux attaques informatiques, ce qu'on appelle un système durci. Il se base principalement sur les recommandations [CIS] et [ANSSI].
@@ -14,9 +16,9 @@ Il introduit deux modes de fonctionnement du système : nominal et maintenance. 
 
 - le chargement de modules noyaux.
 - l'accès à la partition de démarrage /boot
-- les support de stockage externe.
+- les supports de stockage externe.
 
- Pour les réactiver, il faut passer en mode « maintenance ».
+ Pour les réactiver, il faut passer en mode « maintenance ». Pour passer d'un mode à l'autre, il est nécessaire de redémarrer le système.
 
 Ce guide décrit la procédure à suivre pour un système Red Hat Linux Entreprise 8 (Testé avec les versions 8.1 à 8.5).
 
@@ -38,7 +40,7 @@ Quand cela est possible, les règles de sécurisation ont été traduites dans u
 
 ## Finalisation de la sécurisation
 
-Un certain nombre d’opérations (trop complexes ou dépendantes du réseau d’installation) sont à réaliser manuellement, et sont décrites dans le chapitre [dédié](#opérationsmanuelles).
+Un certain nombre d’opérations (trop complexes ou dépendantes du réseau d’installation) sont à réaliser manuellement, et sont décrites dans le chapitre [dédié](#opérations-manuelles).
 
 ## Audit
 
@@ -56,30 +58,30 @@ Le disque dur alloué doit être au minimum de 48 Go
 ## Depuis une image ISO
 
 Démarrer le système depuis l’image ISO:
-![Copie d'écran : Démarrage du DVD](.\images\2020-09-11 10_38_36-Window.png)
+![Copie d'écran : Démarrage du DVD](images/dvd.png)
 
 Puis dès que l’installateur graphique est démarré, sélectionner France, Français(France) comme paramètres linguistiques. S’assurer que le clavier est positionné à fr(oss) après avoir cliqué sur Continuer.
 
-![Copie d'écran : Langue d'installation](.\images\VirtualBox_RHEL 8.3_16_12_2021_10_26_51.png)
+![Copie d'écran : Langue d'installation](images/language-selection.png)
 
 Depuis l’écran principal, régler l’heure & date pour pointer vers le fuseau horaire cible et si disponibles, définir plusieurs sources NTP fiables.
-![Copie d'écran : Configuration date et heure](.\images\VirtualBox_RHEL 8.5_08_12_2021_12_07_37.png)
+![Copie d'écran : Configuration date et heure](images/date-time.png)
 
 Depuis l’écran Résumé de l’installation, positionner la Sélection Logiciel à « Installation minimale » :
 
-![Copie d'écran : Sélection Logiciel](.\images\2020-09-10 17_47_41-Window.png)
+![Copie d'écran : Sélection Logiciel](images/software-selection.png)
 
 Depuis l’écran Résumé de l’installation, positionner le paramètre KDUMP à désactivé :
 
-![Copie d'écran : KDUMP est désactivé](.\images\2020-09-10 17_51_10-Window.png)
+![Copie d'écran : KDUMP est désactivé](images/kdump.png)
 
 Depuis l’écran Résumé de l’installation, cliquer sur « Nom du réseau &…» pour activer la carte réseau et modifier les différents paramètres réseau (dont le nom DNS).
 
-![Copie d'écran : Configuration du réseau](images\VirtualBox_RHEL 8.5_08_12_2021_12_06_58.png)
+![Copie d'écran : Configuration du réseau](images/network-config.png)
 
 Depuis l’écran Résumé de l’installation, dans le chapitre « Installation Destination » pour le partitionnement du disque dur, choisissez « Personnalisé » (cliquer sur Fait) :
 
-![Copie d'écran : Configuration du stockage](.\images\2020-09-11 10_51_10-Window.png)
+![Copie d'écran : Configuration du stockage](images/storage.png)
 
 Puis garder les options par défaut pour le disque (LVM). Cliquer sur + pour créer les partitions suivantes :
 
@@ -98,11 +100,11 @@ Point de montage | Taille Minimum
 /srv ou /opt | 6 Gio
 swap | 4 Gio (ou 20% de la mémoire vive)
 
-![Copie d'écran : Partitionnement](images/VirtualBox_RHEL 8.5_08_12_2021_12_13_12.png)
+![Copie d'écran : Partitionnement](images/part1.png)
 
 Valider les modifications à effectuer sur le disque :
 
-![Copie d'écran : Partitionnement](images/VirtualBox_RHEL 8.5_08_12_2021_12_13_41.png)
+![Copie d'écran : Partitionnement](images/part2.png)
 
 Ne pas sélectionner de politique de sécurité.
 
@@ -111,11 +113,11 @@ Le chapitre But du système est optionnel et pour information seulement.
 Définir un mot de passe administrateur (root) et créer un compte utilisateur. Veiller à choisir des mots de passe conformes à la politique de sécurité.
 
 Quand tous les paramètres sont réglés, cliquer sur 'Commencer l'installation':
-![Copie d'écran: Fin du paramétrage d'installation](images/VirtualBox_RHEL 8.5_08_12_2021_12_15_06.png)
+![Copie d'écran: Fin du paramétrage d'installation](images/installation-start.png)
 
 Redémarrer une fois l’installation terminée :
 
-![Copie d'écran : Fin d'installation](images/VirtualBox_RHEL 8.5_08_12_2021_14_17_26.png)
+![Copie d'écran : Fin d'installation](images/installation-end.png)
 
 Passer ensuite à la sécurisation dans le chapitre ci-dessous : [Sécurisation](#sécurisation-1).
 
@@ -123,68 +125,12 @@ Passer ensuite à la sécurisation dans le chapitre ci-dessous : [Sécurisation]
 
 Une fois l’installation terminée selon le chapitre précédent, la sécurisation proprement dite se passe en quatre étapes :
 
-1. Effectuer les opérations manuelles détaillés ci-dessous.
 1. Lancer le script fourni en attachement puis redémarrer.
+1. Effectuer les opérations manuelles détaillés ci-dessous.
 1. Appliquer les correctifs et mises à jour de sécurité.
 1. Mettre en place les mesures organisationnelles de suivi (procédures de MCS, liste des utilisateurs, liste des services ...)
 
-## Opérations Manuelles
-
-Editer le fichier /etc/fstab pour rajouter les options sur les points de montage suivant le tableau suivant :
-
-Point de Montage | Options | Description
---|--|--
-/ | *pas d'option* |Partition racine, contient le reste de l’arborescence
-/boot et /boot/efi |nodev,nosuid,noexec,noauto |Contient le noyau et le chargeur de démarrage. Pas d’accès nécessaire une fois le boot terminé (sauf mise à jour)
-/dev/shm |nodev,nosuid,noexec |Contient les segments de mémoire partagés
-/home |nodev,nosuid,noexec |Contient les HOME utilisateurs. Montage en lecture seule si non utilisé
-/opt |nodev,nosuid (ro optionnel) |Packages additionnels au système. Montage en lecture seule si non utilisé
-/proc |hidepid=2,gid=sudogrp |Contient des informations sur les processus et le système
-/srv |nodev,nosuid (noexec,ro optionnels) |Contient des fichiers servis par un service type web, ftp, etc.
-/tmp |nodev,nosuid,noexec |Fichiers temporaires. Ne doit contenir que des éléments non exécutables. Nettoyé après redémarrage ou préférablement de type tmpfs
-/usr |nodev (ro optionnel) |Contient la majorité des utilitaires et fichiers système
-/var |nodev,nosuid,noexec |Partition contenant des fichiers variables pendant la vie du système (mails, fichiers PID, bases de données d’un service)
-/var/log |nodev,nosuid,noexec |Contient les logs du système
-/var/log/audit |nodev,nosuid,noexec |Contient les logs d'audit du système
-/var/tmp |nodev,nosuid,noexec |Fichiers temporaires conservés après extinction
-
-Rajouter les lignes suivantes :
-
-```text
-proc /proc  proc rw,nosuid,nodev,noexec,relatime,hidepid=2,gid=sudogrp 0 0
-none /dev/shm tmpfs nosuid,nodev,noexec,defaults             0 0
-```
-
-À titre d’exemple, voici le fichier édité pour une machine virtuelle (sans les options « ro » de lecture seule) :
-
-```text
-#
-# /etc/fstab
-# Created by anaconda on Fri Sep 11 11:21:06 2020
-#
-# Accessible filesystems, by reference, are maintained under '/dev/disk/'.
-# See man pages fstab(5), findfs(8), mount(8) and/or blkid(8) for more info.
-#
-# After editing this file, run 'systemctl daemon-reload' to update systemd
-# units generated from this file.
-#
-/dev/mapper/rhel_lab-root   /                     xfs    defaults      0 0
-UUID=3fe99bee-938f-4751-a956-b4335bc32e7c  /boot           xfs    nosuid,nodev,noexec,noauto,defaults          0 0
-UUID=16FD-1FB3             /boot/efi          vfat   nosuid,nodev,noexec,noauto,umask=0077,shortname=winnt  0 2
-/dev/mapper/rhel_lab-home    /home             xfs    nosuid,nodev,noexec,defaults           0 0
-/dev/mapper/rhel_lab-srv    /srv                xfs   nosuid,nodev,defaults            0 0
-/dev/mapper/rhel_lab-tmp    /tmp                    xfs    nosuid,nodev,noexec,defaults           0 0
-/dev/mapper/rhel_lab-usr    /usr                   xfs    nodev,defaults             0 0
-/dev/mapper/rhel_lab-var    /var                xfs    nosuid,nodev,noexec,defaults           0 0
-/dev/mapper/rhel_lab-var_log    /var/log       xfs    nosuid,nodev,noexec,defaults           0 0
-/dev/mapper/rhel_lab-var_log_audit   /var/log/audit   xfs    nosuid,nodev,noexec,defaults           0 0
-/dev/mapper/rhel_lab-var_tmp      /var/tmp         xfs    nosuid,nodev,noexec,defaults           0 0
-/dev/mapper/rhel_lab-swap       swap                  swap   defaults             0 0
-proc                    /proc              proc   rw,nosuid,nodev,noexec,relatime,hidepid=2,gid=sudogrp 0 0
-none                      /dev/shm             tmpfs  nosuid,nodev,noexec,defaults    0 0
-```
-
-## Lancer le script de sécurisation
+### Lancer le script de sécurisation
 
 Copier le script fourni en attachement dans le répertoire /root, puis le lancer dans une session root (ou dans une session sudo).
 
@@ -196,7 +142,22 @@ Une fois la sécurisation effectuée (et le système redémarré), il n’est pl
 
 Voir le chapitre [Utiliser le système](#clés-usb) pour les procédures à appliquer pour utiliser des supports externes.
 
-## Correctifs
+### Opérations Manuelles
+
+#### Configuration de chrony
+
+Le paquet `chrony` est installé pour assurer la synchronisation du temps. Il est primordial de s'assurer que le démon puisse contacter à minima un (au mieux 3) serveur de temps fiable. Voir [HARDE-RHEL-099](#harde-rhel-099-sassurer-que-chrony-est-configuré).
+
+#### Configuration du puits de logs
+
+Les journaux du système doivent être renvoyés sur un serveur central pour :
+
+- empêcher leur modifications.
+- les archiver selon la règlementation en vigueur.
+
+Le script positionne automatiquement cette valeur mais pour la confirmer, voir [HARDE-RHEL-236](#harde-rhel-236-renvoyer-les-journaux-vers-un-hôte-distant).
+
+### Correctifs
 
 Pour rappel, il est évidemment nécessaire d’installer au plus tôt les dernières mises à jour de sécurité.
 
@@ -204,11 +165,11 @@ En plus des mises à jour de sécurité, des correctifs fonctionnels peuvent êt
 
 Il est donc fortement recommandé qu'un processus de veille soit mise en place pour identifier au plus tôt les correctifs indispensables au maintien en condition de sécurité (MCS) ou nécessaires au bon fonctionnement du système (MCO).
 
-## Documents à établir
+### Documents à établir
 
-La directive HARDE-RHEL-51 demande à ce qu’une liste blanche des démons (services résidents) soit établie.
+La directive [HARDE-RHEL-51](#harde-rhel-051-services-et-démons-résidents-en-mémoire) demande à ce qu’une liste blanche des démons (services résidents) soit établie.
 
-La directive HARDE-RHEL-143 demande à ce qu’une liste blanche et une liste noire des utilisateurs soient établies.
+La directive [HARDE-RHEL-143](#harde-rhel-143-désactivation-des-comptes-utilisateurs-inutilisés) demande à ce qu’une liste blanche et une liste noire des utilisateurs soient établies.
 
 ## Vérifier la bonne application des règles
 
@@ -223,3 +184,5 @@ La majorité de ces règles sont mis en place par un paramétrage du système ma
 [ANSSI]: https://www.ssi.gouv.fr/entreprise/guide/recommandations-de-securite-relatives-a-un-systeme-gnulinux/ (Recommandations de configuration d’un système GNU/Linux - v1.2)
 
 [CIS]: https://www.cisecurity.org/benchmark/red_hat_linux/ (Securing Red Hat Linux 8)
+
+\newpage

@@ -1,3 +1,9 @@
+
+### Méthode à suivre
+
+Pour implémenter cette règle, utiliser le script fourni, dont voici un extrait du code source concernant HARDE-RHEL-019 :
+
+``` {.bash .numberLines}
 #! /usr/bin/env bash
 echo "HARDE-RHEL-19 : Partitionnement type"
 harde_backup_file /etc/fstab
@@ -43,3 +49,5 @@ cat >/etc/systemd/system/systemd-logind.service.d/hidepid.conf <<EOF
 SupplementaryGroups=sudogrp
 EOF
 # Fin: HARDE-RHEL-19
+```
+
