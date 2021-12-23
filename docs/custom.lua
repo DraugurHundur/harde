@@ -33,7 +33,7 @@ local function newpage(format)
         local pagebreak = '<w:p><w:r><w:br w:type="page"/></w:r></w:p>'
         return pandoc.RawBlock('openxml', pagebreak)
     elseif format:match 'html.*' then
-        return pandoc.RawBlock('html', '<div style=""></div>')
+        return pandoc.RawBlock('html', '<div style=""><hr/></div>')
     elseif format:match 'tex$' then
         return pandoc.RawBlock('tex', '\\newpage{}')
     elseif format:match 'epub' then
@@ -57,3 +57,10 @@ function RawBlock(el)
     -- otherwise, leave the block unchanged
     return nil
 end
+
+function Meta(m)
+    if m.date == nil then
+      m.date = os.date("%Y-%m-%d")
+      return m
+    end
+  end

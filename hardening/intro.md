@@ -4,7 +4,7 @@ author: Pierre Blanchet
 lang: fr
 ---
 
-Dernière mise à jour : %date%
+Dernière mise à jour : {{date}}
 
 \newpage
 

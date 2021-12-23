@@ -23,7 +23,8 @@
 
     <meta name="generator" content="pandoc-uikit" />
         <meta name="author" content="Pierre Blanchet" />
-            <title>HARDE - SÉCURISATION D’UN SYSTÈME RED HAT 8.x</title>
+            <meta name="date" content="2021-12-23" />
+        <title>HARDE - SÉCURISATION D’UN SYSTÈME RED HAT 8.x</title>
     <style type="text/css">
         code {
             white-space: pre;
@@ -104,6 +105,8 @@
                 <div class="uk-grid" data-uk-grid-margin>
             <div class="uk-width-1-1">
                 <h1 class="uk-heading-large">HARDE - SÉCURISATION D’UN SYSTÈME RED HAT 8.x</h1>
+                                <h3 class="uk-heading-large">2021-12-23</p>
+                </h3>
                                                 <p class="uk-text-large">Pierre Blanchet</p>
                             </div>
         </div>
@@ -1315,8 +1318,8 @@
             </div>
 
             <div class="uk-width-medium-3-4">
-<p>Dernière mise à jour : %date%</p>
-<div style=""></div>
+<p>Dernière mise à jour : {{date}}</p>
+<div style=""><hr/></div>
 <h1 id="principes-de-base">Principes de base</h1>
 <p>Ce guide vise à rendre un système Red Hat plus résilient face aux attaques informatiques, ce qu’on appelle un système durci. Il se base principalement sur les recommandations <a href="https://www.cisecurity.org/benchmark/red_hat_linux/" title="Securing Red Hat Linux 8">CIS</a> et <a href="https://www.ssi.gouv.fr/entreprise/guide/recommandations-de-securite-relatives-a-un-systeme-gnulinux/" title="Recommandations de configuration d’un système GNU/Linux - v1.2">ANSSI</a>.</p>
 <p>Il introduit deux modes de fonctionnement du système : nominal et maintenance. En mode nominal, les points suivants sont désactivés :</p>
@@ -1476,7 +1479,7 @@
 <p>Le catalogue des règles de sécurisation donne le détail des étapes à réaliser pour auditer le système. Comme pour la sécurisation, lorsque cela a été possible, ces étapes ont été automatisées à l’aide d’un script harde.sh fourni en attachement. Ce script a été écrit en utilisant le framework bats-core (également fourni en attachement).</p>
 <h1 id="catalogue-des-regles-de-securisation">CATALOGUE DES REGLES DE SECURISATION</h1>
 <p>Ce catalogue contient des règles définies à partir des recommandations <a href="https://www.ssi.gouv.fr/entreprise/guide/recommandations-de-securite-relatives-a-un-systeme-gnulinux/" title="Recommandations de configuration d’un système GNU/Linux - v1.2">ANSSI</a> et du benchmark <a href="https://www.cisecurity.org/benchmark/red_hat_linux/" title="Securing Red Hat Linux 8">CIS</a>. Certaines de ces règles sont positionnées à « Ne pas implémenter » car elles ont été jugées non pertinentes ou non applicables dans le cadre de ce projet. Elles sont néanmoins présentes pour offrir une vision globale des recommandations. La majorité de ces règles sont mis en place par un paramétrage du système mais certaines demandent la mise en place de procédures organisationnelles.</p>
-<div style=""></div>
+<div style=""><hr/></div>
 <h2 id="harde-rhel-001-minimisation-des-services-installés">HARDE-RHEL-001 : Minimisation des services installés</h2>
 <p>Supprimer les services non nécessaires. Une liste de paquets le plus souvent inutiles et désinstallée par la commande suivante:</p>
 <table>
@@ -11375,7 +11378,7 @@ none                      /dev/shm             tmpfs  nosuid,nodev,noexec,defaul
 </table>
 <h3 id="méthode-dimplémentation-89">Méthode d’implémentation</h3>
 <p>À déterminer ### Méthode d’audit</p>
-<div style=""></div>
+<div style=""><hr/></div>
 <h1 id="utilisation-du-système">UTILISATION DU SYSTÈME</h1>
 <h2 id="ajouter-un-utilisateur">Ajouter un utilisateur</h2>
 <p>La commande useradd permet de créer un utilisateur :</p>
