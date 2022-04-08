@@ -1,14 +1,14 @@
 #! /usr/bin/env bash
-echo "HARDE-RHEL-19 : Partitionnement type"
+echo "HARDE-RHEL-019 : Partitionnement type"
 harde_backup_file /etc/fstab
 
-grep -q ^proc /etc/fstab  || cat >/etc/fstab <<EOF
+grep -q ^proc /etc/fstab  || cat >>/etc/fstab <<EOF
 proc /proc  proc rw,nosuid,nodev,noexec,relatime,hidepid=2,gid=sudogrp 0 0
 EOF
 
 harde_backup_file /etc/fstab
 
-grep -q /dev/shm /etc/fstab  || cat >/etc/fstab <<EOF
+grep -q /dev/shm /etc/fstab  || cat >>/etc/fstab <<EOF
 none /dev/shm tmpfs nosuid,nodev,noexec,defaults             0 0
 EOF
 
@@ -42,4 +42,4 @@ cat >/etc/systemd/system/systemd-logind.service.d/hidepid.conf <<EOF
 [Service]
 SupplementaryGroups=sudogrp
 EOF
-# Fin: HARDE-RHEL-19
+# Fin: HARDE-RHEL-019

@@ -18,7 +18,7 @@ function usage {
 }
 
 export LANG=C
-BATS_VERSION="1.3.0"
+BATS_VERSION="1.6.0"
 
 
 function check_required_command() {

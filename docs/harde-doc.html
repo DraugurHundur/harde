@@ -23,7 +23,7 @@
 
     <meta name="generator" content="pandoc-uikit" />
         <meta name="author" content="Pierre Blanchet" />
-            <meta name="date" content="2021-12-23" />
+            <meta name="date" content="2022-04-08" />
         <title>HARDE - SÉCURISATION D’UN SYSTÈME RED HAT 8.x</title>
     <style type="text/css">
         code {
@@ -105,7 +105,7 @@
                 <div class="uk-grid" data-uk-grid-margin>
             <div class="uk-width-1-1">
                 <h1 class="uk-heading-large">HARDE - SÉCURISATION D’UN SYSTÈME RED HAT 8.x</h1>
-                                <h3 class="uk-heading-large">2021-12-23</p>
+                                <h3 class="uk-heading-large">2022-04-08</p>
                 </h3>
                                                 <p class="uk-text-large">Pierre Blanchet</p>
                             </div>
@@ -778,7 +778,7 @@
                                                 <li><a href="#méthode-à-suivre-89">Méthode à suivre</a></li>
                                                 <li><a href="#méthode-daudit-95">Méthode d’audit</a></li>
                                                 </ul></li>
-                                                <li><a href="#harde-rhel-137-sassurer-que-la-connexion-est-root-est-seulement-possible-sur-la-console-system">HARDE-RHEL-137 : S’assurer que la connexion est root est seulement possible sur la console system</a>
+                                                <li><a href="#harde-rhel-137-sassurer-que-la-connexion-root-est-seulement-possible-sur-la-console-système">HARDE-RHEL-137 : S’assurer que la connexion <em>root</em> est seulement possible sur la console système</a>
                                                 <ul>
                                                 <li><a href="#méthode-à-suivre-90">Méthode à suivre</a></li>
                                                 <li><a href="#méthode-daudit-96">Méthode d’audit</a></li>
@@ -1893,26 +1893,28 @@
 <h2 id="harde-rhel-012-partition-séparée-pour-home">HARDE-RHEL-012 : Partition séparée pour /home</h2>
 <p>/home doit être installé dans une partition séparée d’au moins 1GB avec les options nodev</p>
 <table>
+<thead>
+<tr class="header">
+<th style="text-align: right;">À implémenter</th>
+<th style="text-align: left;"></th>
+<th style="text-align: right;"></th>
+<th style="text-align: left;"></th>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">À implémenter</td>
-<td style="text-align: left;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
 <td style="text-align: right;"></td>
 <td style="text-align: left;"><em>Niveau</em></td>
 <td style="text-align: right;"></td>
 <td style="text-align: left;">4</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: right;"><em>Référence</em> <a href="https://www.cisecurity.org/benchmark/red_hat_linux/" title="Securing Red Hat Linux 8">CIS</a></td>
 <td style="text-align: left;">RHEL 8 1.1.13<br>RHEL 8 1.1.14</td>
 <td style="text-align: right;"><em>Contrôle</em></td>
 <td style="text-align: left;">05.1 Establish Secure Configurations<br>05.1 Establish Secure Configurations</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: right;"></td>
 <td style="text-align: left;"><a href="https://www.ssi.gouv.fr/entreprise/guide/recommandations-de-securite-relatives-a-un-systeme-gnulinux/" title="Recommandations de configuration d’un système GNU/Linux - v1.2">ANSSI</a></td>
 <td style="text-align: right;"></td>
@@ -2163,7 +2165,7 @@
 <span id="cb9-4"><a href="#cb9-4"></a><span class="co"># Fin: HARDE-RHEL-018</span></span></code></pre></div>
 <h3 id="méthode-daudit-8">Méthode d’audit</h3>
 <h2 id="harde-rhel-019-partitionnement-type">HARDE-RHEL-019 : Partitionnement type</h2>
-<p>Le principe de minimisation pousse à partitionner le stockage pour limiter l’impact en cas de remplissage abusif (attaque, journaux, processus fou …) et pour limiter les droits sur des emplacements ouverts en écriture (par exemple en limitant la possibilité d’un utilitaire <em>suid</em> à la seule partition <code>/usr</code> celle-ci n’étant accessible qu’aux administrateurs voire en mettant la partition complète en lecture seule).</p>
+<p>Le principe de minimisation pousse à partitionner le stockage pour limiter l’impact en cas de remplissage abusif (attaque, journaux, processus fou …) et pour limiter les droits sur des emplacements ouverts en écriture (par exemple en mettant une partition complète en lecture seule ou en limitant la possibilité d’un utilitaire <em>suid</em> à la seule partition <code>/usr</code> celle-ci n’étant accessible qu’aux administrateurs).</p>
 <p>Le chapitre Installation décrit le minimum de partitions à créer sur le système.</p>
 <p>Voici la liste des options recommandées à appliquer dans le fichier /etc/fstab pour les points de montage :</p>
 <table>
@@ -2303,16 +2305,16 @@ none                      /dev/shm             tmpfs  nosuid,nodev,noexec,defaul
 <h3 id="méthode-à-suivre-7">Méthode à suivre</h3>
 <p>Pour implémenter cette règle, utiliser le script fourni, dont voici un extrait du code source concernant HARDE-RHEL-019 :</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode numberSource bash numberLines"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1"></a><span class="co">#! /usr/bin/env bash</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-19 : Partitionnement type&quot;</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-019 : Partitionnement type&quot;</span></span>
 <span id="cb12-3"><a href="#cb12-3"></a><span class="ex">harde_backup_file</span> /etc/fstab</span>
 <span id="cb12-4"><a href="#cb12-4"></a></span>
-<span id="cb12-5"><a href="#cb12-5"></a><span class="fu">grep</span> <span class="at">-q</span> ^proc /etc/fstab  <span class="kw">||</span> <span class="fu">cat</span> <span class="op">&gt;</span>/etc/fstab <span class="op">&lt;&lt;EOF</span></span>
+<span id="cb12-5"><a href="#cb12-5"></a><span class="fu">grep</span> <span class="at">-q</span> ^proc /etc/fstab  <span class="kw">||</span> <span class="fu">cat</span> <span class="op">&gt;&gt;</span>/etc/fstab <span class="op">&lt;&lt;EOF</span></span>
 <span id="cb12-6"><a href="#cb12-6"></a><span class="st">proc /proc  proc rw,nosuid,nodev,noexec,relatime,hidepid=2,gid=sudogrp 0 0</span></span>
 <span id="cb12-7"><a href="#cb12-7"></a><span class="op">EOF</span></span>
 <span id="cb12-8"><a href="#cb12-8"></a></span>
 <span id="cb12-9"><a href="#cb12-9"></a><span class="ex">harde_backup_file</span> /etc/fstab</span>
 <span id="cb12-10"><a href="#cb12-10"></a></span>
-<span id="cb12-11"><a href="#cb12-11"></a><span class="fu">grep</span> <span class="at">-q</span> /dev/shm /etc/fstab  <span class="kw">||</span> <span class="fu">cat</span> <span class="op">&gt;</span>/etc/fstab <span class="op">&lt;&lt;EOF</span></span>
+<span id="cb12-11"><a href="#cb12-11"></a><span class="fu">grep</span> <span class="at">-q</span> /dev/shm /etc/fstab  <span class="kw">||</span> <span class="fu">cat</span> <span class="op">&gt;&gt;</span>/etc/fstab <span class="op">&lt;&lt;EOF</span></span>
 <span id="cb12-12"><a href="#cb12-12"></a><span class="st">none /dev/shm tmpfs nosuid,nodev,noexec,defaults             0 0</span></span>
 <span id="cb12-13"><a href="#cb12-13"></a><span class="op">EOF</span></span>
 <span id="cb12-14"><a href="#cb12-14"></a></span>
@@ -2346,7 +2348,7 @@ none                      /dev/shm             tmpfs  nosuid,nodev,noexec,defaul
 <span id="cb12-42"><a href="#cb12-42"></a><span class="st">[Service]</span></span>
 <span id="cb12-43"><a href="#cb12-43"></a><span class="st">SupplementaryGroups=sudogrp</span></span>
 <span id="cb12-44"><a href="#cb12-44"></a><span class="op">EOF</span></span>
-<span id="cb12-45"><a href="#cb12-45"></a><span class="co"># Fin: HARDE-RHEL-19</span></span></code></pre></div>
+<span id="cb12-45"><a href="#cb12-45"></a><span class="co"># Fin: HARDE-RHEL-019</span></span></code></pre></div>
 <h3 id="méthode-daudit-9">Méthode d’audit</h3>
 <h2 id="harde-rhel-020-restrictions-daccès-sur-le-dossier-boot">HARDE-RHEL-020 : Restrictions d’accès sur le dossier /boot</h2>
 <p>Ne pas monter /boot automatiquement au démarrage. S’assurer que /boot est monté pour les mises à jour (via procédure ou script).</p>
@@ -6903,8 +6905,9 @@ none                      /dev/shm             tmpfs  nosuid,nodev,noexec,defaul
 <span id="cb97-2"><a href="#cb97-2"></a><span class="ex">usermod</span> <span class="at">-g</span> 0 root</span>
 <span id="cb97-3"><a href="#cb97-3"></a><span class="co"># Fin: HARDE-RHEL-136</span></span></code></pre></div>
 <h3 id="méthode-daudit-95">Méthode d’audit</h3>
-<h2 id="harde-rhel-137-sassurer-que-la-connexion-est-root-est-seulement-possible-sur-la-console-system">HARDE-RHEL-137 : S’assurer que la connexion est root est seulement possible sur la console system</h2>
-<p>L’accès est restreint aux seules consoles physiquement connectées au serveur. Cette commande doit être adaptée s’il n’y a qu’une console série (par exemple ttyS1)</p>
+<h2 id="harde-rhel-137-sassurer-que-la-connexion-root-est-seulement-possible-sur-la-console-système">HARDE-RHEL-137 : S’assurer que la connexion <em>root</em> est seulement possible sur la console système</h2>
+<p>L’accès direct à une session <em>root</em> doit être restreint aux seules consoles physiquement connectées au serveur. Cela permet de s’assurer qu’un attaquant ne puisse ouvrir à distance de session <em>root</em> même en cas de compromission du mot de passe. HARDE-RHEL-110 s’assure que le connexion ne soit pas possible par SSH.</p>
+<p>S’il n’y a qu’une console série (par exemple <code>/dev/ttyS1</code>) ou pour les conteneurs qui n’ont que des consoles virtuelles (par exemple <code>/dev/pts/0</code>), il faut éditer le fichier <code>/etc/securetty</code> pour n’inclure que ces consoles.</p>
 <table>
 <thead>
 <tr class="header">
@@ -6938,7 +6941,7 @@ none                      /dev/shm             tmpfs  nosuid,nodev,noexec,defaul
 <h3 id="méthode-à-suivre-90">Méthode à suivre</h3>
 <p>Pour implémenter cette règle, utiliser le script fourni, dont voici un extrait du code source concernant HARDE-RHEL-137 :</p>
 <div class="sourceCode" id="cb98"><pre class="sourceCode numberSource bash numberLines"><code class="sourceCode bash"><span id="cb98-1"><a href="#cb98-1"></a><span class="co">#! /bin/bash</span></span>
-<span id="cb98-2"><a href="#cb98-2"></a><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-137 : S&#39;assurer que la connexion est root est seulement possible sur la console système&quot;</span></span>
+<span id="cb98-2"><a href="#cb98-2"></a><span class="bu">echo</span> <span class="st">&quot;HARDE-RHEL-137 : S&#39;assurer que la connexion en root est seulement possible sur la console système&quot;</span></span>
 <span id="cb98-3"><a href="#cb98-3"></a><span class="cf">for</span> i <span class="kw">in</span> 1 2 3 4 5 6<span class="kw">;</span> <span class="cf">do</span> <span class="bu">echo</span> <span class="st">&quot;tty</span><span class="va">$i</span><span class="st">&quot;</span> <span class="op">&gt;</span>/etc/securetty<span class="kw">;</span> <span class="cf">done</span></span>
 <span id="cb98-4"><a href="#cb98-4"></a><span class="bu">echo</span> <span class="st">&quot;ttyS1&quot;</span> <span class="op">&gt;&gt;</span>/etc/securetty</span>
 <span id="cb98-5"><a href="#cb98-5"></a><span class="co"># enable pam_securetty.so as well</span></span>

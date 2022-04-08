@@ -134,7 +134,7 @@
 ## HARDE-RHEL-134 : S'assurer que les comptes système soient sécurisés
 ## HARDE-RHEL-135 : S'assurer que la temporisation par défaut des shell utilisateurs soit de 900 secondes ou moins
 ## HARDE-RHEL-136 : S'assurer que le groupe par défaut du compte root est 0
-## HARDE-RHEL-137 : S'assurer que la connexion est root est seulement possible sur la console system
+## HARDE-RHEL-137 : S'assurer que la connexion *root* est seulement possible sur la console système
 ## HARDE-RHEL-138 : S'assurer qu'aucun mot de passe n'est vide
 ## HARDE-RHEL-139 : S'assurer que qu'aucune entrée dans /etc/passwd n'utilise le code historique "+" 
 ## HARDE-RHEL-140 : S'assurer que qu'aucune entrée dans /etc/shadow n'utilise le code historique "+" 

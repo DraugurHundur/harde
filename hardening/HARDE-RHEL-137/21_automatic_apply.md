@@ -5,7 +5,7 @@ Pour implémenter cette règle, utiliser le script fourni, dont voici un extrait
 
 ``` {.bash .numberLines}
 #! /bin/bash
-echo "HARDE-RHEL-137 : S'assurer que la connexion est root est seulement possible sur la console système"
+echo "HARDE-RHEL-137 : S'assurer que la connexion en root est seulement possible sur la console système"
 for i in 1 2 3 4 5 6; do echo "tty$i" >/etc/securetty; done
 echo "ttyS1" >>/etc/securetty
 # enable pam_securetty.so as well
